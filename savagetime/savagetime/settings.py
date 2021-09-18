@@ -32,6 +32,7 @@ if DEBUG:
     TEMP_DIR = "/home/robinson/Program/python/savage/savagetime/templates"
     MEDIA_URL = "media/"
     MEDIA_ROOT = "/home/robinson/Program/python/savage/savagetime/media"
+    STATIC_URL = "static/"
 
 ALLOWED_HOSTS = []
 
@@ -74,6 +75,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    "/home/robinson/Program/python/savage/savagetime/static",
 ]
 
 WSGI_APPLICATION = 'savagetime.wsgi.application'
@@ -125,5 +130,3 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
-STATIC_URL = '/static/'
