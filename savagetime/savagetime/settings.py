@@ -10,10 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,6 +27,11 @@ SECRET_KEY = '*(n7l4dedic498@#g9#69gu(i7lpp3)+#dh##-)x3hv!msenrf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if DEBUG:
+    TEMP_DIR = "/home/robinson/Program/python/savage/savagetime/templates"
+    MEDIA_URL = "media/"
+    MEDIA_ROOT = "/home/robinson/Program/python/savage/savagetime/media"
 
 ALLOWED_HOSTS = []
 
@@ -51,10 +59,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'savagetime.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMP_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
