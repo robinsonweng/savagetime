@@ -1,28 +1,54 @@
 {% load static %}
+
 <!DOCTYPE html>
-<head>
-  <link rel="stylesheet" type="text/css" href="{% static '/css/video.css' %}">
-</head>
-<body>
-  <div id="page">
-    <div class="topnav">
-      <h1>
-        <a href="">Savage</a>
-      </h1>
-      <div class="topnav-right">
-        <a href="">link1</a>
-        <a href="">link2</a>
-      </div>
-    </div>
-    <div class="content">
-      <header>
-        <h1>title</h1>
-        <div>time</div>
-      </header>
-      <video width="640" height="360" controls>
-        <source src="/media/123.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  </div>
-</body>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static '/css/video.css' %}">
+    </head>
+    <body>
+        <div class="page">
+            <div class="topnav">
+                <h1>
+                    <a href="">Savagetime</a>
+                </h1>
+                <div class="topnav-right">
+                    <a href="">link1</a>
+                    <a href="">link2</a>
+                </div>
+            </div>
+            <div class="content flex-item">
+                <div class="maincontent">
+                    <article>
+                        <header>
+                          <h1>title</h1>
+                          <div>time</div>
+                        </header>
+                        <video width="640" height="360" controls>
+                          <source src="/media/123.mp4" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                        <p>
+                          <a href="">next ep</a>
+                        </p>
+                        <p>
+                          <a href="">category</a>
+                        </p>
+                    </article>
+                </div>
+                <aside class="guide">
+                    <section>
+                        <form action="/search" method="GET">
+                            <input type="search" name="s">
+                            <input type="submit" value="search">
+                        </form>
+                    </section>
+                    <section>recent update</section>
+                    <section>recent list</section>
+                </aside>
+            </div>
+            <div class="footer">
+                <p>@savagetime</p>
+            </div>
+        </div>
+    </body>
+</html>
