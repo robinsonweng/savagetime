@@ -4,7 +4,9 @@ from django.http import HttpResponse
 from django.template import loader
 
 def index(request):
-    return HttpResponse("this is our home")
+    temp = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(temp.render(context, request))
 
 def series(request, series_id):
     temp = loader.get_template('view_series.html')
