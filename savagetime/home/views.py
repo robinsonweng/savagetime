@@ -14,6 +14,8 @@ def series(request, series_id):
     return HttpResponse(temp.render(context, request))
 
 def video(request, video_id=0):
+    # TODO: prevent django accessing file while uploading it
+    # becareful about file access blockage
     temp = loader.get_template('view_video.html')
     context = {}
     return HttpResponse(temp.render(context, request))
