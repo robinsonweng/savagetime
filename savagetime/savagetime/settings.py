@@ -20,8 +20,9 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Check environment file
-if not os.path.exists('.env'):
-    warnings.warn('Enviroment file not found!')
+if not os.path.exists('../.env'):
+    warnings.warn('Enviroment file not found! creating...')
+    # generate blank .env file
 else:
     load_dotenv()
 
@@ -43,9 +44,9 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 if DEBUG:
-    TEMP_DIR = os.environ.get('TEMP_DIR')
-    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', 'media/')
-    STATIC_ROOT = os.environ.get('STATIC_ROOT', 'static/')
+    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'template'))
+    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+    STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
 else:
     # update when production is ready
     TEMP_DIR = ''
