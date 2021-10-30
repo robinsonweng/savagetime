@@ -11,28 +11,63 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import warnings
 from pathlib import Path
+from dotenv import load_dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Check environment file
+if not os.path.exists('.env'):
+    warnings.warn('Enviroment file not found!')
+else:
+    load_dotenv()
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*(n7l4dedic498@#g9#69gu(i7lpp3)+#dh##-)x3hv!msenrf'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
+
+# path for collectstatic, should move the project under /var/www before production
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    'var/www/static',
+]
+
+# Change path depend on produciton or develoment
+MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
 
 if DEBUG:
-    TEMP_DIR = "/home/robinson/Program/python/savage/savagetime/templates"
-    MEDIA_URL = "media/"
-    MEDIA_ROOT = "/home/robinson/Program/python/savage/savagetime/media"
-    STATIC_URL = "static/"
+    TEMP_DIR = os.environ.get('TEMP_DIR')
+    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', 'media/')
+    STATIC_ROOT = os.environ.get('STATIC_ROOT', 'static/')
+else:
+    # update when production is ready
+    TEMP_DIR = ''
+    MEDIA_ROOT = ''
+    STATIC_ROOT = ''
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMP_DIR],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 
 ALLOWED_HOSTS = []
 
@@ -59,28 +94,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'savagetime.urls'
 
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMP_DIR],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-STATICFILES_DIRS = [
-    "/home/robinson/Program/python/savage/savagetime/static",
-]
 
 WSGI_APPLICATION = 'savagetime.wsgi.application'
 
@@ -90,10 +106,11 @@ WSGI_APPLICATION = 'savagetime.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'anime',
-        'HOST': '',
-        "USER": 'robinson'
+        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DATABASE_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
+        'HOST': os.environ.get('DATABASE_HOST', ''),
+        'USER': os.environ.get('DATABASE_USER')
     }
 }
 
@@ -129,7 +146,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
