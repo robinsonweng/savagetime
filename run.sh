@@ -1,1 +1,2 @@
-python savagetime/manage.py runserver
+cd savagetime
+python manage.py runserver
