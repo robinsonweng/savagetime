@@ -1,7 +1,19 @@
-env/
+# ignore every cache python generate
 __pycache__/
+
+# ignore sqlite data
 db.sqlite3
+
+# ignore django media file
 media/
+
+# ignore python's virtualenv file
+env/
 venv/
+
+# ignore makemigraiton generated migrate script
+# remember the custom one
 migrations/
+
+# ignore environment variable
 .env
