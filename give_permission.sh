@@ -6,6 +6,12 @@ if ((EUID != 0 )); then
     exit 100
 fi
 
+if [[ ! -e "./savagetime/media" ]]; then
+    echo "Media directory not found, creating..."
+    exit 100
+else
+    echo "Media directory found!"
+fi
 
 # folder permission
 # set current directory folder
