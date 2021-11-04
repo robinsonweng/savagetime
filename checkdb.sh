@@ -1,3 +1,4 @@
 #! /bin/bash
 
-python savagetime/manage.py check --database default
+cd savagetime
+python manage.py check --database default

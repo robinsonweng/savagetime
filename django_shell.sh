@@ -1,3 +1,4 @@
 #! /bin/bash
 
-python savagetime/manage.py shell
+cd savagetime
+python manage.py shell
