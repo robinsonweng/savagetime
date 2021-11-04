@@ -6,12 +6,13 @@ if ((EUID != 0 )); then
     exit 100
 fi
 
-cd ..
 
 # folder permission
+# set current directory folder
+
 # find savagetime/ -type d -print0 | xargs -r0 /bin/bash -c 'chown robinson "$@"; chgrp www-data "$@";' 
-find savagetime/ -type d -print0 | xargs -0 chown robinson:www-data
+find ./ -type d ! -path "./venv/*" ! -path "./.git/*" -print0 | xargs -r0 /bin/bash -c 'chown robinson:www-data "$@"; chmod 770 "$@"; "$@"'
 
 # normal file permission
-find savagetime/ -type f -print0 | xargs -0 chmod 660
-find savagetime/ -name "*.sh" -type f -print0 | xargs -0 chmod 760
+find ./ -type f ! -path "./venv/*" ! -path "./.git/*" -print0 | xargs -r0 /bin/bash -c 'chown robinson:www-data "$@"; chmod 660 "$@"; "$@"'
+find ./ -name "*.sh" ! -path "./venv/*" ! -path "./.git/*" -type f -print0 | xargs -0 chmod 760
