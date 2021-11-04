@@ -35,7 +35,6 @@ DEBUG = os.environ.get('DEBUG', True)
 
 # path for collectstatic, should move the project under /var/www before production
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
     'var/www/static',
 ]
 
@@ -44,7 +43,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 if DEBUG:
-    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'template'))
+    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'templates'))
     MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
     STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
 else:
