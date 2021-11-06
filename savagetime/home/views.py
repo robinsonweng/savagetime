@@ -11,9 +11,8 @@ def index(request):
     return render(request, 'home/index.html', context)
 
 def series(request, series_id):
-    temp = loader.get_template('view_series.html')
     context = {}
-    return HttpResponse(temp.render(context, request))
+    return render(request, 'home/view_series.html', context)
 
 def video(request, video_id=0):
     # TODO: prevent django accessing file while uploading it
