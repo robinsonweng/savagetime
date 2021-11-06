@@ -5,7 +5,8 @@ __pycache__/
 db.sqlite3
 
 # ignore django media file
-media/
+media/*
+! media/.gitkeep
 
 # ignore python's virtualenv file
 env/
