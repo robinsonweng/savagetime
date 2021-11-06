@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+from posixpath import join
 import warnings
 from pathlib import Path
 from dotenv import load_dotenv
@@ -43,14 +44,13 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 if DEBUG:
-    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'templates'))
-    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
-    STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
+    TEMP_DIR = os.path.join(BASE_DIR, 'templates')
+    STATICFILES_DIRS.append(os.path.join(BASE_DIR, 'static'))
 else:
     # update when production is ready
-    TEMP_DIR = ''
-    MEDIA_ROOT = ''
-    STATIC_ROOT = ''
+    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'media'))
+    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+    STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
 
 TEMPLATES = [
     {
