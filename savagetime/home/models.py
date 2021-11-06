@@ -36,7 +36,8 @@ class Video(models.Model):
         # only avalible for admin
         exet = filename.split('.')[1]
         return "{0}/{1}.{2}".format(instance.series_id, instance.uuid, exet)
-    file_path = models.FileField(upload_to=filedir_path) # TODO:  should be array
+    # filefield is not path!
+    file_field = models.FileField(upload_to=filedir_path) # TODO:  should be array
 
     def __str__(self) -> str:
         return f"{self.series.name}[{self.episode}]"
