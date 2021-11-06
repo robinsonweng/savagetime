@@ -1,7 +1,9 @@
-from django import template
-from django.shortcuts import render
+import os
 from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render
+from .models import Video
+from .models import Series
+
 
 def index(request):
     temp = loader.get_template('index.html')
