@@ -17,9 +17,11 @@ def series(request, series_id):
 def video(request, video_id=0):
     # TODO: prevent django accessing file while uploading it
     # becareful about file access blockage
-    temp = loader.get_template('view_video.html')
-    context = {}
-    return HttpResponse(temp.render(context, request))
+    # for test purpose
+    video = Video.objects.order_by('-update_time')[0]
+    video = os.path.join(video.file_field.url, "manifest.mpd")
+    context = {'video_url': video}
+    return render(request, 'home/view_video.html',context)
 
 def search(request):
     keyword = request.GET.get('s')
