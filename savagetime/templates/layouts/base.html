@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width, inital-scale=1.0">
+    <!-- general css/js  -->
+    <link rel="stylesheet" href="/static/home/css/base.css">
+    <!-- icon & font -->
+
+    <!-- Specific css -->
+    {% block stylesheets %} {% endblock %}
+
+    <title>
+        Savagetime - {% block title %}{% endblock %}
+    </title>
+</head>
+<body>
+    <div class="page">
+        <!--top nav -->
+        {% block content %}{% endblock %}
+        <!-- footer -->
+    </div>
+    <!-- Specific js -->
+    {% block javascripts %} {% endblock javascripts %}
+</body>
+</html>
