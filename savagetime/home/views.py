@@ -6,9 +6,9 @@ from .models import Series
 
 
 def index(request):
-    temp = loader.get_template('index.html')
-    context = {}
-    return HttpResponse(temp.render(context, request))
+    series = Series.objects.order_by('-name')
+    context = {'series_list': series}
+    return render(request, 'home/index.html', context)
 
 def series(request, series_id):
     temp = loader.get_template('view_series.html')
