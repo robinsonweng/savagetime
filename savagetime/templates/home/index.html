@@ -3,51 +3,48 @@
 {% load static %}
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{% static '/home/css/home.css' %}">
-{% endblock stylesheets %}
+{% endblock %}
 
 {% block content %}
-<div class="home-content">
-    <main class="main-content">
-        <article class="home-content">
-            <header> 動畫列表 </header>
-            <div class="content">
-                <p>以更新順序排序</p>
-                <div class="table-wrapper">
-                    <div class="search-bar"></div>
-                    <div class="main-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>name</th>
-                                    <th>episodes</th>
-                                    <th>year</th>
-                                    <th>season</th>
-                                    <th>subtitle group</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-body">
-                                {% for series in series_list %}
-                                <tr>
-                                    <td>{{series.name}}</td>
-                                    <td>{{series.episodes}}</td>
+<main class="main-content">
+    <article class="home-content">
+        <header> 動畫列表 </header>
+        <div class="content">
+            <p>以更新順序排序</p>
+            <div class="table-wrapper">
+                <div class="search-bar"></div>
+                <div class="main-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>name</th>
+                                <th>episodes</th>
+                                <th>year</th>
+                                <th>season</th>
+                                <th>subtitle group</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body">
+                            {% for series in series_list %}
+                            <tr>
+                                <td>{{series.name}}</td>
+                                <td>{{series.episodes}}</td>
+                                <td>none</td>
+                                <td>{{series.season.season}}</td>
+                                {% if series.subtitle_group %}
+                                    <td>{{series.subtitle_group}}</td>
+                                {% else %}
                                     <td>none</td>
-                                    <td>{{series.season.season}}</td>
-                                    {% if series.subtitle_group %}
-                                        <td>{{series.subtitle_group}}</td>
-                                    {% else %}
-                                        <td>none</td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-info"></div>
-                    <div class="paginate"></div>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
+                <div class="table-info"></div>
+                <div class="paginate"></div>
             </div>
-        </article>
-    </main>
-    <!-- include aside -->
-</div>
+        </div>
+    </article>
+</main>
 {% endblock %}

@@ -4,11 +4,12 @@ html, body {
 
 .page {
     width: 100%;
+    background-color: rgba(247, 247, 247, 0.918);
 }
 
 .home-content {
     max-width: 1200px;
-    width: 100%;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0;
