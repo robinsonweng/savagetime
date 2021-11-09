@@ -7,14 +7,14 @@
 
 {% block content %}
 <main class="main-content">
-    <article class="home-content">
+    <article>
         <header> 動畫列表 </header>
         <div class="content">
             <p>以更新順序排序</p>
             <div class="table-wrapper">
                 <div class="search-bar"></div>
-                <div class="main-table">
-                    <table>
+                <div class="table-block">
+                    <table class="main-table">
                         <thead>
                             <tr>
                                 <th>name</th>
@@ -41,8 +41,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="table-info"></div>
-                <div class="paginate"></div>
+                <div class="table-info"> current page is...</div>
+                <div class="paginate">next page</div>
             </div>
         </div>
     </article>
