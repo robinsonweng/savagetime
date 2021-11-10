@@ -16,6 +16,46 @@
     float: left;
 }
 
+/* table section */
+.main-table {
+    width: 100%;
+}
+
+.main-table th, .main-table td {
+    text-align: left;
+    padding: 9px;
+}
+
+.table-info {
+    text-align: justify;
+    font-size: 1px;
+}
+
+.table-info::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+
+}
+
+.paginate {
+    display: inline-block;
+    font-size: 17px;
+    padding: 0 9px 0 9px;
+}
+
+.paginate.info {
+    
+}
+
+.paginate.button {
+
+}
+
+/* sidebar section */
 .sidebar {
     background-color: crimson;
     padding: 20px;
