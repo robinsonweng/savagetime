@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', True)
 
-# path for collectstatic, should move the project under /var/www before production
+# path for collectstatic
 STATICFILES_DIRS = [
     'var/www/static',
 ]
@@ -46,9 +46,10 @@ STATIC_URL = '/static/'
 if DEBUG:
     TEMP_DIR = os.path.join(BASE_DIR, 'templates')
     STATICFILES_DIRS.append(os.path.join(BASE_DIR, 'static'))
+    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 else:
     # update when production is ready
-    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'media'))
+    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'templates'))
     MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
     STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
 
