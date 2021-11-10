@@ -18,3 +18,5 @@ migrations/
 
 # ignore environment variable
 .env
+
+.vscode/
