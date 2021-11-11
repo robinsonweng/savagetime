@@ -49,9 +49,9 @@ if DEBUG:
     MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 else:
     # update when production is ready
-    TEMP_DIR = os.environ.get('TEMP_DIR', os.path.join(BASE_DIR, 'templates'))
-    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
-    STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
+    TEMP_DIR = os.environ.get('TEMP_DIR')
+    MEDIA_ROOT = os.environ.get('MEDIA_ROOT')
+    STATIC_ROOT = os.environ.get('STATIC_ROOT')
 
 TEMPLATES = [
     {
