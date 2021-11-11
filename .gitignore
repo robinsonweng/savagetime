@@ -8,15 +8,18 @@ db.sqlite3
 media/*
 ! media/.gitkeep
 
+# ignore auto generated static files
+static/admin/*
+
 # ignore python's virtualenv file
 env/
 venv/
 
 # ignore makemigraiton generated migrate script
-# remember the custom one
 migrations/
 
 # ignore environment variable
 .env
 
+# ignore vscode setting.json
 .vscode/
