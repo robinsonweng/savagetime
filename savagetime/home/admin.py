@@ -27,6 +27,3 @@ class VideoAdmin(admin.ModelAdmin):
     def get_series_name(self, obj) -> str:
         # custom video page display
         return obj.series.name
-
-
-admin.site.register(models.Season)
