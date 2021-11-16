@@ -1,0 +1,29 @@
+:root {
+    --thead-bg-color: gray;
+}
+
+.table-container {
+    max-width: 800px;
+    width: 100%; 
+    margin-right: auto;
+}
+
+.main-table li {
+    border-radius: 3px;
+    padding: 1rem 3rem;
+    margin-bottom: 1.3rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.table-header {
+    background-color: var(--thead-bg-color);
+    font-size: 1.2rem;
+    letter-spacing: 0.05rem;
+}
+
+.table-row {
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+}
