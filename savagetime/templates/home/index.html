@@ -5,53 +5,145 @@
 <link rel="stylesheet" type="text/css" href="{% static '/home/css/home.css' %}">
 {% endblock %}
 
+{% block content-head %}
+<head><h2>動畫列表</h2></head>
+<p>根據更新時間排序</p>
+<input type="text" name="" id="">
+{% endblock content-head %}
+
 {% block content %}
-<main class="main-content">
-    <article>
-        <header> 動畫列表 </header>
-        <div class="content">
-            <p>以更新順序排序</p>
-            <div class="table-wrapper">
-                <div class="table-filter">
-                    <input type="text" id="table-filter" placeholder="Search for names..">
-                </div>
-                <div class="table-block">
-                    <table class="main-table" id="main-table">
-                        <thead>
-                            <tr>
-                                <th>name</th>
-                                <th>episodes</th>
-                                <th>year</th>
-                                <th>season</th>
-                                <th>subtitle group</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-body">
-                            {% for series in series_list %}
-                            <tr>
-                                <!-- add video link here -->
-                                <td><a href="">{{series.name}}</a></td>
-                                <td>{{series.episodes}}</td>
-                                <td>none</td>
-                                <td>{{series.season.season}}</td>
-                                {% if series.subtitle_group %}
-                                    <td>{{series.subtitle_group}}</td>
-                                {% else %}
-                                    <td>none</td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="table-info">
-                        <div class="paginate info">current page is...</div>
-                        <div class="paginate button">next page</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
-</main>
+<table class="main-table">
+    <thead>
+        <tr>
+            <th>Lorem.</th>
+            <th>Eum.</th>
+            <th>Esse.</th>
+            <th>Reiciendis!</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Alias, explicabo.</td>
+            <td>Nobis, accusantium!</td>
+            <td>Temporibus, maxime?</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Optio, ea.</td>
+            <td>Asperiores, cum!</td>
+            <td>Atque, veritatis.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Provident, consectetur?</td>
+            <td>Natus, iusto.</td>
+            <td>Voluptate, sit.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Placeat, nisi.</td>
+            <td>Consequuntur, earum!</td>
+            <td>Nihil, dolores.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Esse, placeat.</td>
+            <td>Ab, quasi.</td>
+            <td>Exercitationem, dolores.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Cum, neque.</td>
+            <td>Ipsum, impedit!</td>
+            <td>Voluptas, eius.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Consequatur, nemo?</td>
+            <td>Nemo, voluptate?</td>
+            <td>Ipsum, sequi.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Possimus, voluptatibus?</td>
+            <td>Repudiandae, quasi!</td>
+            <td>Iusto, quos.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Tempora, vero.</td>
+            <td>Ut, harum!</td>
+            <td>Odit, veniam.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Adipisci, nisi?</td>
+            <td>Sunt, repellat.</td>
+            <td>Molestias, iste.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Modi, nemo!</td>
+            <td>Illum, repellendus.</td>
+            <td>Ullam, blanditiis!</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Soluta, tempore.</td>
+            <td>Libero, cum.</td>
+            <td>Possimus, fuga?</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Ad, id.</td>
+            <td>Ex, iste?</td>
+            <td>Commodi, aliquid!</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Eum, culpa?</td>
+            <td>Delectus, quis?</td>
+            <td>Nemo, tenetur!</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Earum, cum.</td>
+            <td>Illo, ipsam!</td>
+            <td>Architecto, molestias!</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Dolorum, totam!</td>
+            <td>Reiciendis, est?</td>
+            <td>Asperiores, commodi.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Reiciendis, minus.</td>
+            <td>Voluptatibus, esse?</td>
+            <td>Eum, at?</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Nulla, perferendis.</td>
+            <td>Animi, unde?</td>
+            <td>Maiores, quia!</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Hic, eos!</td>
+            <td>Alias, sequi.</td>
+            <td>Recusandae, dolorem.</td>
+        </tr>
+        <tr>
+            <td>Lorem, ipsum.</td>
+            <td>Cum, corrupti.</td>
+            <td>Odio, voluptates.</td>
+            <td>Ipsa, provident.</td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
 
 {% block javascripts %}

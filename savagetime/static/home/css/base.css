@@ -1,69 +1,132 @@
-html, body {
+:root {
+    --limb-bk-color: #3d3d3d;
+    --limb-topnav-color: white;
+    --limb-footer-color: gray;
+}
+
+* {
+    padding: 0;
     margin: 0;
 }
 
-.page {
+html, body {
+    height: 100%;
     width: 100%;
-    background-color: rgba(247, 247, 247, 0.918);
 }
 
-.topnav{
-    background-color: #333;
+.page {
+    height: 100%;
+    /* flex container */
+    display: flex;
+    flex-direction: column;
 }
 
-.topnav a {
-    text-decoration: none;
-    color: white;
+.limb-item {
+    flex-shrink: 0;
+    flex-basis: auto;
 }
 
-.inline-align {
+.inline-wrapper {
     max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+
+    /* flex item */
+    flex-grow: 1;
+    flex-basis: 100%;
+
+    /* flex container*/
+    display: flex;
+    flex-direction: column;
+}
+
+
+.content {
+    /*lex-basis: 100%;*/
+    
+    display: flex;
+    flex-direction: row;
+}
+
+.content-header,
+.main-content,
+.sidebar {
+    flex-basis: auto;
+}
+
+.content-header {
+    margin-top: 2rem;
+}
+
+.content-header * {
+    margin: 0.5rem;
+}
+
+.content-header h2 {
+    font-size: 2rem;
+}
+.content-padding {
+    padding-left: 1rem;
+}
+
+.main-content {
+}
+
+.sidebar {
     margin-left: auto;
     margin-right: auto;
 }
 
- .navigation {
-    width: 48.5%;
-    box-sizing: inherit;
-    display: inline-block;
-    margin-top: 0;
+.sidebar a {
+    text-decoration: none;
 }
 
-.navigation.title {
-    text-align: left;
+.header {
+    background-color: var(--limb-bk-color);
 }
 
-.navigation.list {
-    text-align: justify;
+.header a {
+    text-decoration: none;
+    color: var(--limb-topnav-color);
 }
 
-.nav-menu {
-    display: block;
-    text-align: right;
+.header h1 {
+    font-size: 3.5rem;
 }
 
-.nav-menu li {
-    display: inline-block;
+.navbar {
+    display: flex;
+    flex-direction: row;
 }
 
-.nav-menu li a {
-    display: block;
-    padding: 20px 14px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+.navbar-area {
+    text-decoration: none;
+    
+    flex-grow: 1;
+    flex-shrink: 0;
 }
 
-.nav-menu li a:hover {
-    background-color: #ddd;
-    color: black;
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-link {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.nav-link a:hover {
+    color: greenyellow;
 }
 
 .site-footer {
-    bottom: 0;
+    background-color: var(--limb-bk-color);
     width: 100%;
+    
     text-align: center;
-    background: #3d3d3d;
-    color: #888;
-    border-top: 1px solid #f0f0f0;
-    clear: both;
+    flex-basis: auto;
 }

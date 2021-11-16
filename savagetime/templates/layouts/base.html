@@ -15,15 +15,22 @@
 </head>
 <body>
     <div class="page">
-        <!-- top nav -->
-        {% include 'includes/topnav.html'%}
-        <div class="home-content">
-            {% block content%} {% endblock %}
-            {% include 'includes/sidebar.html' %}
-        </div>
-        <!-- footer -->
-        {% include 'includes/footer.html'%}
+        {% include 'includes/topnav.html' %}
+            <div class="inline-wrapper">
+                <div class="content-header content-padding">
+                    {% block content-head %}{% endblock content-head %}
+                </div>
+                <main class="content">
+
+                    <div class="main-content content-padding">
+                        {% block content %} {% endblock content %}
+                    </div>
+                    {% include 'includes/sidebar.html' %}
+                </main>
+            </div>
+        {% include 'includes/footer.html' %}
     </div>
+    <!-- base layout js -->
     <!-- Specific js -->
     {% block javascripts %} {% endblock javascripts %}
 </body>
