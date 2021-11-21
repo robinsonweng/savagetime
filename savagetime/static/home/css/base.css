@@ -1,7 +1,8 @@
 :root {
-    --limb-bk-color: #3d3d3d;
-    --limb-topnav-color: white;
-    --limb-footer-color: gray;
+    --limbs-bk-color: #3d3d3d;
+    --limbs-topnav-color: white;
+    --limbs-footer-color: gray;
+    --link-text-hover-color: rgb(67, 179, 53);
 }
 
 * {
@@ -89,15 +90,16 @@ html, body {
 
 .sidebar a {
     text-decoration: none;
+    color: var(--sidebar-link-text-color);
 }
 
 .header {
-    background-color: var(--limb-bk-color);
+    background-color: var(--limbs-bk-color);
 }
 
 .header a {
     text-decoration: none;
-    color: var(--limb-topnav-color);
+    color: var(--limbs-topnav-color);
 }
 
 .header h1 {
@@ -129,7 +131,7 @@ html, body {
 }
 
 .site-footer {
-    background-color: var(--limb-bk-color);
+    background-color: var(--limbs-bk-color);
     width: 100%;
     
     text-align: center;
