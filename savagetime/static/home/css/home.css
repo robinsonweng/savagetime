@@ -52,9 +52,18 @@
 
 }
 
+.title a{
+    text-decoration: none;
+}
+
 .attr {
     display: flex;
     justify-content: space-around;
+}
+
+.title *, .attr *{
+    color:black;
+    text-decoration: none;
 }
 
 .not-found div {
