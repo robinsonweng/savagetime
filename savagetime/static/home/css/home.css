@@ -3,14 +3,11 @@
 }
 
 .table-container {
-    max-width: 800px;
-    width: 100%; 
-    margin-right: auto;
 }
 
 .main-table li {
     border-radius: 3px;
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
     margin-bottom: 1.3rem;
 
     display: flex;
@@ -26,4 +23,39 @@
 
 .table-row {
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+}
+
+.col1, .col2, .col3, .col4, .col5 {
+    flex-basis: 15%;
+}
+
+.col1 {
+    flex-basis: 40%;
+}
+
+.col2 {
+}
+
+.col3 {
+
+}
+
+.col4 {
+
+}
+
+.col5 {
+
+}
+
+.title {
+
+}
+
+.attr {
+    display: flex;
+    justify-content: space-around;
+}
+
+.not-found div {
 }
