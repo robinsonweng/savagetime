@@ -86,9 +86,21 @@ html, body {
 .sidebar {
     margin-left: auto;
     margin-right: auto;
+    margin-top: 1rem;
+    padding: 1rem;
+    
+    align-self: flex-start;
+    
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    background-color: #e0dcdc;
+    border-radius: 4px;
 }
 
-.sidebar a {
+.recent-pub-list {
+
+}
+
+.recent-pub-link a {
     text-decoration: none;
     color: var(--sidebar-link-text-color);
 }
