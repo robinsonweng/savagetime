@@ -8,12 +8,12 @@ class Series(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField(blank=True) # TODO: force uppercase before commit to db
     season = models.CharField(max_length=20, choices=[('春', '春'), ('夏', '夏'), ('秋', '秋'), ('冬', '冬')])
-    episodes = models.CharField(max_length=10, blank=True)
-    pub_year = models.CharField(max_length=20, choices=[(i, i) for i in range(2000, datetime.today().year + 1)])
-    pub_month = models.DateField(max_length=20, choices=[(i, i) for i in range(1, 13)])
+    episodes = models.IntegerField(blank=True)
+    pub_year = models.CharField(max_length=20, choices=[(str(i), str(i)) for i in range(2000, datetime.today().year + 1)])
+    pub_month = models.CharField(max_length=20, choices=[(str(i), str(i)) for i in range(1, 13)])
     finale = models.BooleanField(default=False)
     subtitle_group = models.TextField(blank=True)
-    
+
     def __str__(self) -> str:
         return self.name
 
