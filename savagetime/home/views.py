@@ -1,8 +1,10 @@
 import os
-from django.http import HttpResponse
+import urllib
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
-from .models import Video
-from .models import Series
+from .models import Video, Series
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 
 
 def index(request):
