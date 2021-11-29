@@ -19,13 +19,21 @@ def series(request, series_id):
     context = {}
     return render(request, 'home/view_series.html', context)
 
-def video(request, video_id=0):
-    # TODO: prevent django accessing file while uploading it
+def video(request, series_id):
+    # TODO: prevent nginx accessing same file while uploading it
     # becareful about file access blockage
-    # for test purpose
-    video = Video.objects.order_by('-update_time')[0]
-    video = os.path.join(video.file_field.url, "manifest.mpd")
-    context = {'video_url': video}
+    # for valadate approach purpose
+    episode = request.GET['e']
+    try:
+        series = Series.objects.get(uuid=series_id)
+        video = series.video_set.get(episode=episode)
+    except ObjectDoesNotExist:
+        raise Http404("Video id not found")
+
+    context = {
+        'video_set': series.video_set.order_by('episode'),
+        'video': video,
+    }
     return render(request, 'home/view_video.html',context)
 
 def search(request):
