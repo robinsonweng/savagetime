@@ -6,8 +6,13 @@ from .models import Series
 
 
 def index(request):
-    series = Series.objects.order_by('-name')
-    context = {'series_list': series}
+    series = Series.objects.all()
+    videos = [s.video_set.order_by('-update_time')[0] for s in series]
+    context = {
+        'series': series,
+        'videos': videos,
+    }
+    # add table update time
     return render(request, 'home/index.html', context)
 
 def series(request, series_id):
