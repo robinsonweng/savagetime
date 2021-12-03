@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width, initial-scale=1.0">
+    <!-- general css/js  -->
+    <link rel="stylesheet" href="/static/home/css/base.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+    <!-- icon & font -->
+
+    <!-- Specific css -->
+    {% block stylesheets %}{% endblock %}
+    <title>
+        Savagetime - {% block title %}{% endblock %}
+    </title>
+</head>
+<body>
+    <div class="page">
+        {% include 'includes/topnav.html' %}
+            <div class="inline-wrapper">
+                <div class="content-header content-padding">
+                    {% block content-head %}{% endblock content-head %}
+                </div>
+                <main class="content">
+
+                    <div class="main-content content-padding">
+                        {% block content %} {% endblock content %}
+                    </div>
+                    {% include 'includes/sidebar.html' %}
+                </main>
+            </div>
+        {% include 'includes/footer.html' %}
+    </div>
+    <!-- base layout js -->
+    <!-- Specific js -->
+    {% block javascripts %} {% endblock javascripts %}
+</body>
+</html>
