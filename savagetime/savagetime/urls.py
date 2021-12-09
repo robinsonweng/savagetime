@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .api_dev import api as api_dev
+from savage_api.api_dev import api as api_dev
 
 
 urlpatterns = [
