@@ -34,6 +34,9 @@ class Video(models.Model):
             The rest or it like HunterXHunter(new ver.)have total 148 episode,
             Fate/stay Night[Heaven's Feel] have 3 episode but 2h each. These two extrems
             may cause imbalance tree in linux FS(verificaiton required)
+            update: these two extreams will cause imbalance directory tree, and
+            Inode table search inefficient in linx FS, but the solution is not long-term.
+            It would be a better idea to mount spacific linux FS for large file storage
         """
         # only avalible for admin
         exet = filename.split('.')[1]
