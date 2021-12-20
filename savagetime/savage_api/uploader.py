@@ -22,3 +22,7 @@ class FileChunk(object):
     def check_headers(self) -> None:
         if (self.chunk_length is None) or (self.chunk_type is None) or (self.chunk_range is None):
             raise InvalidHeader(400, "Incorrect header or missing header value")
+
+    @classmethod
+    def load_chunk(cls, request: Type[HttpResponse]) -> Type[Chunk]:
+        return cls(request)
