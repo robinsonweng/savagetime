@@ -152,3 +152,41 @@ def post_user_athorize():
     """
     route for user authorizing
     """
+"""
+exception register area
+"""
+
+
+@api.exception_handler(InvalidHeader)
+def invalid_header(request, exc):
+    return api.create_response(
+        request,
+        {
+            "message": "Unexpected header",
+            "detail": exc.message,
+        },
+        exc.status,
+    )
+
+
+@api.exception_handler(InvalidQuery)
+def invalid_query(request, exc):
+    return api.create_response(
+        request,
+        {
+            "message": "Unexpected Query",
+            "detail": exc.message,
+        },
+        exc.status,
+    )
+
+
+@api.exception_handler(UnexpetedRequest)
+def unexpeted_request(request, exc):
+    return api.create_response(
+        request,
+        {
+            "message": "Unexpected Request"
+        },
+        exc.status
+    )
