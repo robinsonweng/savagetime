@@ -35,3 +35,12 @@ class FileChunk(object):
         except ValueError:  # what if value missing '/' or '-'
             raise InvalidHeader(400, "Incorrect header value from Content-Range")
         return value
+
+    @property
+    def byte_end(self) -> HttpError:
+        try:
+            value = self.chunk_range.split(" ")[1].split("/")[0].split("-")[1]
+            int(value)
+        except ValueError:
+            raise InvalidHeader(400, "Incorrect header value from Content-Range")
+        return value
