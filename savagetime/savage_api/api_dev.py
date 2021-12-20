@@ -92,6 +92,53 @@ def keyword_search():
     pass
 
 
+@api.put("/series")
+def update_series():
+    """
+        update series info
+    """
+    pass
+
+
+@api.get("/upload")
+def upload_session_status(request):
+    pass
+
+
+@api.put("/upload", response={200: PureText})
+def upload_video(request, upload_id=None):
+    """
+    Authorization: Bearer AUTH_TOKEN\n
+    Content-Length: 524888\n
+    Content-Type: video/*\n
+    Content-Range: bytes 0-524287/2000000\n
+    resume: resume request or not
+    """
+    session = request.session.get(upload_id)
+    if session is None:
+        return 404, {"status": "invalid upload id"}
+
+    # validate pram list:
+    #   resourse exist
+    #   content range
+    #   content size
+    #   content extension
+    #   chunk size
+
+    if upload_id in request.session:  # 200
+        chunk = FileChunk(request)
+        uploader_file = UploaderFile.init_upload(upload_id, cache_conf='default')
+        uploader_file.receve_upload(chunk)
+        # save to db if upload complete
+        return {
+            "status": "200"
+        }
+    elif upload_id not in request.session:  # expire
+        return 404, {"status": "upload id not found or session expire"}
+    else:
+        return UnexpetedRequest(status=404)
+
+
 @api.get("/authorize")
 def get_user_athorize():
     """
