@@ -78,3 +78,8 @@ class UploaderFile(object):
         if file_size != chunk_length:
             return False
         return True
+
+    @staticmethod
+    def valid_init_upload_param() -> None:
+        if UploaderFile.resource_exist() is True:
+            raise InvalidQuery(400, "This session already start an upload")
