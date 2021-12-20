@@ -68,3 +68,7 @@ class UploaderFile(object):
         self.file_name = caches[cache_conf].get(f"uploadfile/{upload_id}/file_name")
         self.metadata = caches[cache_conf].get(f"uploadfile/{upload_id}/metadata")
         self.cursor = caches[cache_conf].get(f"uploadfile/{upload_id}/cursor")
+
+    @staticmethod
+    def resource_exist(cache_conf: str, upload_id: str) -> bool:
+        return (caches[cache_conf].get(f"uploadfile/{upload_id}/file_name") is not None)
