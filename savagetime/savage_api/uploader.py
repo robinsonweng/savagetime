@@ -44,3 +44,14 @@ class FileChunk(object):
         except ValueError:
             raise InvalidHeader(400, "Incorrect header value from Content-Range")
         return value
+
+    @property
+    def content_length(self) -> HttpError:
+        try:
+            value = self.chunk_range.split(" ")[1].split("/")[1]
+            int(value)
+        except ValueError:
+            raise InvalidHeader(400, "Incorrect header value from Content-Range")
+        return value
+
+
