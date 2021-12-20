@@ -26,7 +26,7 @@ with open(BASE_DIR.parent / "dev_setting.yaml", "r") as f:
 SECRET_KEY = 'django-insecure-iq!h#=2xc@11$68v&9pc9p=11j)v)g58y+tx)wfd%-j!z&18h+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = setting["DEBUG"]
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    *setting["INSTALLED_APPS"]
 ]
 
 MIDDLEWARE = [
