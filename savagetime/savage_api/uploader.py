@@ -55,3 +55,16 @@ class FileChunk(object):
         return value
 
 
+class UploaderFile(object):
+    def __init__(self, upload_id: str, cache_conf: str) -> None:
+        try:
+            caches[cache_conf]
+        except KeyError:
+            raise KeyError("Cache setting not found")
+
+        self.cache_conf = cache_conf
+        self.upload_id = upload_id
+        self.file_size = int(caches[cache_conf].get(f"uploadfile/{upload_id}/file_size"))
+        self.file_name = caches[cache_conf].get(f"uploadfile/{upload_id}/file_name")
+        self.metadata = caches[cache_conf].get(f"uploadfile/{upload_id}/metadata")
+        self.cursor = caches[cache_conf].get(f"uploadfile/{upload_id}/cursor")
