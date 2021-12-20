@@ -136,3 +136,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# upload file setting
+RESUMEABLE_UPLOADER_DEST_PATH = setting.get(
+    "RESUMEABLE_UPLOADER_DEST_PATH", BASE_DIR.parent/"media"
+)
+RESUMEABLE_UPLOADER_CACHE_TIMEOUT = ""
