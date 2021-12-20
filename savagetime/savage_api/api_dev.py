@@ -25,19 +25,58 @@ def get_video_url():
     pass
 
 
-@api.post("/video")
-def post_upload_metadata():
+@api.post("/videos")  # add put method here
+def create_video_metadata(request, metadata: Videoin, upload=False):
     """
-    c: upload the metadata
-    s: response an url for upload
-    if interrupt then use head & patch (tus)
-    """
-    pass
+    s: check if user login
+    c: upload the metadata\n
+        e.g.\n
+        post /upload/youtube/v3/videos?uploadType=resumable&part=parts http/1.1\n
+        host: www.googleapis.com\n
+        authorization: bearer auth_token\n
+        content-length: content_length\n
+        content-type: application/json; charset=utf-8\n
+        X-upload-content-length: x_upload_content_length\n
+        X-Upload-Content-Type: X_UPLOAD_CONTENT_TYPE\n
+    s: response an url for upload (with session id)\n
+    if update interrupt then use head & patch (tus)\n
 
 
-@api.put("/video")
-def modify_video():
-    pass
+    """
+    length_header = "X-upload-content-length"
+    type_header = "X-upload-content-type"
+    upload_content_length = request.headers.get(length_header)
+    upload_content_type = request.headers.get(type_header)
+    if not (upload_content_length is None) and not (upload_content_type is None):
+        # also validate the user input
+        request.session[length_header] = upload_content_length
+        request.session[type_header] = upload_content_type
+    elif (upload_content_length is None) and (upload_content_type is None):
+        # return header missing error
+        raise InvalidHeader(400, "Incorrect header or missing header value")
+
+    if not Series.objects.filter(name=metadata.series_name).exists():
+        return Http404({"status": "Video name not found"})
+    if Video.objects.filter(episode=metadata.episode).exists():
+        return Http404({"status": "Video already exist"})
+
+    upload_id = None
+    while (upload_id is None) or (upload_id in request.session):
+        salt = os.urandom(5)  # generate salt for upload id
+        upload_id = base64.b64encode(salt).decode()
+
+    # init session
+    request.session["upload_id"] = upload_id
+    request.session["series"] = Videoin.series_name
+    request.session["episode"] = Videoin.episode
+
+    return {
+        "status": "200",
+        "upload_url": (  # multiple line string format
+            "http://127.0.0.1:8000/api/dev/upload"
+            f"?upload_id={upload_id}"
+        ),
+    }
 
 
 @api.delete("/video")
