@@ -23,3 +23,6 @@ migrations/
 
 # ignore vscode setting.json
 .vscode/
+
+# ignore coverage report file
+.coverage
