@@ -124,3 +124,18 @@ class Uploader(object):
         #   content extension
         #   chunk size
         pass
+
+    def create_file(self, file_path: str) -> None:
+        """
+            create blank file
+        """
+        dir_path = Path(file_path).parent
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
+        try:
+            with open(file_path, 'wb') as f:
+                print(self.file_size)
+                f.seek(self.file_size - 1)
+                f.write(b'\0')  # EOF
+        except IOError:
+            raise IOError("Error occor while init file")
