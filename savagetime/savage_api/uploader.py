@@ -33,6 +33,18 @@ class FileChunk(object):
         chunk = cls(request)
         return chunk
 
+    # maby use regex instead of split
+    def get_case(self):
+        range_math = re.match(r"bytes \*\/\d+", self.range)
+
+        if range_math is not None and len(self.binary) == 0:  # status
+            return "status"
+        elif self.byte_start == 0:
+            return "new"
+        elif self.byte_start > 0:
+            return "resume"
+        return "error"  # error
+
     @property
     def byte_start(self) -> str:
         # filter this from nginx, probably change to regex
