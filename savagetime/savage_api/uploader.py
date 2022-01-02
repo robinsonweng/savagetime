@@ -174,3 +174,9 @@ class Uploader(object):
         # init file
         uploader.create_file(path)
         return uploader
+
+    @classmethod
+    def resume_upload(cls, upload_id, cache_conf) -> Type[Uploader]:
+        uploader = cls(upload_id, cache_conf)
+        uploader.valid_resume_upload_param()
+        return uploader
