@@ -147,3 +147,30 @@ class Uploader(object):
                 f.write(int(chunk.binary))
         except IOError:
             raise IOError("Error occor while writing file")
+
+    @classmethod
+    def init_upload(
+        cls: Uploader, upload_id: str, cache_conf: str, metadata, chunk: Type[FileChunk]
+    ) -> Type[Uploader]:
+        """
+            1. Validate param from user\n
+            2. create blank file in local\n
+            3. return self\n
+        """
+        video_uuid = str(uuid.uuid4())
+        series_id = metadata["series_id"]
+
+        path = f"{os.path.join(Uploader.get_dest_dir(), series_id, video_uuid)}.mp4"
+
+        cache = caches[cache_conf]
+        cache.add(file_size_key(upload_id), chunk.content_length)
+        cache.add(metadata_key(upload_id), metadata)
+        cache.add(cursor_key(upload_id), chunk.range)
+        cache.add(file_name_key(upload_id), f"{os.path.join(series_id, video_uuid)}.mp4")
+
+        uploader = cls(upload_id, cache_conf)
+        uploader.valid_init_upload_param()  # check pram
+        uploader.expected_chunk_size()
+        # init file
+        uploader.create_file(path)
+        return uploader
