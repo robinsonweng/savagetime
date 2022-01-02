@@ -77,6 +77,9 @@ class Uploader(object):
         self.metadata = cache.get(metadata_key(upload_id), None)
         self.cursor = cache.get(cursor_key(upload_id), None)
 
+    @staticmethod  # maby use cached_property?
+    def get_dest_dir():
+        return settings.RESUMEABLE_UPLOADER_DEST_PATH
 
     @staticmethod
     def resource_exist(cache_conf: str, upload_id: str) -> bool:
