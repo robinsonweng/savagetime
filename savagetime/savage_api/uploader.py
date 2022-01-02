@@ -19,9 +19,6 @@ cursor_key = lambda upload_id: f"uploadfile/{upload_id}/cursor"  # noqa: E731
 file_name_key = lambda upload_id: f"uploadfile/{upload_id}/file_name"  # noqa: E731
 
 
-    def check_headers(self) -> None:
-        if (self.chunk_length is None) or (self.chunk_type is None) or (self.chunk_range is None):
-            raise InvalidHeader(400, "Incorrect header or missing header value")
 class FileChunk(object):
     def __init__(self, request: HttpRequest) -> None:
         # request field
@@ -36,30 +33,19 @@ class FileChunk(object):
         return cls(request)
 
     @property
-    def byte_start(self) -> HttpError:
-        try:
-            value = self.chunk_range.split(" ")[1].split("/")[0].split("-")[0]
-            int(value)
-        except ValueError:  # what if value missing '/' or '-'
-            raise InvalidHeader(400, "Incorrect header value from Content-Range")
+    def byte_start(self) -> str:
+        # filter this from nginx, probably change to regex
+        value = self.range.split(" ")[1].split("/")[0].split("-")[0]
         return value
 
     @property
-    def byte_end(self) -> HttpError:
-        try:
-            value = self.chunk_range.split(" ")[1].split("/")[0].split("-")[1]
-            int(value)
-        except ValueError:
-            raise InvalidHeader(400, "Incorrect header value from Content-Range")
+    def byte_end(self) -> str:
+        value = self.range.split(" ")[1].split("/")[0].split("-")[1]
         return value
 
     @property
-    def content_length(self) -> HttpError:
-        try:
-            value = self.chunk_range.split(" ")[1].split("/")[1]
-            int(value)
-        except ValueError:
-            raise InvalidHeader(400, "Incorrect header value from Content-Range")
+    def content_length(self) -> str:
+        value = self.range.split(" ")[1].split("/")[1]
         return value
 
 
