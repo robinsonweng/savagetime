@@ -1,14 +1,16 @@
-from typing import TypeVar, Type, List
-from ninja.errors import HttpError
+import os
+import re
+import uuid
+from pathlib import Path
+from typing import TypeVar, Type, List  # typing is too chaotic
+# from ninja.errors import HttpError
 from django.core.cache import caches
-from django.http import HttpResponse
+from django.http import HttpRequest
 from django.conf import settings
-from savage_api.exceptions import (
-    InvalidHeader, InvalidQuery
-)
+
 
 Chunk = TypeVar('Chunk', bound="FileChunk")
-Uploader = TypeVar('Uploader', bound="UploaderFile")
+Uploader = TypeVar('Uploader', bound="Uploader")
 
 
 class FileChunk(object):
