@@ -191,3 +191,28 @@ class Uploader(object):
         self.write_file(path, chunk)
         # update cache cursor
         # validate cursor
+
+    def flush(self, option="cache"):
+        """
+            clear cache or local
+        """
+        options = ["cache", "local", "all"]
+        if option not in options:
+            raise ValueError(
+                f"Paramater 'option' only accept value 'cache', "
+                f"'local', 'all', but get {option} instead"
+            )
+
+        if option == "cache" or option == "all":
+            cache = caches[self.cache_conf]
+            cache.delete(file_size_key(self.upload_id))
+            cache.delete(metadata_key(self.upload_id))
+            cache.delete(cursor_key(self.upload_id))
+            cache.delete(file_name_key(self.upload_id))
+
+        if option == "local" or option == "all":
+            path = os.path.join(self.get_dest_dir(), self.file_name)
+            try:
+                os.remove(path)
+            except FileNotFoundError as e:
+                raise e(f"file: '{path}' not found")
