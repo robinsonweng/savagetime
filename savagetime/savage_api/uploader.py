@@ -18,17 +18,18 @@ metadata_key = lambda upload_id: f"uploadfile/{upload_id}/metadata"  # noqa: E73
 cursor_key = lambda upload_id: f"uploadfile/{upload_id}/cursor"  # noqa: E731
 file_name_key = lambda upload_id: f"uploadfile/{upload_id}/file_name"  # noqa: E731
 
-class FileChunk(object):
-    def __init__(self, request) -> None:
-        self.chunk_length = request.headers.get("Content-Length")
-        self.chunk_type = request.headers.get("Content-Type")
-        self.chunk_range = request.headers.get("Content-Range")
-        self.chunk = request.body
-        self.check_headers()
 
     def check_headers(self) -> None:
         if (self.chunk_length is None) or (self.chunk_type is None) or (self.chunk_range is None):
             raise InvalidHeader(400, "Incorrect header or missing header value")
+class FileChunk(object):
+    def __init__(self, request: HttpRequest) -> None:
+        # request field
+        self.headers = request.headers  # dont use META if the use case is for header
+        self.length = request.headers.get("Content-Length")
+        self.type = request.headers.get("Content-Type")
+        self.range = request.headers.get("Content-Range")
+        self.binary = request.body
 
     @classmethod
     def load_chunk(cls, request: Type[HttpResponse]) -> Type[Chunk]:
