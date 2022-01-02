@@ -53,3 +53,15 @@ class CreateVideoMetadataTest(TestCase):
         }
         rsp_msg = response.content.decode('utf-8')
         self.assertDictEqual(error_msg, json.loads(rsp_msg), rsp_msg)
+
+    def test_video_put_get_upload_status(self):
+        pass
+
+    def test_video_put_start_upload(self):
+        pass
+
+    def test_video_put_resume_upload(self):
+        pass
+
+    def test_video_put_stop_and_resume(self):
+        pass
