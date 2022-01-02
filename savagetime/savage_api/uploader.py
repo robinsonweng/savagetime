@@ -12,6 +12,11 @@ from django.conf import settings
 Chunk = TypeVar('Chunk', bound="FileChunk")
 Uploader = TypeVar('Uploader', bound="Uploader")
 
+# cache keys
+file_size_key = lambda upload_id: f"uploadfile/{upload_id}/file_size"  # noqa: E731
+metadata_key = lambda upload_id: f"uploadfile/{upload_id}/metadata"  # noqa: E731
+cursor_key = lambda upload_id: f"uploadfile/{upload_id}/cursor"  # noqa: E731
+file_name_key = lambda upload_id: f"uploadfile/{upload_id}/file_name"  # noqa: E731
 
 class FileChunk(object):
     def __init__(self, request) -> None:
