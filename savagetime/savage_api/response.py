@@ -20,3 +20,11 @@ class ResponseHeaderBase(HttpResponse):
             else:
                 raise ValueError("param: extra_header should be dict")
 
+
+
+class UploadStatusResponse(ResponseHeaderBase):
+    # 308, not a standard http code usage
+    _headers = {
+        'Content-Length': 0,
+        'Content-Range': "",
+    }
