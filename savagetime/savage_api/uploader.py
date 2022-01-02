@@ -180,3 +180,14 @@ class Uploader(object):
         uploader = cls(upload_id, cache_conf)
         uploader.valid_resume_upload_param()
         return uploader
+
+    def receve_upload(self, chunk: Type[FileChunk]) -> None:
+        """
+            1. valid param from user\n
+            2. write chunks from cache to local file\n
+        """
+        self.valid_file_size()
+        path = os.path.join(self.get_dest_dir(), self.file_name)
+        self.write_file(path, chunk)
+        # update cache cursor
+        # validate cursor
