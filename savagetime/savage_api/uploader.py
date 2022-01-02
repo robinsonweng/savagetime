@@ -139,3 +139,11 @@ class Uploader(object):
                 f.write(b'\0')  # EOF
         except IOError:
             raise IOError("Error occor while init file")
+
+    def write_file(self, path, chunk):
+        try:
+            with open(path, "rb+") as f:
+                f.seek(int(chunk.byte_start))
+                f.write(int(chunk.binary))
+        except IOError:
+            raise IOError("Error occor while writing file")
