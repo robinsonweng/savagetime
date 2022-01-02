@@ -86,6 +86,12 @@ class Uploader(object):
         return (caches[cache_conf].get(f"uploadfile/{upload_id}/file_name") is not None)
 
     @staticmethod
+    def get_progress(upload_id):
+        # should caculate from actsual file
+        cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
+        cursor = cache.get(cursor_key(upload_id), None)
+        if cursor is not None:
+            return cursor.split(" ")[1]
 
     @staticmethod
     def valid_init_upload_param() -> None:
