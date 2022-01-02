@@ -93,7 +93,3 @@ class Uploader(object):
         if cursor is not None:
             return cursor.split(" ")[1]
 
-    @staticmethod
-    def valid_init_upload_param() -> None:
-        if UploaderFile.resource_exist() is True:
-            raise InvalidQuery(400, "This session already start an upload")
