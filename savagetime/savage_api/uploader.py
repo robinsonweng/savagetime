@@ -62,19 +62,21 @@ class FileChunk(object):
         return value
 
 
-class UploaderFile(object):
-    def __init__(self, upload_id: str, cache_conf: str) -> None:
+class Uploader(object):
+    def __init__(self, upload_id: str) -> None:
+        # constant
+        self.upload_id = upload_id
+        self.cache_conf = settings.RESUMEABLE_UPLOADER_CACHE_CONFIG
         try:
-            caches[cache_conf]
+            cache = caches[self.cache_conf]
         except KeyError:
             raise KeyError("Cache setting not found")
+        # init data from cache
+        self.file_size = int(cache.get(file_size_key(upload_id), None))
+        self.file_name = cache.get(file_name_key(upload_id), None)
+        self.metadata = cache.get(metadata_key(upload_id), None)
+        self.cursor = cache.get(cursor_key(upload_id), None)
 
-        self.cache_conf = cache_conf
-        self.upload_id = upload_id
-        self.file_size = int(caches[cache_conf].get(f"uploadfile/{upload_id}/file_size"))
-        self.file_name = caches[cache_conf].get(f"uploadfile/{upload_id}/file_name")
-        self.metadata = caches[cache_conf].get(f"uploadfile/{upload_id}/metadata")
-        self.cursor = caches[cache_conf].get(f"uploadfile/{upload_id}/cursor")
 
     @staticmethod
     def resource_exist(cache_conf: str, upload_id: str) -> bool:
