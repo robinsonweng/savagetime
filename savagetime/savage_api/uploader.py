@@ -86,10 +86,6 @@ class Uploader(object):
         return (caches[cache_conf].get(f"uploadfile/{upload_id}/file_name") is not None)
 
     @staticmethod
-    def valid_file_size(file_size: int, chunk_length) -> bool:
-        if file_size != chunk_length:
-            return False
-        return True
 
     @staticmethod
     def valid_init_upload_param() -> None:
