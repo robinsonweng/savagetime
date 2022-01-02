@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'savage_api',
     *setting["INSTALLED_APPS"]
 ]
 
@@ -58,7 +57,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/tmp/django_cache',
-        'TIMEOUT': 600,
+        'TIMEOUT': 60,
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
         }
@@ -140,12 +139,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # upload file setting
-# maby create a class here
 RESUMEABLE_UPLOADER_DEST_PATH = setting.get(
     "RESUMEABLE_UPLOADER_DEST_PATH", BASE_DIR.parent/"media"
 )
-RESUMEABLE_UPLOADER_CACHE_TIMEOUT = 600
-
-RESUMEABLE_UPLOADER_CACHE_CONFIG = "default"
-
-print(f"user settings: {setting}")
+RESUMEABLE_UPLOADER_CACHE_TIMEOUT = ""

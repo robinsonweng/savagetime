@@ -19,6 +19,6 @@ from savage_api.api_dev import api as api_dev
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name='admin'),
-    path("api/dev/", api_dev.urls, name='api_dev'),
+    path('admin/', admin.site.urls),
+    path("api/dev/", api_dev.urls),
 ]
