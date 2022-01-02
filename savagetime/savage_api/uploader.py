@@ -29,8 +29,9 @@ class FileChunk(object):
         self.binary = request.body
 
     @classmethod
-    def load_chunk(cls, request: Type[HttpResponse]) -> Type[Chunk]:
-        return cls(request)
+    def load_chunk(cls, request: HttpRequest) -> Type[Chunk]:
+        chunk = cls(request)
+        return chunk
 
     @property
     def byte_start(self) -> str:
