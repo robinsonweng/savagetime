@@ -82,7 +82,7 @@ class Uploader(object):
         return settings.RESUMEABLE_UPLOADER_DEST_PATH
 
     @staticmethod
-    def resource_exist(cache_conf: str, upload_id: str) -> bool:
+    def resource_exist(upload_id: str, cache_conf: str) -> bool:
         return (caches[cache_conf].get(f"uploadfile/{upload_id}/file_name") is not None)
 
     @staticmethod
