@@ -41,16 +41,10 @@ def get_video(
     type_header = "X-upload-content-type"
     upload_content_length = request.headers.get(length_header)
     upload_content_type = request.headers.get(type_header)
-    if not (upload_content_length is None) and not (upload_content_type is None):
-        # also validate the user input
-        request.session[length_header] = upload_content_length
-        request.session[type_header] = upload_content_type
-    elif (upload_content_length is None) and (upload_content_type is None):
-        # return header missing error
-        raise InvalidHeader(400, "Incorrect header or missing header value")
-
     if not Series.objects.filter(name=metadata.series_name).exists():
         return Http404({"status": "Video name not found"})
+
+
     if Video.objects.filter(episode=metadata.episode).exists():
         return Http404({"status": "Video already exist"})
 
