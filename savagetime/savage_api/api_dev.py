@@ -75,13 +75,7 @@ def create_video_metadata(request, metadata: Videoin):
     }
 
 
-@api.delete("/video")
-def delete_video():
-    pass
 
-
-@api.get("/search")
-def keyword_search():
     """
     text search in db
     """
