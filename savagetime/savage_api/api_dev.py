@@ -91,13 +91,30 @@ def upload_video(request, upload_id: str):  # paramater resume is extra
     if not upload_session:
         raise InvalidQuery(400, "id not found or session expire")
 
+    # 1. do request header check
+    # 2. identify the user demand
+    # 3.
 
-@api.put("/series")
-def update_series():
-    """
-        update series info
-    """
-    pass
+    chunk = FileChunk.load_chunk(request)
+    case = chunk.get_case()
+    if case == "status":
+        progress = Uploader.get_progress(upload_id)
+        if progress is None:
+            return UnexpetedRequest(400, "no progress to report")
+        # return status head
+        headers = {
+            'Range': f"{progress}"
+        }
+        return UploadStatusResponse(headers, status=308)
+    elif case == "error":
+        return InvalidHeader(400)
+
+    # start upload
+    if case == "resume":
+        uploader = Uploader.resume_upload(chunk)
+    elif case == "new":
+        uploader = Uploader.init_upload(chunk)
+    uploader.receve_upload(chunk)
 
 
 @api.get("/upload")
