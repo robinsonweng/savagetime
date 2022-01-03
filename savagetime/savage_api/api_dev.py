@@ -20,26 +20,20 @@ from savage_api.response import UploadStatusResponse
 api = NinjaAPI(version='dev')
 
 
-@api.get("/video")
-def get_video_url():
-    pass
 
 
-@api.post("/videos")  # add put method here
-def create_video_metadata(request, metadata: Videoin, upload=False):
+@api.get("/video/{video_id}", response=Videoget, url_name='get_video')
+def get_video(
+    request,
+    video_id: str
+):
     """
-    s: check if user login
-    c: upload the metadata\n
-        e.g.\n
-        post /upload/youtube/v3/videos?uploadType=resumable&part=parts http/1.1\n
-        host: www.googleapis.com\n
-        authorization: bearer auth_token\n
-        content-length: content_length\n
-        content-type: application/json; charset=utf-8\n
-        X-upload-content-length: x_upload_content_length\n
-        X-Upload-Content-Type: X_UPLOAD_CONTENT_TYPE\n
-    s: response an url for upload (with session id)\n
-    if update interrupt then use head & patch (tus)\n
+        return the video stream url, should work with nginx
+        set expire time for stream url, and it should sync with nginx
+    """
+    return {
+        "status": "this method is not ready yet"
+    }
 
 
     """
