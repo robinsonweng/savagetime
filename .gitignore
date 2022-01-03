@@ -26,3 +26,6 @@ migrations/
 
 # ignore coverage report file
 .coverage
+
+# ignore production setting
+setting.yaml
