@@ -116,10 +116,17 @@ def upload_video(request, upload_id: str):  # paramater resume is extra
         uploader = Uploader.init_upload(chunk)
     uploader.receve_upload(chunk)
 
+    if not uploader.is_complete():  # 204
+        headers = {
 
-@api.get("/upload")
-def upload_session_status(request):
-    pass
+        }
+        return UploadStatusResponse(headers, 204)
+    # return metadata for db
+    uploader.flush(option="cache")
+    headers = {
+
+    }
+    return UploadStatusResponse(headers, 201)
 
 
 @api.put("/upload", response={200: PureText})
