@@ -53,7 +53,7 @@ def create_video_metadata(request, metadata: Videoin):
         return {"status": "Video already exist"}
 
     upload_id = None
-    while (upload_id is None) or (upload_id in request.session):
+    while (upload_id is None) or (upload_id in request.session):  # may cause problem
         salt = os.urandom(5)  # generate salt for upload id
         upload_id = base64.b64encode(salt).decode()
 
