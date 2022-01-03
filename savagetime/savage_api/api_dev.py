@@ -17,7 +17,7 @@ from savage_api.exceptions import (
 from savage_api.response import UploadStatusResponse
 
 
-api = NinjaAPI(version='0.1.0')
+api = NinjaAPI(version='dev')
 
 
 @api.get("/video")
