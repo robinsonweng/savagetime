@@ -45,12 +45,12 @@ def create_video_metadata(request, metadata: Videoin):
     type_header = "X-upload-content-type"
     upload_content_length = request.headers.get(length_header)
     upload_content_type = request.headers.get(type_header)
-    if not Series.objects.filter(name=metadata.series_name).exists():
-        return Http404({"status": "Video name not found"})
 
-
+    series = Series.objects.filter(name=metadata.series_name)
+    if not series.exists():
+        return {"status": "Series name not found"}
     if Video.objects.filter(episode=metadata.episode).exists():
-        return Http404({"status": "Video already exist"})
+        return {"status": "Video already exist"}
 
     upload_id = None
     while (upload_id is None) or (upload_id in request.session):
