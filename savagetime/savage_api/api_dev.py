@@ -14,6 +14,7 @@ from savage_api.uploader import (
 from savage_api.exceptions import (
     InvalidHeader, InvalidQuery, UnexpetedRequest
 )
+from savage_api.response import UploadStatusResponse
 
 
 api = NinjaAPI(version='0.1.0')
