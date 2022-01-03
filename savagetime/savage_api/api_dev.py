@@ -71,10 +71,7 @@ def create_video_metadata(request, metadata: Videoin):
 
     return {
         "status": "200",
-        "upload_url": (  # multiple line string format
-            "http://127.0.0.1:8000/api/dev/upload"
-            f"?upload_id={upload_id}"
-        ),
+        "upload_url": f"{reverse('api-dev:put_video')}?upload_id={upload_id}"
     }
 
 
