@@ -1,8 +1,7 @@
 import os
 import base64
-from django.http import (Http404)
-from django.shortcuts import (get_object_or_404)
-from django.core.cache import caches  # using the default cache
+from django.conf import settings
+from django.urls import reverse
 from django.contrib.auth import (authenticate)
 from ninja import (NinjaAPI)
 from savage_api.schemas import (
