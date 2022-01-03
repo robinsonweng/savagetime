@@ -20,6 +20,8 @@ from savage_api.response import UploadStatusResponse
 api = NinjaAPI(version='dev')
 
 
+# consts
+no_response_body_set = frozenset({201, 204, 308})
 
 
 @api.get("/video/{video_id}", response=Videoget, url_name='get_video')
@@ -75,9 +77,14 @@ def create_video_metadata(request, metadata: Videoin):
     }
 
 
-
+# put should be Idempotent, use patch instead
+@api.put("/video", response={no_response_body_set: None}, url_name='put_video')
+def upload_video(request, upload_id: str):  # paramater resume is extra
     """
-    text search in db
+        This route do two things:
+            1. start a upload session
+            2. check the status of an upload
+            3. resume the upload
     """
     pass
 
