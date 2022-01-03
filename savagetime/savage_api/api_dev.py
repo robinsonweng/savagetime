@@ -9,7 +9,7 @@ from savage_api.schemas import (
 )
 from savage_api.models import (Video, Series)
 from savage_api.uploader import (
-    FileChunk, UploaderFile
+   FileChunk, Uploader
 )
 from savage_api.exceptions import (
     InvalidHeader, InvalidQuery, UnexpetedRequest
