@@ -36,6 +36,10 @@ def get_video(
     }
 
 
+@api.post("/video", url_name='post_video')  # add put method here
+def create_video_metadata(request, metadata: Videoin):
+    """
+        create a session for uploading
     """
     length_header = "X-upload-content-length"
     type_header = "X-upload-content-type"
