@@ -86,7 +86,10 @@ def upload_video(request, upload_id: str):  # paramater resume is extra
             2. check the status of an upload
             3. resume the upload
     """
-    pass
+    # check session
+    upload_session = (request.session.get(upload_id, None) is not None)
+    if not upload_session:
+        raise InvalidQuery(400, "id not found or session expire")
 
 
 @api.put("/series")
