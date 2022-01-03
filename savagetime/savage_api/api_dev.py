@@ -58,9 +58,16 @@ def create_video_metadata(request, metadata: Videoin):
         upload_id = base64.b64encode(salt).decode()
 
     # init session
-    request.session["upload_id"] = upload_id
-    request.session["series"] = Videoin.series_name
-    request.session["episode"] = Videoin.episode
+    session_data = {  # metadata
+        "x_length": upload_content_length,
+        "x_type": upload_content_type,
+        "series_name": metadata.series_name,
+        "episode": metadata.episode,
+        "file_name": metadata.file_name,
+        "series_id": str(series[0].uuid),
+    }
+    # use cache instead
+    request.session[upload_id] = session_data
 
     return {
         "status": "200",
