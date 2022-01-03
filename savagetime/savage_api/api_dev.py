@@ -159,11 +159,11 @@ exception register area
 def invalid_header(request, exc):
     return api.create_response(
         request,
-        {
-            "message": "Unexpected header",
-            "detail": exc.message,
+        data={
+            "message": "Invalid or missing header",
+            "detail": exc.message
         },
-        exc.status,
+        status=exc.status
     )
 
 
@@ -171,11 +171,11 @@ def invalid_header(request, exc):
 def invalid_query(request, exc):
     return api.create_response(
         request,
-        {
+        data={
             "message": "Unexpected Query",
-            "detail": exc.message,
+            "detail": exc.message
         },
-        exc.status,
+        status=exc.status,
     )
 
 
@@ -183,8 +183,9 @@ def invalid_query(request, exc):
 def unexpeted_request(request, exc):
     return api.create_response(
         request,
-        {
-            "message": "Unexpected Request"
+        data={
+            "message": "Unexpected Request",
+            "detail": exc.message
         },
-        exc.status
+        status=exc.status
     )
