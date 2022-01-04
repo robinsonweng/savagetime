@@ -4,7 +4,7 @@ import json
 import base64
 from django.test import TestCase
 from django.test import Client
-from savage_api.models import Series
+from savage_api.model.models import Series, Video
 
 
 class CreateVideoMetadataTest(TestCase):

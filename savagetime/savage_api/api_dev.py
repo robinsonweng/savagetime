@@ -4,17 +4,17 @@ from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth import (authenticate)
 from ninja import (NinjaAPI)
-from savage_api.schemas import (
+from savage_api.model.schemas import (
     UserLogin, PureText, Videoget, Videoin
 )
-from savage_api.models import (Video, Series)
+from savage_api.model.models import (Video, Series)
 from savage_api.uploader import (
-   FileChunk, Uploader
+    FileChunk, Uploader
 )
-from savage_api.exceptions import (
+from savage_api.responses.exceptions import (
     InvalidHeader, InvalidQuery, UnexpetedRequest
 )
-from savage_api.response import UploadStatusResponse
+from savage_api.responses.response import UploadStatusResponse
 
 
 api = NinjaAPI(version='dev')

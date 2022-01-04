@@ -21,6 +21,11 @@ class ResponseHeaderBase(HttpResponse):
                 raise ValueError("param: extra_header should be dict")
 
 
+class UploaderResponse(ResponseHeaderBase):
+    _base_headers = {
+        ''
+    }
+
 
 class UploadStatusResponse(ResponseHeaderBase):
     # 308, not a standard http code usage
