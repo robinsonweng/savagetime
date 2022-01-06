@@ -180,5 +180,5 @@ def delete_video_info(request, video_id: str, delete_file: bool):
 
 
 @video_router.api_operation(["GET"], "{video_id}/series")
-def get_video_series(request, video_id: str):
+def get_series_from_video(request, video_id: str):
     pass
