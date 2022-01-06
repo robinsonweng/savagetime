@@ -76,7 +76,7 @@ def create_video_metadata(request, metadata: Videoin):
         "file_name": metadata.file_name,
         "series_id": str(series[0].uuid),
     }
-    # use cache instead
+    # using session may violate restful principle, use cache instead
     request.session[upload_id] = session_data
 
     return {
