@@ -1,5 +1,5 @@
 from ninja import (Schema, ModelSchema)
-from savagetime.savage_api.model.models import (Video)
+from .models import (Video)
 
 
 class UserLogin(Schema):
