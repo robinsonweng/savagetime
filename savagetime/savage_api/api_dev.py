@@ -20,9 +20,9 @@ api = SavageAPI(version='dev')
     router register area
 """
 
-api.add_router(video_router.prefix, video_router)
-api.add_router(series_router.prefix, series_router)
-api.add_router(search_router.prefix, search_router)
+api.add_router(video_router.prefix, video_router, tags=["video"])
+api.add_router(series_router.prefix, series_router, tags=["series"])
+api.add_router(search_router.prefix, search_router, tags=["search"])
 
 
 """
