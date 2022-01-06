@@ -1,9 +1,9 @@
 # view functions for search router
 
-from ninja import Router
+from ..libs.route import SavageRouter
 
 
-search_router = Router()
+search_router = SavageRouter()
 search_router.prefix = "search/"
 
 

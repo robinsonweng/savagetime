@@ -1,7 +1,7 @@
 # view functions for series router
 
 
-from ninja import Router
+from ..libs.route import SavageRouter
 
 from django.utils import timezone
 
@@ -13,7 +13,7 @@ from ..responses.exceptions import (
 )
 
 
-series_router = Router()
+series_router = SavageRouter()
 series_router.prefix = "series/"
 
 

@@ -5,7 +5,7 @@ import base64
 
 from django.urls import reverse
 
-from ninja import Router
+from ..libs.route import SavageRouter
 from ninja.constants import NOT_SET
 
 from ..model.models import (
@@ -27,7 +27,7 @@ from ..utils.uploader import Uploader, FileChunk
 
 no_response_body_set = frozenset({201, 204, 308})
 
-video_router = Router()
+video_router = SavageRouter()
 video_router.prefix = "video/"  # set the root route
 
 

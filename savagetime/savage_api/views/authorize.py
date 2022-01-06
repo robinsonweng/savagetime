@@ -1,9 +1,9 @@
 # view functions for authorize route
 
-from ninja import Router
+from ..libs.route import SavageRouter
 
 
-authorize_router = Router()
+authorize_router = SavageRouter()
 authorize_router.prefix = "authorize/"
 
 
