@@ -26,7 +26,7 @@ api.add_router(search_router.prefix, search_router)
 
 
 """
-exception register area
+    exception register area
 """
 
 
