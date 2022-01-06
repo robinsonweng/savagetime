@@ -172,3 +172,13 @@ def patch_video_info(request, video_id: str):
 @video_router.api_operation(["DELETE"], "{video_id}/info", response=NOT_SET, url_name="")
 def delete_video_info(request, video_id: str, delete_file: bool):
     pass
+
+
+"""
+    video/{video_id}/series section
+"""
+
+
+@video_router.api_operation(["GET"], "{video_id}/series")
+def get_video_series(request, video_id: str):
+    pass
