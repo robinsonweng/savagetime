@@ -13,22 +13,16 @@ from savage_api.views import (
 )
 
 
+api = SavageAPI(version='dev')
 
 
+"""
+    router register area
+"""
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+api.add_router(video_router.prefix, video_router)
+api.add_router(series_router.prefix, series_router)
+api.add_router(search_router.prefix, search_router)
 
 
 """
