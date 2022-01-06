@@ -149,3 +149,26 @@ def clear_upload_session(request, upload_id: str):
     pass
 
 
+"""
+    video/{video_id}/info section
+"""
+
+
+@video_router.api_operation(["GET"], "{video_id}/info", response=NOT_SET, url_name="")
+def get_video_info(request, video_id: str):
+    pass
+
+
+@video_router.api_operation(["POST"], "{video_id}/info", response=NOT_SET, url_name="")
+def post_video_info(request, video_id: str):
+    pass
+
+
+@video_router.api_operation(["PATCH"], "{video_id}/info", response=NOT_SET, url_name="")
+def patch_video_info(request, video_id: str):
+    pass
+
+
+@video_router.api_operation(["DELETE"], "{video_id}/info", response=NOT_SET, url_name="")
+def delete_video_info(request, video_id: str, delete_file: bool):
+    pass
