@@ -10,6 +10,7 @@ from savage_api.views import (
     video_router,
     series_router,
     search_router,
+    authorize_router,
 )
 
 
@@ -23,6 +24,7 @@ api = SavageAPI(version='dev')
 api.add_router(video_router.prefix, video_router, tags=["video"])
 api.add_router(series_router.prefix, series_router, tags=["series"])
 api.add_router(search_router.prefix, search_router, tags=["search"])
+api.add_router(authorize_router.prefix, authorize_router, tags=["authorize"])
 
 
 """
