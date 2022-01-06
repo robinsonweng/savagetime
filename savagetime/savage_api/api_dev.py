@@ -6,7 +6,7 @@ from .responses.exceptions import (
     UnexpetedRequest,
 )
 
-from savage_api.views import (
+from .views import (
     video_router,
     series_router,
     search_router,
