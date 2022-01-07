@@ -201,8 +201,32 @@ def post_video_info(
 
 
 @video_router.api_operation(["PATCH"], "{video_id}/info", response=NOT_SET, url_name="")
-def patch_video_info(request, video_id: str):
-    pass
+def patch_video_info(
+    request,
+    video_id: str,
+    data: VideoInfoPatchInput,
+    series_id: str = None,
+    series_name: str = None
+):
+    try:
+        video = Video.objects.get(uuid=video_id)
+    except ObjectDoesNotExist:
+        return HttpResponseBadRequest(None, 404)
+    except ValidationError:
+        return HttpResponseBadRequest(None, 400)
+
+    post_field = [f for f in VideoInfoPostInput.__dict__["__field__"]]
+    # check field that is not none
+    for f in post_field:
+        attr = getattr(data, f)
+        if attr is not None:
+            setattr(video, f, attr)
+    try:
+        video.save()
+    except Exception as e:
+        print(e)
+        return HttpResponseBadRequest(None, 400)
+    return NoBodyResponse(201)  # created
 
 
 @video_router.api_operation(["DELETE"], "{video_id}/info", response=NOT_SET, url_name="")
