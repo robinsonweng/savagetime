@@ -23,11 +23,13 @@ class SavageRouter(Router):
             @wraps(view_func)
             def wrap(request, *args, **kwargs):
                 # before request
-                if self._before_request_queue is not None:
+                if self._before_request_queue:
+                    # ^ if list is not empty
                     for before_request_func in self._before_request_queue:
                         before_request_func(request, *args, **kwargs)
                 response = view_func(request, *args, **kwargs)
-                if self._after_request_queue is not None:
+                if self._after_request_queue:
+                    # ^ if list is not empty
                     for after_request_func in self._after_request_queue:
                         after_request_func(request, *args, **kwargs)
                 # after request
