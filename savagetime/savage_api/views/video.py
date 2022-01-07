@@ -160,14 +160,44 @@ def clear_upload_session(request, upload_id: str):
 """
 
 
-@video_router.api_operation(["GET"], "{video_id}/info", response=NOT_SET, url_name="")
+@video_router.api_operation(["GET"], "{video_id}/info", response=VideoInfo, url_name="")
 def get_video_info(request, video_id: str):
-    pass
+    # video_id = "0b206681-573a-42bc-b38b-52689bb8f5ea"
+    video_id = "123"
+    try:
+        video = Video.objects.get(uuid=video_id)
+    except ObjectDoesNotExist:
+        raise InvalidQuery(404, f"Id not found: {video_id}")
+    except ValidationError:
+        return HttpResponseBadRequest(None, 400)
+    return video
 
 
-@video_router.api_operation(["POST"], "{video_id}/info", response=NOT_SET, url_name="")
-def post_video_info(request, video_id: str):
-    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @video_router.api_operation(["PATCH"], "{video_id}/info", response=NOT_SET, url_name="")
