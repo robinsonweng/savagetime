@@ -230,8 +230,19 @@ def patch_video_info(
 
 
 @video_router.api_operation(["DELETE"], "{video_id}/info", response=NOT_SET, url_name="")
-def delete_video_info(request, video_id: str, delete_file: bool):
-    pass
+def delete_video_info(request, video_id: str):
+    try:
+        video = Video.objects.get(uuid=video_id)
+    except ObjectDoesNotExist:
+        return HttpResponseBadRequest(None, 404)
+    except ValidationError:
+        return HttpResponseBadRequest(None, 400)
+    try:
+        video.delete()
+    except Exception as e:
+        print(e)
+        return HttpResponseBadRequest(None, 400)
+    return NoBodyResponse(201)
 
 
 """
