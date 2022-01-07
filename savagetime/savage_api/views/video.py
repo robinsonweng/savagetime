@@ -173,31 +173,31 @@ def get_video_info(request, video_id: str):
     return video
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@video_router.api_operation(["POST"], "/info", response=VideoInfo, url_name="")
+def post_video_info(
+    request,
+    data: VideoInfoPostInput,
+    series_id: str = None,
+    series_name: str = None
+):
+    # try/catch
+    if (series_id is not None) and (series_name is None):
+        try:
+            series = Series.objects.get(uuid=series_id)
+        except ObjectDoesNotExist:
+            return HttpResponseBadRequest(None, 404)
+        except ValidationError:
+            return HttpResponseBadRequest(None, 400)
+    elif (series_id is None) and (series_name is not None):
+        try:
+            series = Series.objects.get(name=series_name)
+        except ObjectDoesNotExist:
+            return HttpResponseBadRequest(None, 404)
+        except ValidationError:
+            return HttpResponseBadRequest(None, 400)
+    else:
+        return HttpResponseBadRequest(None, 400)
+    return {"123": "123"}
 
 
 @video_router.api_operation(["PATCH"], "{video_id}/info", response=NOT_SET, url_name="")
