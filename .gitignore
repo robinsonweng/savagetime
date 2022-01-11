@@ -29,3 +29,6 @@ migrations/
 
 # ignore production setting
 setting.yaml
+
+# ignore dev setting
+dev_setting.yaml
