@@ -215,7 +215,7 @@ def patch_video_info(
     except ValidationError:
         return HttpResponseBadRequest(None, 400)
 
-    post_field = [f for f in VideoInfoPostInput.__dict__["__field__"]]
+    post_field = [f for f in VideoInfoPostInput.__dict__["__fields__"]]
     # check field that is not none
     for f in post_field:
         attr = getattr(data, f)
