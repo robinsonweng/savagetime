@@ -62,15 +62,3 @@ class SavageRouter(Router):
             return wrap
         view_func = decorator(view_func)
         return super().add_api_operation(path, methods, view_func, *args, **kwargs)
-
-    def before_reqeust(self):
-        def decorator(func: Callable) -> Callable:
-            self._before_request_queue.append(func)
-            return func
-        return decorator
-
-    def after_request(self):
-        def decorator(func: Callable) -> Callable:
-            self._after_request_queue.append(func)
-            return func
-        return decorator
