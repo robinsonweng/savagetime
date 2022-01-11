@@ -17,8 +17,8 @@ from ninja.constants import NOT_SET
 from ..model.models import (
     Video, Series
 )
-from ..model.schemas import (
-    Videoget, Videoin, VideoInfo, VideoInfoPostInput, VideoInfoPatchInput
+from ..model.schemas.video import (
+    VideoUploadPostInput, VideoInfo, VideoInfoPostInput, VideoInfoPatchInput
 )
 # custom exceptions
 from ..responses.exceptions import (
