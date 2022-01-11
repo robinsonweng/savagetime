@@ -39,24 +39,26 @@ class SavageRouter(Router):
         methods: List[str],
         view_func: Callable,
         *args,
+        before_request: List[str] = [],
+        after_request: List[str] = [],
         **kwargs
     ) -> Callable:
         def decorator(view_func: Callable) -> Callable:
             # ^ this function don't do decorator stuff, just a wrapper
             @wraps(view_func)
             def wrap(request, *args, **kwargs):
-                # before request
-                if self._before_request_queue:
+                if before_request:
                     # ^ if list is not empty
-                    for before_request_func in self._before_request_queue:
+                    for before_request_func in before_request:
                         before_request_func(request, *args, **kwargs)
+                # ^ before request
                 response = view_func(request, *args, **kwargs)
-                if self._after_request_queue:
+                if after_request:
                     # ^ if list is not empty
-                    for after_request_func in self._after_request_queue:
+                    for after_request_func in after_request:
                         after_request_func(request, *args, **kwargs)
-                # after request
                 return response
+                # ^ after request
             return wrap
         view_func = decorator(view_func)
         return super().add_api_operation(path, methods, view_func, *args, **kwargs)
