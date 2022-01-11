@@ -10,6 +10,31 @@ class SavageRouter(Router):
         self._after_request_queue: Callable = []
         super().__init__(*args, **kwrags)
 
+    def api_operation(
+        self,
+        methods: List[str],
+        path: str,
+        *,
+        before_request: List[str] = [],
+        after_request: List[str] = [],
+        **kwargs
+    ) -> Callable:
+        """
+            Rewrite parent function to call add_api operation in child
+        """
+        def decorator(view_func: Callable):
+            self.add_api_operation(
+                path,
+                methods,
+                view_func,
+                before_request=before_request,
+                after_request=after_request,
+                **kwargs,
+            )
+            return view_func
+
+        return decorator
+
     def add_api_operation(
         self,
         path: str,
