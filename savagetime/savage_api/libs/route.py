@@ -6,8 +6,6 @@ from ninja import Router
 
 class SavageRouter(Router):
     def __init__(self, *args, **kwrags):
-        self._before_request_queue: Callable = []
-        self._after_request_queue: Callable = []
         super().__init__(*args, **kwrags)
 
     def api_operation(
