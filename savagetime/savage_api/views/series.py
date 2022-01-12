@@ -34,8 +34,19 @@ series_router.prefix = "series/"
 """
 
 
-@series_router.api_operation(["GET"], "{series_id}/info")
-def get_series_info(request, series_id: str, index: str, recent: bool = False):
+@series_router.api_operation(
+    ["GET"],
+    "/info",
+    response=List[VideoInfo],
+    url_name="",
+    auth=None,
+)
+def get_series_info(
+    request,
+    series_id: str = None,
+    index: str = None,
+    recent: bool = False,
+):
     """
         this route return the urls of the video, not streaming
         url from nginx
