@@ -49,5 +49,5 @@ class SeriesInfoPatchInput(SeriesInputBase):
     episodes: int = None
     pub_year: str = None
     pub_month: str = None
-    finale: bool = None
+    finale: bool = False
     subtitle_group: str = None
