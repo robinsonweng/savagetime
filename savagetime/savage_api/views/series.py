@@ -57,22 +57,17 @@ def get_series_info(
     """
     id_exist = series_id is not None
     index_exist = index is not None
-    recent_exist = recent is not None
     if (recent is True) and not (id_exist and index_exist):
-        # if client expected recent update video
+        # ^ if client expected recent update video
         today = timezone.now()
         recent = Video.objects.filter(
             # use 24h instead
             update_time__date=today.date()
         )
-        v_list = []
-        from django.utils.encoding import smart_str
-        for video in recent:
-            v_list.append(smart_str(video.series.name))
 
-        return {"status": f"{v_list}"}
-    elif (not recent_exist) and (id_exist and index_exist):
-        # if client query video using index & series id
+        return recent
+    elif (not recent) and (id_exist and index_exist):
+        # ^ if client expected query video using index & series id
         pass
     else:
         raise InvalidQuery(400, "")
