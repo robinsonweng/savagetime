@@ -8,10 +8,8 @@ authorize_router.prefix = "authorize/"
 
 
 @authorize_router.api_operation(["GET"], "/")
-def get_authorize():
-    pass
-
-
-@authorize_router.api_operation(["POST"], "/")
-def post_authroize():
-    pass
+def get_authorize(request):
+    """
+        check authorize status
+    """
+    return "ok"
