@@ -160,7 +160,7 @@ def clear_upload_session(request, upload_id: str):
 """
 
 
-@video_router.api_operation(["GET"], "{video_id}/info", response=VideoInfo, url_name="")
+@video_router.api_operation(["GET"], "{video_id}/info", response=VideoInfo, url_name="", auth=None)
 def get_video_info(request, video_id: str):
     # video_id = "0b206681-573a-42bc-b38b-52689bb8f5ea"
     video_id = "123"
@@ -250,6 +250,6 @@ def delete_video_info(request, video_id: str):
 """
 
 
-@video_router.api_operation(["GET"], "{video_id}/series")
+@video_router.api_operation(["GET"], "{video_id}/series", auth=None)
 def get_series_from_video(request, video_id: str):
     pass
