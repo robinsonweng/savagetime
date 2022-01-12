@@ -1,4 +1,5 @@
 from .libs.savage import SavageAPI
+from .libs.security import AdminUserBasicAuth
 
 from .responses.exceptions import (
     InvalidHeader,
@@ -14,7 +15,7 @@ from .views import (
 )
 
 
-api = SavageAPI(version='dev')
+api = SavageAPI(version='dev', auth=AdminUserBasicAuth())
 
 
 """
