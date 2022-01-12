@@ -76,3 +76,18 @@ def get_series_info(
         pass
     else:
         raise InvalidQuery(400, "")
+
+
+@series_router.api_operation(["POST"], "/info", response={201: SeriesInfoOutput}, url_name="")
+def post_series_info(request, data: SeriesInfoPostInput, index: str = None):
+    series = Series(
+        name=data.name,
+        season=data.season,
+        episodes=data.episodes,
+        pub_year=data.pub_year,
+        pub_month=data.pub_month,
+        finale=data.finale,
+        subtitle_group=data.subtitle_group,
+    )
+    series.save()
+    return 201, series  # created
