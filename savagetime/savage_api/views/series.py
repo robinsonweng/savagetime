@@ -1,13 +1,25 @@
 # view functions for series router
 
+from typing import List
 
+from django.utils.encoding import smart_str
+from django.utils import timezone
+
+from ninja.constants import NOT_SET
 from ..libs.route import SavageRouter
 
-from django.utils import timezone
+from ..responses.response import NoBodyResponse
 
 from ..model.models import (
     Video, Series
 )
+from ..model.schemas.video import (
+    VideoInfo
+)
+from ..model.schemas.series import (
+    SeriesInfoOutput, SeriesInfoPostInput, SeriesInfoPatchInput
+)
+
 from ..responses.exceptions import (
     InvalidHeader, InvalidQuery, UnexpetedRequest
 )
