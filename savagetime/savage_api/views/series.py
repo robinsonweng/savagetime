@@ -91,3 +91,22 @@ def post_series_info(request, data: SeriesInfoPostInput, index: str = None):
     )
     series.save()
     return 201, series  # created
+
+
+@series_router.api_operation(
+    ["PATCH"],
+    "{series_id}/info",
+    response={204: SeriesInfoOutput},
+    url_name="")
+def patch_series_info(request, series_id: str, data: SeriesInfoPatchInput):
+    series = Series.objects.get(uuid=series_id)
+
+    for data_attr in SeriesInfoPatchInput.__dict__["__fields__"]:
+        value = getattr(data, data_attr)
+        if (data_attr == "finale") and (value is not False):
+            setattr(series, "finale", True)
+        elif value is not None:
+            setattr(series, data_attr, value)
+
+    series.save()
+    return 204, series
