@@ -110,3 +110,10 @@ def patch_series_info(request, series_id: str, data: SeriesInfoPatchInput):
 
     series.save()
     return 204, series
+
+
+@series_router.api_operation(["DELETE"], "{series_id}/info", response=NOT_SET, url_name="")
+def delete_series_info(request, series_id: str):
+    series = Series.objects.get(uuid=series_id)
+    series.delete()
+    return NoBodyResponse(None, 204)
