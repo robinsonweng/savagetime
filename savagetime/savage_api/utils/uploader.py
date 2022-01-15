@@ -181,6 +181,9 @@ class Uploader(object):
         uploader.valid_resume_upload_param()
         return uploader
 
+    def get_metadata(self):
+        return self.metadata
+
     def receve_upload(self, chunk: Type[FileChunk]) -> None:
         """
             1. valid param from user\n
