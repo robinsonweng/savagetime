@@ -100,31 +100,6 @@ class Uploader(object):
             return True
         return False
 
-    def expect_chunk_size(self) -> List[int]:
-        pass
-
-    def valid_file_size(self) -> bool:
-        pass
-
-    def valid_file_exet(self):
-        pass
-
-    def valid_init_upload_param(self) -> None:
-        # init valid pram list:
-        #   byte_start should startwith 0
-        #   byte_start should not equal to byte_end
-        #   content
-        pass
-
-    def valid_resume_upload_param(self) -> None:
-        # validate pram list:
-        #   resourse exist
-        #   content range
-        #   content size
-        #   content extension
-        #   chunk size
-        pass
-
     def create_file(self, file_path: str) -> None:
         """
             create blank file
@@ -219,3 +194,28 @@ class Uploader(object):
                 os.remove(path)
             except FileNotFoundError as e:
                 raise e(f"file: '{path}' not found")
+
+    def expected_chunk_size(self) -> List[int]:
+        pass
+
+    def valid_file_size(self) -> bool:
+        pass
+
+    def valid_file_exet(self):
+        pass
+
+    def valid_init_upload_param(self) -> None:
+        # init valid pram list:
+        #   byte_start should startwith 0
+        #   byte_start should not equal to byte_end
+        #   content
+        pass
+
+    def valid_resume_upload_param(self) -> None:
+        # validate pram list:
+        #   resourse exist
+        #   content range
+        #   content size
+        #   content extension
+        #   chunk size
+        pass
