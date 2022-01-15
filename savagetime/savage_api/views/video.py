@@ -42,7 +42,12 @@ video_router.prefix = "video/"  # set the root route
 """
 
 
-@video_router.api_operation(["GET"], "/{video_id}/stream", response=NOT_SET, url_name="")
+@video_router.api_operation(
+    ["GET"],
+    "/{video_id}/stream",
+    response=NOT_SET,
+    url_name="video_stream"
+)
 def get_video_stream(request, video_id: str):
     pass
 
