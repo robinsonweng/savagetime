@@ -144,7 +144,7 @@ def upload_video(request, upload_id: str):
         headers = {
 
         }
-        return UploadStatusResponse(headers, 204)
+        return UploadStatusResponse(204, headers)
     # return metadata for db
 
     # flush everything in cache
@@ -152,7 +152,7 @@ def upload_video(request, upload_id: str):
     headers = {
 
     }
-    return UploadStatusResponse(headers, 201)
+    return UploadStatusResponse(201, headers)
 
 
 @video_router.api_operation(["DELETE"], "/upload", response=NOT_SET, url_name="")
