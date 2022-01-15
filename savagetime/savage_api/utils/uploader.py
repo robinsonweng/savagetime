@@ -94,7 +94,7 @@ class Uploader(object):
             return cursor.split(" ")[1]
 
     def is_complete(self):
-        path = os.path.join(self.get_dest_dir, self.file_name)
+        path = os.path.join(self.get_dest_dir(), self.file_name)
         current_filesize = os.path.getsize(path)
         if current_filesize == self.file_size:
             return True
