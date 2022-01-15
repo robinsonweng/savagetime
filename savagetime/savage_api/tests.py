@@ -30,6 +30,22 @@ class VideoViewTest(TestCase):
         with open("../api_test_data/series.json", "r") as f:
             self.mock_data = list(json.load(f))
 
+        # dbs
+        self.user = User.objects.create(
+            username="rob",
+            email="example@example.com",
+            password="123"
+        )
+
+        series = Series.objects.create(
+            name="月光下的異世界之旅",
+            season="spring",
+            episodes="12",
+            pub_year="2021",
+            pub_month="1",
+            finale=True,
+            subtitle_group="",
+        )
 
     def tearDown(self) -> None:
         pass
