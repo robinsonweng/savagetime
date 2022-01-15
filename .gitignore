@@ -4,7 +4,7 @@ __pycache__/
 # ignore sqlite data
 db.sqlite3
 
-# ignore django media file
+# ignore django media file but not folder 
 media/*
 ! media/.gitkeep
 
@@ -32,3 +32,6 @@ setting.yaml
 
 # ignore dev setting
 dev_setting.yaml
+
+# ignore test data
+api_test_data/*.mp4
