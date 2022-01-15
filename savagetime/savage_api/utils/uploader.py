@@ -131,16 +131,19 @@ class Uploader(object):
             2. create blank file in local\n
             3. return self\n
         """
-        video_uuid = str(uuid.uuid4())
         series_id = metadata["series_id"]
+        video_uuid = uuid.uuid4()
+        video_uuid = str(video_uuid)
+        video_name = os.path.join(series_id, video_uuid)
 
-        path = f"{os.path.join(Uploader.get_dest_dir(), series_id, video_uuid)}.mp4"
+        path = f"{os.path.join(Uploader.get_dest_dir(), video_name)}.mp4"
 
+        cache_conf = settings.RESUMEABLE_UPLOADER_CACHE_CONFIG
         cache = caches[cache_conf]
         cache.add(file_size_key(upload_id), chunk.content_length)
         cache.add(metadata_key(upload_id), metadata)
         cache.add(cursor_key(upload_id), chunk.range)
-        cache.add(file_name_key(upload_id), f"{os.path.join(series_id, video_uuid)}.mp4")
+        cache.add(file_name_key(upload_id), f"{video_name}.mp4")
 
         uploader = cls(upload_id, cache_conf)
         uploader.valid_init_upload_param()  # check pram
