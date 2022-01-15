@@ -145,7 +145,7 @@ class Uploader(object):
         cache.add(cursor_key(upload_id), chunk.range)
         cache.add(file_name_key(upload_id), f"{video_name}.mp4")
 
-        uploader = cls(upload_id, cache_conf)
+        uploader = cls(upload_id)
         uploader.valid_init_upload_param()  # check pram
         uploader.expected_chunk_size()
         # init file
