@@ -14,6 +14,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from savage_api.model.models import Series, Video
 
 
+setattr(settings, "IS_TESTING", True)
 
 
 class VideoViewTest(TestCase):
