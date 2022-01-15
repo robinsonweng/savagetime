@@ -54,7 +54,20 @@ class VideoViewTest(TestCase):
         pass
 
     def test_post_video_upload_normal_case(self):
-        
+        request = self.client
+        route = reverse("api-dev:video_upload")
+        post_data = {
+            "series_name": "月光下的異世界之旅",
+            "episode": "1",
+            "file_name": "[Tsuki ga Michibiku Isekai Douchuu][01][1080P].mp4"
+        }
+        response = request.post(
+            route, post_data, content_type='application/json',
+            # request header
+            HTTP_x_upload_content_length='1000',
+            HTTP_x_upload_content_type='video/*',
+        )
+        self.assertEqual(200, response.status_code, f"{response.content}")
 
     def test_patch_video_upload_normal_case(self):
         
