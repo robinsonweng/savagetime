@@ -3,8 +3,8 @@ from django.http import HttpResponse
 
 
 class ResponseHeaderBase(HttpResponse):
-    _base_headers = {
-    }
+    _base_headers = {}
+    # ^ general header, e.g. CORS
 
     def add_header(self, header: dict):
         for k, v in header.items():
