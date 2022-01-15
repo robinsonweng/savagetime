@@ -22,7 +22,11 @@ class VideoViewTest(TestCase):
         super().__init__(*args, **kwargs)
 
     def setUp(self):
-        
+        # consts
+        self.client = Client()
+        self.setting = settings
+
+
     def tearDown(self) -> None:
         pass
 
