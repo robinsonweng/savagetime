@@ -57,7 +57,7 @@ def get_video_stream(request, video_id: str):
 """
 
 
-@video_router.api_operation(["POST"], "/upload", response=NOT_SET, url_name="post_upload_video")
+@video_router.api_operation(["POST"], "/upload", response=NOT_SET, url_name="video_upload")
 def create_video_metadata(request, metadata: VideoUploadPostInput):
     """
         create a session for uploading
