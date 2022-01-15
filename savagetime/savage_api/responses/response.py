@@ -10,8 +10,8 @@ class ResponseHeaderBase(HttpResponse):
         for k, v in header.items():
             self.__setitem__(k, v)
 
-    def __init__(self, extra_headers=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, status=None, extra_headers={}, *args, **kwargs):
+        super().__init__(status=status, *args, **kwargs)
         self.add_header(self._headers)
 
         if extra_headers is not None:
