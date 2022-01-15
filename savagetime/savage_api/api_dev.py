@@ -1,5 +1,5 @@
 from .libs.savage import SavageAPI
-from .libs.security import AdminUserBasicAuth
+from .utils.security import AdminUserBasicAuth
 
 from .responses.exceptions import (
     InvalidHeader,
