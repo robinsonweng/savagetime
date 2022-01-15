@@ -110,9 +110,9 @@ def upload_video(request, upload_id: str):
             3. resume the upload
     """
     # check session
-    upload_session = (request.session.get(upload_id, None) is not None)
-    if not upload_session:
-        raise InvalidQuery(400, "id not found or session expire")
+    upload_session = request.session.get(upload_id, None)
+    if upload_session is None:
+        raise InvalidQuery(400, f"id: {upload_id} not found or session expire")
 
     # 1. do request header check
     # 2. identify the user demand
@@ -137,7 +137,7 @@ def upload_video(request, upload_id: str):
     if case == "resume":
         uploader = Uploader.resume_upload(chunk)
     elif case == "new":
-        uploader = Uploader.init_upload(chunk)
+        uploader = Uploader.init_upload(upload_id, upload_session["metadata"], chunk)
     uploader.receve_upload(chunk)
 
     if not uploader.is_complete():  # 204
