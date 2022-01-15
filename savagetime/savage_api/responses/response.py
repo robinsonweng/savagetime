@@ -29,3 +29,7 @@ class UploadStatusResponse(ResponseHeaderBase):
         'Content-Length': 0,
         'Content-Range': "",
     }
+
+
+class NoBodyResponse(ResponseHeaderBase):
+    pass
