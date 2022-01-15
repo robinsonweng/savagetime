@@ -124,7 +124,7 @@ class Uploader(object):
 
     @classmethod
     def init_upload(
-        cls: Uploader, upload_id: str, cache_conf: str, metadata, chunk: Type[FileChunk]
+        cls: Uploader, upload_id: str, metadata, chunk: Type[FileChunk]
     ) -> Type[Uploader]:
         """
             1. Validate param from user\n
