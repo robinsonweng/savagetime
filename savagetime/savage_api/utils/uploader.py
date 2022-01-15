@@ -109,11 +109,10 @@ class Uploader(object):
             os.mkdir(dir_path)
         try:
             with open(file_path, 'wb') as f:
-                print(self.file_size)
                 f.seek(self.file_size - 1)
                 f.write(b'\0')  # EOF
         except IOError:
-            raise IOError("Error occor while init file")
+            raise IOError("Error occor while createing file")
 
     def write_file(self, path, chunk):
         try:
