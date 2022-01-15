@@ -26,6 +26,10 @@ class VideoViewTest(TestCase):
         self.client = Client()
         self.setting = settings
 
+        # fake datas
+        with open("../api_test_data/series.json", "r") as f:
+            self.mock_data = list(json.load(f))
+
 
     def tearDown(self) -> None:
         pass
