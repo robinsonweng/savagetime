@@ -70,7 +70,20 @@ class VideoViewTest(TestCase):
         self.assertEqual(200, response.status_code, f"{response.content}")
 
     def test_patch_video_upload_normal_case(self):
-        
+        session = self.client.session
+        session["1234"] = {"metadata": {"series_id": "44"}}
+        session.save()
+        request = self.client
+
+        route = f"{reverse('api-dev:video_upload')}?upload_id=1234"
+
+        patch_data = ""
+        response = request.patch(
+            route, patch_data, content_type="video/*",
+            HTTP_content_length="3",
+            HTTP_content_range='bytes 0-3/7'
+        )
+        self.assertEqual(201, response.status_code, f"{response.content}")
 
     def test_delete_video_upload(self):
         pass
