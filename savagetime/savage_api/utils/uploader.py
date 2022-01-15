@@ -49,17 +49,17 @@ class FileChunk(object):
     def byte_start(self) -> str:
         # filter this from nginx, probably change to regex
         value = self.range.split(" ")[1].split("/")[0].split("-")[0]
-        return value
+        return int(value)
 
     @property
     def byte_end(self) -> str:
         value = self.range.split(" ")[1].split("/")[0].split("-")[1]
-        return value
+        return int(value)
 
     @property
     def content_length(self) -> str:
         value = self.range.split(" ")[1].split("/")[1]
-        return value
+        return int(value)
 
 
 class Uploader(object):
