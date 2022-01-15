@@ -118,7 +118,7 @@ class Uploader(object):
         try:
             with open(path, "rb+") as f:
                 f.seek(int(chunk.byte_start))
-                f.write(int(chunk.binary))
+                f.write(chunk.binary)
         except IOError:
             raise IOError("Error occor while writing file")
 
