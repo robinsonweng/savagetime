@@ -16,15 +16,11 @@ class ResponseHeaderBase(HttpResponse):
 
         if extra_headers is not None:
             if isinstance(extra_headers, dict):
-                self.add_header(extra_headers)
+                if extra_headers:
+                    # ^ if dict is not empty
+                    self.add_header(extra_headers)
             else:
-                raise ValueError("param: extra_header should be dict")
-
-
-class UploaderResponse(ResponseHeaderBase):
-    _base_headers = {
-        ''
-    }
+                raise ValueError(f"param: extra_header should be dict, got {extra_headers} instead")
 
 
 class UploadStatusResponse(ResponseHeaderBase):
