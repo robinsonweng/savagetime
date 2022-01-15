@@ -1,3 +1,6 @@
+from ninja.constants import NOT_SET
+from django.conf import settings
+
 from .libs.savage import SavageAPI
 from .utils.security import AdminUserBasicAuth
 
@@ -14,8 +17,11 @@ from .views import (
     authorize_router,
 )
 
+auth = NOT_SET
+if getattr(settings, "IS_TESTING", None) is None:
+    auth = AdminUserBasicAuth()
 
-api = SavageAPI(version='dev', auth=AdminUserBasicAuth())
+api = SavageAPI(version='dev', auth=auth)
 
 
 """
