@@ -141,7 +141,6 @@ class Uploader(object):
 
         uploader = cls(upload_id)
         uploader.valid_init_upload_param()  # check pram
-        uploader.expected_chunk_size()
         # init file
         uploader.create_file(path)
         return uploader
@@ -160,7 +159,6 @@ class Uploader(object):
             1. valid param from user\n
             2. write chunks from cache to local file\n
         """
-        self.valid_file_size()
         path = os.path.join(self.get_dest_dir(), self.file_name)
         self.write_file(path, chunk)
         if self.file_size == chunk.byte_end:
@@ -192,14 +190,16 @@ class Uploader(object):
             except FileNotFoundError as e:
                 raise e(f"file: '{path}' not found")
 
-    def expected_chunk_size(self) -> List[int]:
-        pass
+    def verify_checksum(self, checksum: str, option="sha256"):
+        algo = ["sha256"]
+        if option not in algo:
+            raise ValueError(f"key word arg 'option' only accept {algo}, get '{option}' instead")
 
-    def valid_file_size(self) -> bool:
-        pass
-
-    def valid_file_exet(self):
-        pass
+        my_check = hashlib.new(option)
+        with open(os.path.join(self.get_dest_dir(), self.file_name), "rb") as f:
+            my_check.update(f.read())
+        my_check = base64.b64encode(my_check.digest()).decode()
+        return compare_digest(my_check, checksum)
 
     def valid_init_upload_param(self) -> None:
         # init valid pram list:
