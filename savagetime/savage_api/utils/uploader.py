@@ -73,6 +73,7 @@ class Uploader(object):
     def __init__(self, upload_id: str) -> None:
         # constant
         self.upload_id = upload_id
+        self.is_complete = False
 
         # init data from cache
         self.file_size = int(cache.get(file_size_key(upload_id), None))
@@ -94,13 +95,6 @@ class Uploader(object):
         cursor = cache.get(cursor_key(upload_id), None)
         if cursor is not None:
             return cursor.split(" ")[1]
-
-    def is_complete(self):
-        path = os.path.join(self.get_dest_dir(), self.file_name)
-        current_filesize = os.path.getsize(path)
-        if current_filesize == self.file_size:
-            return True
-        return False
 
     def create_file(self, file_path: str) -> None:
         """
@@ -169,6 +163,8 @@ class Uploader(object):
         self.valid_file_size()
         path = os.path.join(self.get_dest_dir(), self.file_name)
         self.write_file(path, chunk)
+        if self.file_size == chunk.byte_end:
+            self.is_complete = True
         # update cache cursor
         # validate cursor
 
