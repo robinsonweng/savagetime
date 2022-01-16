@@ -16,6 +16,9 @@ from django.conf import settings
 Chunk = TypeVar('Chunk', bound="FileChunk")
 Uploader = TypeVar('Uploader', bound="Uploader")
 
+# cache init
+cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
+
 # cache keys
 file_size_key = lambda upload_id: f"uploadfile/{upload_id}/file_size"  # noqa: E731
 metadata_key = lambda upload_id: f"uploadfile/{upload_id}/metadata"  # noqa: E731
