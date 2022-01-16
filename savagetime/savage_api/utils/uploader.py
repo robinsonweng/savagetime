@@ -73,11 +73,7 @@ class Uploader(object):
     def __init__(self, upload_id: str) -> None:
         # constant
         self.upload_id = upload_id
-        self.cache_conf = settings.RESUMEABLE_UPLOADER_CACHE_CONFIG
-        try:
-            cache = caches[self.cache_conf]
-        except KeyError:
-            raise KeyError("Cache setting not found")
+
         # init data from cache
         self.file_size = int(cache.get(file_size_key(upload_id), None))
         self.file_name = cache.get(file_name_key(upload_id), None)
@@ -95,7 +91,6 @@ class Uploader(object):
     @staticmethod
     def get_progress(upload_id):
         # should caculate from actsual file
-        cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
         cursor = cache.get(cursor_key(upload_id), None)
         if cursor is not None:
             return cursor.split(" ")[1]
@@ -145,8 +140,6 @@ class Uploader(object):
 
         path = f"{os.path.join(Uploader.get_dest_dir(), video_name)}.mp4"
 
-        cache_conf = settings.RESUMEABLE_UPLOADER_CACHE_CONFIG
-        cache = caches[cache_conf]
         cache.add(file_size_key(upload_id), chunk.content_length)
         cache.add(metadata_key(upload_id), metadata)
         cache.add(cursor_key(upload_id), chunk.range)
@@ -191,7 +184,6 @@ class Uploader(object):
             )
 
         if option == "cache" or option == "all":
-            cache = caches[self.cache_conf]
             cache.delete(file_size_key(self.upload_id))
             cache.delete(metadata_key(self.upload_id))
             cache.delete(cursor_key(self.upload_id))
