@@ -136,23 +136,26 @@ def upload_video(request, upload_id: str):
 
     # start upload
     if case == "resume":
-        uploader = Uploader.resume_upload(chunk)
+        uploader = Uploader.resume_upload(upload_id, chunk)
     elif case == "new":
-        uploader = Uploader.init_upload(upload_id, upload_session["metadata"], chunk)
-    uploader.receve_upload(chunk)
+        uploader = Uploader.init_upload(upload_id, chunk)
 
-    if not uploader.is_complete():  # 204
-        headers = {
+    uploader.receve_upload()
 
-        }
+    if uploader.is_complete is False:
+        headers = {}
         return UploadStatusResponse(204, headers)
-    # return metadata for db
+
+    if uploader.verify_checksum() is False:
+        # return resend request with checksum
+        # set retry times
+        return HttpResponseBadRequest
 
     # flush everything in cache
     uploader.flush(option="cache")
-    headers = {
 
-    }
+    uploader.insert_video()
+    headers = {}
     return UploadStatusResponse(201, headers)
 
 
