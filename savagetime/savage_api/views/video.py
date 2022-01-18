@@ -5,8 +5,9 @@ import uuid
 import base64
 
 from django.urls import reverse
-
-from django.http import HttpResponseBadRequest
+from django.conf import settings
+from django.http import HttpResponseBadRequest, HttpRequest
+from django.core.cache import caches
 from django.core.exceptions import (
     ObjectDoesNotExist, ValidationError
 )
@@ -36,6 +37,7 @@ no_response_body_set = frozenset({201, 204, 308})
 video_router = SavageRouter()
 video_router.prefix = "video/"  # set the root route
 
+uploader_cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
 
 """
     video/{video_id}/stream section
@@ -79,7 +81,7 @@ def create_video_metadata(request, metadata: VideoUploadPostInput):
         upload_id = base64.b64encode(salt).decode()
 
     # init session
-    session_data = {  # metadata
+    cache_data = {  # metadata
         "x_length": upload_content_length,
         "x_type": upload_content_type,
         "series_name": metadata.series_name,
@@ -87,8 +89,7 @@ def create_video_metadata(request, metadata: VideoUploadPostInput):
         "file_name": metadata.file_name,
         "series_id": str(series[0].uuid),
     }
-    # using session may violate restful principle, use cache instead
-    request.session[upload_id] = session_data
+    uploader_cache.add(f"uploader/{upload_id}/metadata", cache_data)
 
     return {
         "status": "200",
@@ -109,9 +110,9 @@ def upload_video(request, upload_id: str):
             2. check the status of an upload
             3. resume the upload
     """
-    # check session
-    upload_session = request.session.get(upload_id, None)
-    if upload_session is None:
+    # check meta in cache
+    upload_meta = uploader_cache.get(f"uploader/{upload_id}/metadata", None)
+    if upload_meta is None:
         raise InvalidQuery(400, f"id: {upload_id} not found or session expire")
 
     # 1. do request header check
