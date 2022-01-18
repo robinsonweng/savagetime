@@ -33,44 +33,55 @@ file_name_key = lambda upload_id: f"uploader/{upload_id}/file_name"  # noqa: E73
 class FileChunk(object):
     def __init__(self, request: HttpRequest) -> None:
         # request field
-        self.headers = request.headers  # dont use META if the use case is for header
+        # use header instead of META
+        self.header = request.headers
         self.length = request.headers.get("Content-Length")
         self.type = request.headers.get("Content-Type")
         self.range = request.headers.get("Content-Range")
+        self.__check_sum = request.headers.get("Uploader-Checksum")
         self.binary = request.body
 
+    # filter wrong range value by nginx, probably change to regex
+    # or probably filter by middleware
+    # TODO: Add check if property is None
+    @property
+    def byte_start(self) -> int:
+        value = self.range.split(" ")[1].split("/")[0].split("-")[0]
+        return int(value)
+
+    @property
+    def byte_end(self) -> int:
+        value = self.range.split(" ")[1].split("/")[0].split("-")[1]
+        return int(value)
+
+    @property
+    def content_length(self) -> int:
+        value = self.range.split(" ")[1].split("/")[1]
+        return int(value)
+
+    @property
+    def check_sum(self) -> List[str]:
+        if self.__check_sum is None:
+            raise InvalidHeader(400, "header require Uploader-Checksum, field not exist or receive none value")
+        return self.__check_sum.split(" ")
+
     @classmethod
-    def load_chunk(cls, request: HttpRequest) -> Type[Chunk]:
+    def load_chunk(cls, request: HttpRequest) -> Type[FileChunk]:
         chunk = cls(request)
         return chunk
 
-    # maby use regex instead of split
     def get_case(self):
-        range_math = re.match(r"bytes \*\/\d+", self.range)
+        if self.range is None:
+            raise InvalidHeader(400, "header: Content-Range accept type str, got None instead.")
 
-        if range_math is not None and len(self.binary) == 0:  # status
+        range_match = re.match(r"bytes \*\/\d+", self.range)
+        if range_match is not None and len(self.binary) == 0:  # status
             return "status"
         elif self.byte_start == 0:
             return "new"
         elif self.byte_start > 0:
             return "resume"
         return "error"  # error
-
-    @property
-    def byte_start(self) -> str:
-        # filter this from nginx, probably change to regex
-        value = self.range.split(" ")[1].split("/")[0].split("-")[0]
-        return int(value)
-
-    @property
-    def byte_end(self) -> str:
-        value = self.range.split(" ")[1].split("/")[0].split("-")[1]
-        return int(value)
-
-    @property
-    def content_length(self) -> str:
-        value = self.range.split(" ")[1].split("/")[1]
-        return int(value)
 
 
 class Uploader(object):
