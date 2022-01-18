@@ -19,14 +19,15 @@ Uploader = TypeVar("Uploader", bound="Uploader")
 FileChunk = TypeVar("FileChunk", bound="FileChunk")
 
 
-# cache init
+# const init
 cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
+dest_dir = settings.RESUMEABLE_UPLOADER_DEST_PATH
 
 # cache keys
-file_size_key = lambda upload_id: f"uploadfile/{upload_id}/file_size"  # noqa: E731
-metadata_key = lambda upload_id: f"uploadfile/{upload_id}/metadata"  # noqa: E731
-cursor_key = lambda upload_id: f"uploadfile/{upload_id}/cursor"  # noqa: E731
-file_name_key = lambda upload_id: f"uploadfile/{upload_id}/file_name"  # noqa: E731
+file_size_key = lambda upload_id: f"uploader/{upload_id}/file_size"  # noqa: E731
+metadata_key = lambda upload_id: f"uploader/{upload_id}/metadata"  # noqa: E731
+cursor_key = lambda upload_id: f"uploader/{upload_id}/cursor"  # noqa: E731
+file_name_key = lambda upload_id: f"uploader/{upload_id}/file_name"  # noqa: E731
 
 
 class FileChunk(object):
