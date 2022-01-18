@@ -3,18 +3,21 @@ import re
 import uuid
 import base64
 import hashlib
+
 from pathlib import Path
 from hmac import compare_digest
-from typing import TypeVar, Type, List  # typing is too chaotic
 
-# from ninja.errors import HttpError
 from django.core.cache import caches
-from django.http import HttpRequest
 from django.conf import settings
 
+from ..responses.exceptions import InvalidHeader
 
-Chunk = TypeVar('Chunk', bound="FileChunk")
-Uploader = TypeVar('Uploader', bound="Uploader")
+# typing
+from typing import TypeVar, Type, List
+from django.http import HttpRequest, HttpResponse
+Uploader = TypeVar("Uploader", bound="Uploader")
+FileChunk = TypeVar("FileChunk", bound="FileChunk")
+
 
 # cache init
 cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
