@@ -199,7 +199,7 @@ class Uploader(object):
             cache.delete(file_name_key(self.upload_id))
 
         if option == "local" or option == "all":
-            path = os.path.join(self.get_dest_dir(), self.file_name)
+            path = os.path.join(dest_dir, self.file_name)
             try:
                 os.remove(path)
             except FileNotFoundError as e:
