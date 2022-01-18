@@ -85,7 +85,7 @@ class FileChunk(object):
 
 
 class Uploader(object):
-    def __init__(self, upload_id: str) -> None:
+    def __init__(self, upload_id: str, chunk: Type[FileChunk]) -> None:
         # constant
         self.upload_id = upload_id
         self.is_complete = False
@@ -96,20 +96,66 @@ class Uploader(object):
         self.metadata = cache.get(metadata_key(upload_id), None)
         self.cursor = cache.get(cursor_key(upload_id), None)
 
-    @staticmethod  # maby use cached_property?
-    def get_dest_dir():
-        return settings.RESUMEABLE_UPLOADER_DEST_PATH
+        # chunk reference
+        self.chunk = chunk
 
-    @staticmethod
-    def resource_exist(upload_id: str, cache_conf: str) -> bool:
-        return (caches[cache_conf].get(f"uploadfile/{upload_id}/file_name") is not None)
+    @property
+    def metadata(self):
+        return dict(self.__metadata)
 
-    @staticmethod
-    def get_progress(upload_id):
-        # should caculate from actsual file
-        cursor = cache.get(cursor_key(upload_id), None)
-        if cursor is not None:
-            return cursor.split(" ")[1]
+    @metadata.setter
+    def metadata(self, value):
+        self.__metadata = value
+
+    @classmethod
+    def init_upload(cls: Uploader, upload_id: str, chunk: Type[FileChunk], cache_expire=None) -> Type[Uploader]:
+        """
+            1. Validate param from user\n
+            2. create blank file in local\n
+            3. return self\n
+        """
+        # init file name
+        video_uuid = str(uuid.uuid4())
+        video_name = f"{video_uuid}.mp4"
+
+        if cache_expire is None:
+            pass
+        # ^ TODO: handle other posibillity int, datetime obj etc.
+
+        # init cache
+        # meta should already in the cache
+        cache.add(file_name_key(upload_id), video_name, timeout=cache_expire)
+        cache.add(file_size_key(upload_id), chunk.content_length, timeout=cache_expire)
+        cache.add(cursor_key(upload_id), chunk.range, timeout=cache_expire)
+
+        # init uploader
+        uploader = cls(upload_id, chunk)
+        # valid param
+        uploader.valid_init_upload_param()
+        # init file
+        path = os.path.join(dest_dir, video_name)
+        uploader.create_file(path)
+
+        return uploader
+
+    @classmethod
+    def resume_upload(cls, upload_id: str, chunk: FileChunk) -> Type[Uploader]:
+        # TODO: redirect the cursor
+        uploader = cls(upload_id, chunk)
+        # update chunk reference
+        uploader.valid_resume_upload_param()
+
+        return uploader
+
+    def receve_upload(self) -> None:
+        """
+            1. valid param from user\n
+            2. write chunks from cache to local file\n
+        """
+        path = os.path.join(dest_dir, self.file_name)
+        self.write_file(path, self.chunk)
+        if self.file_size == self.chunk.byte_end:
+            self.is_complete = True
 
     def create_file(self, file_path: str) -> None:
         """
@@ -133,55 +179,7 @@ class Uploader(object):
         except IOError:
             raise IOError("Error occor while writing file")
 
-    @classmethod
-    def init_upload(
-        cls: Uploader, upload_id: str, metadata, chunk: Type[FileChunk]
-    ) -> Type[Uploader]:
-        """
-            1. Validate param from user\n
-            2. create blank file in local\n
-            3. return self\n
-        """
-        series_id = metadata["series_id"]
-        video_uuid = uuid.uuid4()
-        video_uuid = str(video_uuid)
-        video_name = os.path.join(series_id, video_uuid)
-
-        path = f"{os.path.join(Uploader.get_dest_dir(), video_name)}.mp4"
-
-        cache.add(file_size_key(upload_id), chunk.content_length)
-        cache.add(metadata_key(upload_id), metadata)
-        cache.add(cursor_key(upload_id), chunk.range)
-        cache.add(file_name_key(upload_id), f"{video_name}.mp4")
-
-        uploader = cls(upload_id)
-        uploader.valid_init_upload_param()  # check pram
-        # init file
-        uploader.create_file(path)
-        return uploader
-
-    @classmethod
-    def resume_upload(cls, upload_id) -> Type[Uploader]:
-        uploader = cls(upload_id)
-        uploader.valid_resume_upload_param()
-        return uploader
-
-    def get_metadata(self):
-        return self.metadata
-
-    def receve_upload(self, chunk: Type[FileChunk]) -> None:
-        """
-            1. valid param from user\n
-            2. write chunks from cache to local file\n
-        """
-        path = os.path.join(self.get_dest_dir(), self.file_name)
-        self.write_file(path, chunk)
-        if self.file_size == chunk.byte_end:
-            self.is_complete = True
-        # update cache cursor
-        # validate cursor
-
-    def flush(self, option="cache"):
+    def flush(self, option="cache") -> None:
         """
             clear cache or local
         """
@@ -231,3 +229,18 @@ class Uploader(object):
         #   content extension
         #   chunk size
         pass
+
+    @staticmethod
+    def resource_exist(upload_id: str):
+        """
+            if file exist
+        """
+        return (cache.get(f""))
+
+    @staticmethod
+    def get_progress(upload_id: str):
+        # should caculate from actsual file
+        cursor = cache.get(cursor_key(upload_id), None)
+        if cursor is not None:
+            return cursor
+        return False
