@@ -205,16 +205,22 @@ class Uploader(object):
             except FileNotFoundError as e:
                 raise e(f"file: '{path}' not found")
 
-    def verify_checksum(self, checksum: str, option="sha256"):
+    def verify_checksum(self, option="sha256") -> str:
         algo = ["sha256"]
-        if option not in algo:
+        if option.lower() not in algo:
             raise ValueError(f"key word arg 'option' only accept {algo}, get '{option}' instead")
 
-        my_check = hashlib.new(option)
-        with open(os.path.join(self.get_dest_dir(), self.file_name), "rb") as f:
-            my_check.update(f.read())
-        my_check = base64.b64encode(my_check.digest()).decode()
-        return compare_digest(my_check, checksum)
+        chunk_algo = self.chunk.check_sum[0]
+        if chunk_algo.lower() not in algo:
+            raise InvalidHeader(f"heder check sum support alogo {algo}, get '{chunk_algo}' instead")
+
+        chunk_checksum = self.chunk.check_sum[1]
+
+        local_check = hashlib.new(option)
+        with open(os.path.join(dest_dir, self.file_name), "rb") as f:
+            local_check.update(f.read())
+        local_check = base64.b64encode(local_check.digest()).decode()
+        return compare_digest(local_check, chunk_checksum)
 
     def valid_init_upload_param(self) -> None:
         # init valid pram list:
