@@ -171,7 +171,9 @@ class Uploader(object):
         except IOError:
             raise IOError("Error occor while createing file")
 
-    def write_file(self, path, chunk):
+    def write_file(self, path, chunk) -> None:
+        if chunk.byte_start == chunk.byte_end and chunk.byte_start == self.file_size:
+            return None
         try:
             with open(path, "rb+") as f:
                 f.seek(int(chunk.byte_start))
