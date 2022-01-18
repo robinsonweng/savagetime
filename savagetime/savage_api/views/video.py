@@ -93,7 +93,7 @@ def create_video_metadata(request, metadata: VideoUploadPostInput):
 
     return {
         "status": "200",
-        "upload_url": f"{reverse('api-dev:post_upload_video')}?upload_id={upload_id}"
+        "upload_url": f"{reverse('api-dev:video_upload')}?upload_id={upload_id}"
     }
 
 
