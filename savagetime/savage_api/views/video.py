@@ -124,7 +124,7 @@ def upload_video(request, upload_id: str):
     if case == "status":
         progress = Uploader.get_progress(upload_id)
         if progress is None:
-            return UnexpetedRequest(400, "no progress to report")
+            return UnexpetedRequest(404, "file not found")
         # return status head
         headers = {
             'Range': f"{progress}"
