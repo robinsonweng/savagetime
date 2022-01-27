@@ -16,6 +16,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# load the custom setting from yaml file
 with open(BASE_DIR.parent / "dev_setting.yaml", "r") as f:
     setting = yaml.load(f, yaml.SafeLoader)
 
