@@ -11,6 +11,7 @@ from django.core.cache import caches
 from django.conf import settings
 
 from ..responses.exceptions import InvalidHeader
+from ..model.models import Video, Series
 
 # typing
 from typing import TypeVar, Type, List
@@ -222,6 +223,21 @@ class Uploader(object):
         local_check = base64.b64encode(local_check.digest()).decode()
         return compare_digest(local_check, chunk_checksum)
 
+    def insert_video(self) -> None:
+        meta = cache.get(metadata_key(self.upload_id), None)
+        if meta is None:
+            pass
+        series_id = meta["series_id"]
+        series = Series.objects.get(uuid=series_id)
+        # ^ TODO: if doesn't exist
+        video = Video(
+            uuid=self.file_name.split(".")[0],
+            series=series,
+            file_name=meta["file_name"],
+            episode=meta["episode"],
+        )
+        video.save()
+
     def valid_init_upload_param(self) -> None:
         # init valid pram list:
         #   byte_start should startwith 0
@@ -243,7 +259,6 @@ class Uploader(object):
         """
             if file exist
         """
-        return (cache.get(f""))
 
     @staticmethod
     def get_progress(upload_id: str):
