@@ -151,10 +151,11 @@ def upload_video(request, upload_id: str):
         # set retry times
         return HttpResponseBadRequest
 
+    uploader.insert_video()
+
     # flush everything in cache
     uploader.flush(option="cache")
 
-    uploader.insert_video()
     headers = {}
     return UploadStatusResponse(201, headers)
 
