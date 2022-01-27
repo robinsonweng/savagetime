@@ -100,7 +100,7 @@ def create_video_metadata(request, metadata: VideoUploadPostInput):
 @video_router.api_operation(
     ["PATCH"],
     "/upload",
-    response={no_response_body_set: None},
+    response={no_response_body_set: None, 200: dict},
     url_name=""
 )
 def upload_video(request, upload_id: str):
