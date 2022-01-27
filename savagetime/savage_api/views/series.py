@@ -49,11 +49,11 @@ def get_series_info(
 ):
     """
         this route return the urls of the video, not streaming
-        url from nginx
-        @series_id: the uuid of the series
-        @index: the range of the video episodes, e.g. 1-2 means
-        episode 1 and 2, the amound of video shouldn't exceed 30
-        @recent: if true, return the recent updated videos(1d)
+        url from nginx\n
+        @series_id: the uuid of the series\n
+        @index: the range of the video episodes, e.g. 1-2 means\n
+        episode 1 and 2, the amound of video shouldn't exceed 30\n
+        @recent: if true, return the recent updated videos(1d)\n
     """
     id_exist = series_id is not None
     index_exist = index is not None
