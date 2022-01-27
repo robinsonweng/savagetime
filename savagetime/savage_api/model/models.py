@@ -1,9 +1,13 @@
-from django.db import models
-
 # Create your models here.
-
+from django.db import models
 from django.utils import timezone
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 import uuid  # TODO: What if uuid repeat?
+
+
+uploader_fs = FileSystemStorage(location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL)
 
 
 class Series(models.Model):
@@ -21,8 +25,10 @@ class Series(models.Model):
 
 
 class Video(models.Model):
+    # original file name
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     series = models.ForeignKey('Series', on_delete=models.CASCADE, related_name='video_set')
+    file_name = models.CharField(max_length=100)
     episode = models.CharField(max_length=20, null=True)
     update_time = models.DateTimeField(default=timezone.now)
 
@@ -40,8 +46,8 @@ class Video(models.Model):
             It would be a better idea to mount spacific linux FS for large file storage
         """
         exet = filename.split('.')[1]
-        return "{0}/{1}.{2}".format(instance.series_id, instance.uuid, exet)
-    file_field = models.FileField(upload_to=filedir_path)
+        return f"{instance.uuid}.{exet}"
+    file_field = models.FileField(upload_to="./", storage=uploader_fs)
 
     def __str__(self) -> str:
         return f"{self.series.name}[{self.episode}]"
