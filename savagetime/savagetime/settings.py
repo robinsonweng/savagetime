@@ -91,6 +91,10 @@ TEMPLATES = [
     },
 ]
 
+MEDIA_ROOT = BASE_DIR.parent / "media"
+
+MEDIA_URL = "/media/"
+
 WSGI_APPLICATION = 'savagetime.wsgi.application'
 
 
