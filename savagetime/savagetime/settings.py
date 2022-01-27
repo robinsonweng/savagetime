@@ -153,7 +153,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # upload file setting
+# maby create a class here
 RESUMEABLE_UPLOADER_DEST_PATH = setting.get(
-    "RESUMEABLE_UPLOADER_DEST_PATH", BASE_DIR.parent/"media"
+    "RESUMEABLE_UPLOADER_DEST_PATH", BASE_DIR.parent / "media"
 )
-RESUMEABLE_UPLOADER_CACHE_TIMEOUT = ""
+RESUMEABLE_UPLOADER_CACHE_TIMEOUT = 600
+
+RESUMEABLE_UPLOADER_CACHE_CONFIG = "default"
