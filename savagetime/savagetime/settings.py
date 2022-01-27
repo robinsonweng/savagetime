@@ -102,10 +102,11 @@ WSGI_APPLICATION = 'savagetime.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'testing': {
+        'ENGINE': "django.db.backends.sqlite3",
+        'NAME': "db.sqlite3"
+    },
+    **setting["DATABASES"],
 }
 
 
