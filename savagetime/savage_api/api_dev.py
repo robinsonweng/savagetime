@@ -17,9 +17,11 @@ from .views import (
     authorize_router,
 )
 
-auth = NOT_SET
-if getattr(settings, "IS_TESTING", None) is None:
-    auth = AdminUserBasicAuth()
+auth = AdminUserBasicAuth()
+test_route = False
+if getattr(settings, "IS_TESTING", None) is True:
+    auth = NOT_SET
+    test_route = True
 
 api = SavageAPI(version='dev', auth=auth)
 
@@ -32,6 +34,9 @@ api.add_router(video_router.prefix, video_router, tags=["video"])
 api.add_router(series_router.prefix, series_router, tags=["series"])
 api.add_router(search_router.prefix, search_router, tags=["search"])
 api.add_router(authorize_router.prefix, authorize_router, tags=["authorize"])
+if test_route:
+    from .views.test import testroute
+    api.add_router(testroute.prefix, testroute, tags=["testing"])
 
 
 """
