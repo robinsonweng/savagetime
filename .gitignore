@@ -35,3 +35,9 @@ dev_setting.yaml
 
 # ignore test data
 api_test_data/*.mp4
+
+# ignore node_modules
+node_modules/
+
+# ignore demo dir
+demo/*
