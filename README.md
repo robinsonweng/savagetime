@@ -2,9 +2,22 @@
 
 (This repo is not finish yet)
 
+# Architecture
+
+```mermaid
+    graph TD;
+    A[User] -->|Send Request| B(Django);
+    B -->|stream request| C[nginx];
+    B <--> |video, series metadata| D[Database];
+    B -->|upload video files| E[Local file];
+    E --> |load from local|C;
+    C --> |stream url|B;
+```
+
 # Usage
 
 ## Run as test server
+
 1. Clone the repository<br>
 `git clone https://github.com/robinsonweng/savagetime/tree/restful`
 
