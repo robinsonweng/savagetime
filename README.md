@@ -39,6 +39,11 @@
 
 
 ## Start nginx stream service
+
 Link config folder under local nginx config file
 `cd savage_nginx_conf`
 `./link_this_dir.sh`
+
+Then run scrpit to start nginx
+`cd scrpit`
+`./nginx_start.sh`
