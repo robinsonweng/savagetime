@@ -6,12 +6,13 @@
 
 ```mermaid
     graph TD;
-    A[User] -->|Send Request| B(Django);
-    B -->|stream request| C[nginx];
-    B <--> |video, series metadata| D[Database];
-    B -->|upload video files| E[Local file];
-    E --> |load from local|C;
-    C --> |stream url|B;
+        A[User] -->|Send Request| B(Django);
+        B -->|stream request| C[nginx];
+        B <--> |video, series metadata| D[Database];
+        B -->|upload video files| E[Local file];
+        E --> |load from local|C;
+        C --> |stream url|B ;
+        B -->|stream url that will expire| A;
 ```
 
 # Usage
