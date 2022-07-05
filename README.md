@@ -149,7 +149,6 @@ Get series from video id
 ## Series
 
 
-## Search
 
 ### [GET] `/series/info`
 Get metadata of the info
