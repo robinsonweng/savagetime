@@ -12,7 +12,7 @@ class ResponseHeaderBase(HttpResponse):
 
     def __init__(self, status=None, extra_headers={}, *args, **kwargs):
         super().__init__(status=status, *args, **kwargs)
-        self.add_header(self._headers)
+        self.add_header(self._base_headers)
 
         if extra_headers is not None:
             if isinstance(extra_headers, dict):
@@ -25,7 +25,7 @@ class ResponseHeaderBase(HttpResponse):
 
 class UploadStatusResponse(ResponseHeaderBase):
     # 308, not a standard http code usage
-    _headers = {
+    _base_headers = {
         'Content-Length': 0,
         'Content-Range': "",
     }
