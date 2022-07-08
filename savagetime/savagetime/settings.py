@@ -52,10 +52,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.tus.TusMiddleware',
 ]
 
 CACHES = {
     'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+        'TIMEOUT': 600,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        }
+    },
+    'tus': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/tmp/django_cache',
         'TIMEOUT': 600,
@@ -160,3 +169,11 @@ RESUMEABLE_UPLOADER_DEST_PATH = setting.get(
 RESUMEABLE_UPLOADER_CACHE_TIMEOUT = 600
 
 RESUMEABLE_UPLOADER_CACHE_CONFIG = "default"
+
+FILE_UPLOAD_TEMP_DIR = "/var/tmp/"
+
+TUS_RESUMABLE_VER = "1.0.0"
+
+TUS_MAX_SIZE = 10 * 1024 * 1024 * 1024  # 10G
+
+TUS_CACHE_CONF = "tus"
