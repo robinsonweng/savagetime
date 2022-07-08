@@ -1,0 +1,121 @@
+[
+  {
+    "series": {
+      "uuid": "8e2e8571-de49-4551-a525-39f7cb0b672e",
+      "name": "\u6708\u5149\u4e0b\u7684\u7570\u4e16\u754c\u4e4b\u65c5",
+      "season": "\u79cb",
+      "episodes": 12,
+      "pub_year": "2020",
+      "pub_month": "11",
+      "finale": true,
+      "subtitle_group": ""
+    },
+    "videos": [
+      {
+        "uuid": "2eb5de06-4765-4f67-be9d-f3db38e2111d",
+        "episode": "1",
+        "update_time": "",
+        "path": "/home/robinson/Program/python/savage/api_test_data/[Tsuki ga Michibiku Isekai Douchuu][01][1080P].mp4"
+      },
+      {
+        "uuid": "a3652994-b607-4a99-8ac2-ed0fcc683a76",
+        "episode": "2",
+        "update_time": "",
+        "path": "/home/robinson/Program/python/savage/api_test_data/[Tsuki ga Michibiku Isekai Douchuu][02][1080P].mp4"
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      }
+    ]
+  },
+  {
+    "series": {
+      "uuid": "",
+      "name": "",
+      "season": "",
+      "episodes": "",
+      "pub_year": "",
+      "pub_month": "",
+      "finale": "",
+      "subtitle_group": ""
+    },
+    "videos": [
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      }
+    ]
+  },
+  {
+    "series": {
+      "uuid": "",
+      "name": "",
+      "season": "",
+      "episodes": "",
+      "pub_year": "",
+      "pub_month": "",
+      "finale": "",
+      "subtitle_group": ""
+    },
+    "videos": [
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      },
+      {
+        "uuid": "",
+        "episode": "",
+        "update_time": ""
+      }
+    ]
+  }
+]
