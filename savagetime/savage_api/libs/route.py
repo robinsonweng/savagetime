@@ -43,6 +43,10 @@ class SavageRouter(Router):
         after_request: List[str] = [],
         **kwargs
     ) -> Callable:
+        """
+            Add middleware before & after view function, be careful how list iterate.
+            Also don't put middleware that should run before & after request. e.g. method-override.
+        """
         def decorator(view_func: Callable) -> Callable:
             # ^ this function don't do decorator stuff, just a wrapper
             @wraps(view_func)
@@ -51,14 +55,14 @@ class SavageRouter(Router):
                     # ^ if list is not empty
                     for before_request_func in before_request:
                         before_request_func(request, *args, **kwargs)
-                # ^ before request
+                    # ^ before request
                 response = view_func(request, *args, **kwargs)
                 if after_request:
                     # ^ if list is not empty
                     for after_request_func in after_request:
-                        after_request_func(request, *args, **kwargs)
+                        after_request_func(response, *args, **kwargs)
+                    # ^ after request
                 return response
-                # ^ after request
             return wrap
         view_func = decorator(view_func)
         return super().add_api_operation(path, methods, view_func, *args, **kwargs)

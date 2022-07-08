@@ -1,1 +1,0 @@
-# Frontend examples from [tus-js-client](https://github.com/tus/tus-js-client)

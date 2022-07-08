@@ -8,7 +8,10 @@ from .responses.exceptions import (
     InvalidHeader,
     InvalidQuery,
     UnexpetedRequest,
+    UnsupportedMediaType,
 )
+
+from .responses.tus import TusHttpError
 
 from .views import (
     video_router,
@@ -18,12 +21,12 @@ from .views import (
 )
 
 auth = AdminUserBasicAuth()
-test_route = False
+test_route = True
 if getattr(settings, "IS_TESTING", None) is True:
     auth = NOT_SET
     test_route = True
 
-api = SavageAPI(version='dev', auth=auth)
+api = SavageAPI(version='dev', auth=NOT_SET)
 
 
 """
@@ -36,7 +39,7 @@ api.add_router(search_router.prefix, search_router, tags=["search"])
 api.add_router(authorize_router.prefix, authorize_router, tags=["authorize"])
 if test_route:
     from .views.test import testroute
-    api.add_router(testroute.prefix, testroute, tags=["testing"])
+    api.add_router(testroute.prefix, testroute, tags=["testing"], auth=NOT_SET)
 
 
 """
@@ -75,6 +78,29 @@ def unexpeted_request(request, exc):
         data={
             "message": "Unexpected Request",
             "detail": exc.message
+        },
+        status=exc.status
+    )
+
+
+@api.exception_handler(UnsupportedMediaType)
+def unsupported_media_type(request, exc):
+    return api.create_response(
+        request,
+        data={
+            "message": "Unsupported Media Type",
+            "detial": exc.message
+        },
+        status=exc.status
+    )
+
+
+@api.exception_handler(TusHttpError)
+def tus_error(request, exc):
+    return api.create_response(
+        request,
+        data={
+            "message": "Tus Uploader Error",
         },
         status=exc.status
     )

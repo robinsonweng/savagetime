@@ -1,20 +1,27 @@
 # Test for app savage_api
 import os
+import sys
 import json
 import base64
-from django.test import TestCase
-from django.test import Client
+import hashlib
 
+from pathlib import Path
+
+from django.test import TestCase, Client
 from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
 from django.http import HttpRequest
+from django.core.cache import caches
 from django.contrib.auth.models import AnonymousUser, User
 
 from savage_api.model.models import Series, Video
 
 
 setattr(settings, "IS_TESTING", True)
+setattr(settings, "RESUMEABLE_UPLOADER_CACHE_CONFIG", "unittest")
+
+cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
 
 
 class VideoViewTest(TestCase):
@@ -26,7 +33,7 @@ class VideoViewTest(TestCase):
         self.client = Client()
         self.setting = settings
 
-        # fake datas
+        # fake data
         with open("../api_test_data/series.json", "r") as f:
             self.mock_data = list(json.load(f))
 
@@ -38,17 +45,23 @@ class VideoViewTest(TestCase):
         )
 
         series = Series.objects.create(
-            name="月光下的異世界之旅",
-            season="spring",
-            episodes="12",
-            pub_year="2021",
-            pub_month="1",
-            finale=True,
-            subtitle_group="",
+            uuid=self.mock_data[0]["series"]["uuid"],
+            name=self.mock_data[0]["series"]["name"],
+            season=self.mock_data[0]["series"]["season"],
+            episodes=self.mock_data[0]["series"]["episodes"],
+            pub_year=self.mock_data[0]["series"]["pub_year"],
+            pub_month=self.mock_data[0]["series"]["pub_month"],
+            finale=self.mock_data[0]["series"]["finale"],
         )
+        # clean mp4 junk
+        path = settings.RESUMEABLE_UPLOADER_DEST_PATH
+        for p in os.listdir(path):
+            if p.endswith('.mp4'):
+                os.remove(os.path.join(path, p))
 
     def tearDown(self) -> None:
-        pass
+        from django.core.cache import cache
+        cache.clear()
 
     def test_get_video_stream_normal_case(self):
         pass
@@ -70,20 +83,64 @@ class VideoViewTest(TestCase):
         self.assertEqual(200, response.status_code, f"{response.content}")
 
     def test_patch_video_upload_normal_case(self):
-        session = self.client.session
-        session["1234"] = {"metadata": {"series_id": "44"}}
-        session.save()
+        upload_id = "Tea31"
+        route = f"{reverse('api-dev:video_upload')}?upload_id={upload_id}"
+        path = self.mock_data[0]["videos"][0]["path"]
+        total_length = os.path.getsize(path)
+
+        cache_data = {
+            "series_id": self.mock_data[0]["series"]["uuid"],
+            "x_length": total_length,
+            "file_name": "[Tsuki ga Michibiku Isekai Douchuu][02][1080P].mp4",
+            "episode": "2"
+        }
+        cache.add(f"uploader/{upload_id}/metadata", cache_data)
         request = self.client
 
-        route = f"{reverse('api-dev:video_upload')}?upload_id=1234"
+        chunk_length = 1 * 1024 * 1024  # 1mb
+        times = total_length // chunk_length
+        if total_length % chunk_length > 0:
+            times += 1
+        index = 0
+        counter = 0
+        res_list = []
 
-        patch_data = ""
-        response = request.patch(
-            route, patch_data, content_type="video/*",
-            HTTP_content_length="3",
-            HTTP_content_range='bytes 0-3/7'
-        )
+        def send_request(path, data, index, chunk_len=chunk_length, total_len=total_length, **kwargs):
+            return request.patch(
+                path, data,
+                HTTP_content_type="video/*",
+                HTTP_content_length=f"{len(data)}",
+                HTTP_content_range=f"bytes {index}-{index + chunk_len}/{total_len}",
+                **kwargs,
+            )
+
+        with open(path, "rb") as f:
+            check_sum = hashlib.new("sha256")
+            check_sum.update(f.read())
+            check_sum = base64.b64encode(check_sum.digest()).decode()
+            while (total_length - index) >= chunk_length:
+                f.seek(index)
+                patch_data = f.read(chunk_length)
+
+                response = send_request(route, patch_data, index)
+                res_list.append(response)
+                index += chunk_length
+                counter += 1
+            else:
+                remain = total_length - index
+                if remain > 0:
+                    patch_data = f.read(remain)
+                    response = send_request(
+                        route,
+                        patch_data,
+                        index,
+                        chunk_len=remain,
+                        HTTP_uploader_checksum=f"sha256 {check_sum}")
+                    res_list.append(response)
+
+        self.assertEqual(times, len(res_list), f"{res_list}")
         self.assertEqual(201, response.status_code, f"{response.content}")
+        self.assertEqual([204] * (times - 1) + [201], [r.status_code for r in res_list], f"{res_list}")
 
     def test_delete_video_upload(self):
         pass
