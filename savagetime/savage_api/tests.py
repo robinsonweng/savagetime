@@ -140,7 +140,9 @@ class VideoViewTest(TestCase):
 
         self.assertEqual(times, len(res_list), f"{res_list}")
         self.assertEqual(201, response.status_code, f"{response.content}")
-        self.assertEqual([204] * (times - 1) + [201], [r.status_code for r in res_list], f"{res_list}")
+        self.assertEqual([204] * (times - 1) + [201], 
+                         [r.status_code for r in res_list],
+                         f"{res_list}")
 
     def test_delete_video_upload(self):
         pass
