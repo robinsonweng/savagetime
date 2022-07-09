@@ -47,11 +47,22 @@ uploader_cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
 @video_router.api_operation(
     ["GET"],
     "/{video_id}/stream",
-    response=NOT_SET,
-    url_name="video_stream"
+    response={200: dict},
+    url_name="video_stream",
+    auth=None,
 )
 def get_video_stream(request, video_id: str):
-    pass
+    ext = "m3u8"
+    cdn = "127.0.0.2"
+    base_stream = "index"
+    md5 = "id2tPFIcl59pAG1kcorMig"
+    # check if expire out of range
+    # verify md5
+    # md5 $path$ext
+    # secure_link $md5$expire salt
+    # echo -n '2147483647/s/link127.0.0.1 secret' | \
+    # openssl md5 -binary | openssl base64 | tr +/ -_ | tr -d =
+    return {"url": f"{cdn}/hls/123.mp4/{base_stream}.{ext}?md5={md5}"}
 
 
 """
