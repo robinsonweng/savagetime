@@ -9,7 +9,8 @@ from ninja import File
 from ..libs.route import SavageRouter
 from ..model.models import Video, Series
 
-from ..responses.tus import TusCoreResponse, TusHttpError
+from ..responses.exceptions import TusHttpError
+from ..responses.response import TusCoreResponse
 
 from ..utils.tus_handler.middlewares import (
     detect_offset_stream,
