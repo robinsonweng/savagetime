@@ -23,6 +23,16 @@ class ResponseHeaderBase(HttpResponse):
                 raise ValueError(f"param: extra_header should be dict, got {extra_headers} instead")
 
 
+class TusCoreResponse(ResponseHeaderBase):
+    _base_headers = {
+        "Tus-Version": "1.0.0",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Request-Method": "GET,POST,PATCH,OPTIONS,HEAD",
+        "Access-Control-Allow-Headers": "Tus-Resumable,upload-length,upload-metadata,Location,Upload-Offset,content-type",
+        "Access-Control-Expose-Headers": "Tus-Resumable,upload-length,upload-metadata,Location,Upload-Offset",
+    }
+
+
 class UploadStatusResponse(ResponseHeaderBase):
     # 308, not a standard http code usage
     _base_headers = {

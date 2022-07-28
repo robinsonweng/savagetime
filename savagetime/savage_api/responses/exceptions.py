@@ -7,6 +7,7 @@ class HttpErrorBase(HttpError):
         self.status = status
         self.message = message
 
+
 class InvalidHeader(HttpError):
     def __init__(self, status, message="None"):
         self.status = status
@@ -25,4 +26,9 @@ class UnexpetedRequest(HttpError):
 
 class UnsupportedMediaType(HttpErrorBase):
     def __init__(self, message, status=415):
+        super().__init__(status, message)
+
+
+class TusHttpError(HttpErrorBase):
+    def __init__(self, status, message=None):
         super().__init__(status, message)
