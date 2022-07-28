@@ -42,8 +42,8 @@ class TusUploader(object):
 
         # chunk var
         self.chunk_offset = int(self.chunk.headers.get("Upload-Offset"))
-        self.chunk_length = int(self.chunk.headers.get("Upload-Length"))
-        self.chunk_contentlen = int(self.chunk.headers.get("Content-Length"))
+        self.chunk_length = int(self.chunk.headers.get("Content-Length"))
+        self.chunk_contentlen = self.chunk.headers.get("Upload-Length")
 
     @classmethod
     def start_upload(cls, chunk: Chunk, upload_id: str) -> object:
@@ -121,15 +121,10 @@ class TusUploader(object):
             print(f"start writing: {f.tell()}")
             f.write(self.chunk.data)
             print(f"offset after writing: {f.tell()}")
-            return f.tell()
 
-    def receve_chunks(self):
-        """
-            receve chunks from request
-        """
-        current_offset = self.write_file()
-        self.update_cache(current_offset)
-        return current_offset
+    def receve_offset(self):
+        with open(os.path.join(settings.FILE_UPLOAD_TEMP_DIR, self.temp_filename), "rb+") as f:
+            return f.tell()
 
     def dir_exist(self):
         """
