@@ -59,6 +59,28 @@ class VideoViewTest(TestCase):
             if p.endswith('.mp4'):
                 os.remove(os.path.join(path, p))
 
+    def head_request(self, route, data, content_type='', header={}):
+        base_header = {}
+        if header:
+            base_header.update(**header)
+        return self.client.head(route, data, content_type=content_type, **base_header)
+
+    def post_request(self, route, data, content_type='application/json', header={}):
+        base_header = {}
+        if header:
+            # ^ if header is not empty
+            base_header.update(**header)
+        return self.client.post(route, data, content_type='application/json', **base_header)
+
+    def patch_request(self, route, data, header={}):
+        base_header = {}
+        if header:
+            base_header.update(**header)
+        return self.client.patch(route, data, content_type='application/offset+octet-stream', **base_header)
+
+    def upload_file_segs(url, offset=0, file_stream=None, chunk_size=0, stop_at=0):
+        pass
+
     def tearDown(self) -> None:
         from django.core.cache import cache
         cache.clear()
