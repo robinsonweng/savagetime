@@ -1,7 +1,7 @@
 from ninja.constants import NOT_SET
 from django.conf import settings
 
-from .libs.savage import SavageAPI
+from .libs import SavageAPI
 from .utils.security import AdminUserBasicAuth
 
 from .responses.exceptions import (
@@ -11,7 +11,7 @@ from .responses.exceptions import (
     UnsupportedMediaType,
 )
 
-from .responses.tus import TusHttpError
+from .responses.exceptions import TusHttpError
 
 from .views import (
     video_router,
