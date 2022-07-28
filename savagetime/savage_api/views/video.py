@@ -6,7 +6,10 @@ import base64
 
 from django.urls import reverse
 from django.conf import settings
-from django.http import HttpResponseBadRequest, HttpRequest
+from django.http import (
+    HttpResponseBadRequest, HttpResponseNotFound, HttpRequest
+
+)
 from django.core.cache import caches
 from django.core.exceptions import (
     ObjectDoesNotExist, ValidationError
@@ -23,13 +26,14 @@ from ..model.schemas.video import (
 )
 # custom exceptions
 from ..responses.exceptions import (
-    InvalidQuery, InvalidHeader, UnexpetedRequest
+    InvalidQuery, InvalidHeader, UnexpetedRequest, TusHttpError
 )
 from ..responses.response import (
-    UploadStatusResponse, NoBodyResponse
+    UploadStatusResponse, NoBodyResponse, TusCoreResponse
 )
 
-from ..utils.uploader import Uploader, FileChunk
+from ..utils.tus_handler.tus import Chunk, TusUploader
+from ..utils.tus_handler.extensions import (tus_protocol_extensions, Creation)
 
 
 no_response_body_set = frozenset({201, 204, 308})
