@@ -33,7 +33,10 @@ from ..responses.response import (
 )
 
 from ..utils.tus_handler.tus import Chunk, TusUploader
-from ..utils.tus_handler.extensions import (tus_protocol_extensions, Creation)
+from ..utils.tus_handler.extensions import (
+    Creation, Termination, Expiration,
+    tus_extensions,
+)
 
 
 no_response_body_set = frozenset({201, 204, 308})
