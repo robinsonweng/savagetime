@@ -44,6 +44,9 @@ class VideoViewTest(TestCase):
             password="123"
         )
 
+        self.mock_video_info = [row.get('videos') for row in self.mock_data][0]
+        self.mock_series_info = [row.get('series') for row in self.mock_data][0]
+
         series = Series.objects.create(
             uuid=self.mock_data[0]["series"]["uuid"],
             name=self.mock_data[0]["series"]["name"],
@@ -53,6 +56,7 @@ class VideoViewTest(TestCase):
             pub_month=self.mock_data[0]["series"]["pub_month"],
             finale=self.mock_data[0]["series"]["finale"],
         )
+
         # clean mp4 junk
         path = settings.RESUMEABLE_UPLOADER_DEST_PATH
         for p in os.listdir(path):
