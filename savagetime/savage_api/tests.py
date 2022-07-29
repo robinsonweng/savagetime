@@ -85,8 +85,18 @@ class VideoViewTest(TestCase):
                                  content_type='application/offset+octet-stream',
                                  **base_header)
 
+    def file_b64_generator(self, index: int):
+        filename = self.mock_video_data[0]["path"]
+        filename_bin = filename.encode("utf-8")
+        filename_b64 = base64.b64encode(filename_bin).decode("utf-8")
+        filename_b64 = f"filename {filename_b64}"
 
+        file_ext = filename.split(".")[1]
+        file_extbin = file_ext.encode("utf-8")
+        file_ext64 = base64.b64encode(file_extbin).decode("utf-8")
+        file_ext64 = f"file_ext {file_ext64}"
 
+        return [filename_b64, file_ext64]
 
 
 
