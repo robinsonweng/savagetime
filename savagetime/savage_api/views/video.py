@@ -245,7 +245,7 @@ def post_video_info(
             return HttpResponseBadRequest(None, 400)
     elif (series_id is None) and (series_name is not None):
         try:
-            series = Series.objects.get(name=series_name)
+            series = Series.objects.get(name=series_name)  # noqa: F841
         except ObjectDoesNotExist:
             return HttpResponseBadRequest(None, 404)
         except ValidationError:
