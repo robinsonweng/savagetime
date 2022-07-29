@@ -225,7 +225,11 @@ class VideoViewTest(TestCase):
             "HTTP_Upload_Offset": "",
             "HTTP_Tus_Resumable": "1.0.0"
         }
-        self.upload_file_segs(url=location, filename=filename, headers=upload_heads, offset=0, stop_at=0)
+        self.upload_file_segs(url=location,
+                              filename=filename,
+                              headers=upload_heads,
+                              offset=0,
+                              stop_at=0)
 
         # self.checksum_validate
 
