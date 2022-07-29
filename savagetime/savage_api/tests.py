@@ -148,19 +148,41 @@ class VideoViewTest(TestCase):
         from django.core.cache import cache
         cache.clear()
 
+    def test_create_resource(self):
 
+        filename_b64, fileext_b64 = self.file_b64_generator(0)
+        upload_meta = f"{filename_b64}, {fileext_b64}"
+        filename = self.mock_video_data[0]["path"]
 
+        series_id = self.mock_data[0]["series"]["uuid"]
+        episode = self.mock_data[0]["videos"][0]["episode"]
+        file_size = os.path.getsize(os.path.join("../api_test_data", filename))
+        header = {
+            "HTTP_Upload_Metadata": f"{upload_meta}",
+            "HTTP_Upload_Length": str(file_size),
+            "HTTP_Tus_resumeable": "1.0.0",
+        }
 
+        post_data = {
+            "series_name": "月光下的異世界之旅",
+            "episode": f"{episode}",
+            "filename": f"{filename}",
+            "series_id": series_id
+        }
 
+        # get url for upload
+        route = f"{reverse('api-dev:tus_post')}"
 
+        # send request
+        result = self.post_request(route, post_data, header=header)
 
+        self.assertEqual(201, result.status_code, f"{result.content}")
 
-    def file_checksum(self):
-        pass
+        # check header
+        # link = result.headers.get("Location").split("/")[-1]
+        # self.assertEqual()
+        # validate md5
 
-    def tearDown(self) -> None:
-        from django.core.cache import cache
-        cache.clear()
 
     def test_get_video_stream_normal_case(self):
         pass
