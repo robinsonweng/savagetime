@@ -81,7 +81,15 @@ def get_video_stream(request, video_id: str):
 
 
 """
-    video/{video_id}/upload section
+
+
+
+
+------------------ UPLOAD SECTION ----------------
+
+
+
+
 """
 
 
