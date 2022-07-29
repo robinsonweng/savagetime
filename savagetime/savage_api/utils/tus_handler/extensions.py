@@ -117,3 +117,9 @@ class Expiration(object):
         410
     """
     pass
+
+
+class CheckSum(object):
+    """
+        validate the file after the upload is complete
+    """
