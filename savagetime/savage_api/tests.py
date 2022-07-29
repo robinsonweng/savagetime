@@ -186,83 +186,48 @@ class VideoViewTest(TestCase):
     def test_upload_offset(self):
         pass
 
-    def test_post_video_upload_normal_case(self):
-        request = self.client
-        route = reverse("api-dev:video_upload")
+    def test_patch_video_upload_normal_case(self):
+        sys.stdout.write("\n---------------------------------------------------\n")
+        filename_b64, file_ext64 = self.file_b64_generator(0)
+
+        filename = self.mock_data[0]["videos"][0]["path"]
+        episode = self.mock_data[0]["videos"][0]["episode"]
+
+        upload_meta = f"{filename_b64}, {file_ext64}"
+
+        file_size = os.path.getsize(self.mock_data[0]["videos"][0]["path"])
+        header = {
+            "HTTP_Upload_Metadata": f"{upload_meta}",
+            "HTTP_Upload_Length": str(file_size),
+            "HTTP_Content_Length": "0",
+            "HTTP_Tus_resumeable": "1.0.0",
+        }
+
         post_data = {
             "series_name": "月光下的異世界之旅",
-            "episode": "1",
-            "file_name": "[Tsuki ga Michibiku Isekai Douchuu][01][1080P].mp4"
+            "episode": f"{episode}",
+            "filename": f"{filename_b64}"
         }
-        response = request.post(
-            route, post_data, content_type='application/json',
-            # request header
-            HTTP_x_upload_content_length='1000',
-            HTTP_x_upload_content_type='video/*',
-        )
-        self.assertEqual(200, response.status_code, f"{response.content}")
 
-    def test_patch_video_upload_normal_case(self):
-        upload_id = "Tea31"
-        route = f"{reverse('api-dev:video_upload')}?upload_id={upload_id}"
-        path = self.mock_data[0]["videos"][0]["path"]
-        total_length = os.path.getsize(path)
+        route = f"{reverse('api-dev:tus_post')}"
 
-        cache_data = {
-            "series_id": self.mock_data[0]["series"]["uuid"],
-            "x_length": total_length,
-            "file_name": "[Tsuki ga Michibiku Isekai Douchuu][02][1080P].mp4",
-            "episode": "2"
+        # init mock cache
+        # Create resource
+        res = self.post_request(route, post_data, header=header)
+        # sys.stdout.write(f"\npatch resource head:{res.headers}\n")
+
+        location = res.headers["Location"]
+
+        # start upload(patch)
+        upload_heads = {
+            "HTTP_Content_Type": "applictation/offset+octet-stream",
+            "HTTP_Content_Length": "",
+            "HTTP_Upload_Offset": "",
+            "HTTP_Tus_Resumable": "1.0.0"
         }
-        cache.add(f"uploader/{upload_id}/metadata", cache_data)
-        request = self.client
+        self.upload_file_segs(url=location, filename=filename, headers=upload_heads, offset=0, stop_at=0)
 
-        chunk_length = 1 * 1024 * 1024  # 1mb
-        times = total_length // chunk_length
-        if total_length % chunk_length > 0:
-            times += 1
-        index = 0
-        counter = 0
-        res_list = []
-
-        def send_request(path, data, index, chunk_len=chunk_length, total_len=total_length, **kwargs):
-            return request.patch(
-                path, data,
-                HTTP_content_type="video/*",
-                HTTP_content_length=f"{len(data)}",
-                HTTP_content_range=f"bytes {index}-{index + chunk_len}/{total_len}",
-                **kwargs,
-            )
-
-        with open(path, "rb") as f:
-            check_sum = hashlib.new("sha256")
-            check_sum.update(f.read())
-            check_sum = base64.b64encode(check_sum.digest()).decode()
-            while (total_length - index) >= chunk_length:
-                f.seek(index)
-                patch_data = f.read(chunk_length)
-
-                response = send_request(route, patch_data, index)
-                res_list.append(response)
-                index += chunk_length
-                counter += 1
-            else:
-                remain = total_length - index
-                if remain > 0:
-                    patch_data = f.read(remain)
-                    response = send_request(
-                        route,
-                        patch_data,
-                        index,
-                        chunk_len=remain,
-                        HTTP_uploader_checksum=f"sha256 {check_sum}")
-                    res_list.append(response)
-
-        self.assertEqual(times, len(res_list), f"{res_list}")
-        self.assertEqual(201, response.status_code, f"{response.content}")
-        self.assertEqual([204] * (times - 1) + [201], 
-                         [r.status_code for r in res_list],
-                         f"{res_list}")
+        # self.checksum_validate
 
     def test_delete_video_upload(self):
         pass
