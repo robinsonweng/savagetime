@@ -110,6 +110,9 @@ class Termination(object):
     def __init__(self, chunk: Chunk):
         pass
 
+    def termination_header_valid(self):
+        pass
+
     def delete_local_resource(self):
         pass
 
