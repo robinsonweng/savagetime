@@ -101,6 +101,48 @@ class VideoViewTest(TestCase):
     def file_checksum(self):
         pass
 
+    def upload_file_segs(self,
+                         url,
+                         filename=None,
+                         headers={},
+                         offset=0,
+                         chunk_size=1_000_000,
+                         stop_at=0):
+
+        # make sure value is bigger or equal to zero
+        self.assertEqual(offset < 0, False)
+        self.assertEqual(chunk_size < 0, False)
+        self.assertEqual(stop_at < 0, False)
+        length = os.path.getsize(filename)
+
+        with open(filename, "rb") as f:
+            if offset > 0:
+                f.seek(offset)
+                index = offset
+
+            if stop_at > 0:
+                length = stop_at
+
+            index = 0
+            rounds = (length - offset) // chunk_size
+            if (length % chunk_size) != 0:
+                rounds += 1
+                for _ in range(rounds):
+                    temp = f.read(chunk_size)
+                    if len(temp) < chunk_size:
+                        chunk_size = len(temp)
+                    index += chunk_size
+                    headers["HTTP_Upload-Offset"] = f"{index}"
+                    headers["HTTP_Content_Length"] = f"{chunk_size}"
+                    res = self.patch_request(route=url, data=temp, headers=headers)
+
+                    self.assertEqual(res.status_code, 204, f"status: {res.status_code}, {res}")
+
+                    resp_offset = res.headers.get("upload-offset")
+                    self.assertEqual(int(resp_offset), index, f"offset: {resp_offset}")
+
+                    self.assertEqual(res.headers.get("Tus-Resumable"), "1.0.0")
+                    # use checksum to check upload result
 
 
 
