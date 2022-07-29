@@ -93,16 +93,16 @@ def get_video_stream(request, video_id: str):
 """
 
 
-@video_router.api_operation(["HEAD"], "/upload/{file_md5}/", url_name="tus_head")
-def tus_head(request: HttpRequest, file_md5: str):
+@video_router.api_operation(["HEAD"], "/upload/{upload_id}/", url_name="tus_head")
+def tus_head(request: HttpRequest, upload_id: str):
     """
         determine the offset at which the upload should be continued
         Warning: The md5 pram should be optional
     """
-    resource_exist = TusUploader.resource_exist(file_md5)
+    resource_exist = TusUploader.resource_exist(upload_id)
     if not resource_exist:
         raise TusHttpError(status=404)
-    offset = TusUploader.get_offset(file_md5)
+    offset = TusUploader.get_offset(upload_id)
     header = {
         "Tus-Extension": f"{tus_protocol_extensions}",
         "Tus-Resumable": f"{settings.TUS_RESUMABLE_VER}",
@@ -142,11 +142,11 @@ def tus_post(request, metadata: VideoUploadPostInput):
 
 @video_router.api_operation(
     ["PATCH"],
-    "/upload/{file_md5}/",
+    "/upload/{upload_id}/",
     response={no_response_body_set: None, 200: dict},
     url_name="tus_patch"
 )
-def upload_video(request: HttpRequest, file_md5: str):
+def upload_video(request: HttpRequest, upload_id: str):
     """
         receives chunks to exist resource
         - check if resource exist(404)
@@ -155,12 +155,12 @@ def upload_video(request: HttpRequest, file_md5: str):
         - validate the checksum (if avaliable)
 
     """
-    resource_exist = TusUploader.resource_exist(file_md5)
+    resource_exist = TusUploader.resource_exist(upload_id)
     if resource_exist is False:
         raise TusHttpError(status=404)
 
     chunk = Chunk(request)
-    uploader = TusUploader.start_upload(chunk, file_md5)
+    uploader = TusUploader.start_upload(chunk, upload_id)
 
     uploader.validate()
 
