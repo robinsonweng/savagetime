@@ -1,4 +1,4 @@
-# Test for app savage_api
+# Unit Test for app savage_api
 import os
 import sys
 import json
