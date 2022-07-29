@@ -110,4 +110,10 @@ class Termination(object):
 
 
 class Expiration(object):
+    """
+        Indicate the expire time after upload finish
+        204
+        404
+        410
+    """
     pass
