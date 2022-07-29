@@ -74,15 +74,6 @@ class TusUploader(object):
         """
             validate all require pramaters
         """
-        # validate length
-        client_length = self.chunk.headers.get("Upload-Length", None)
-        if not (client_length and self.cache_length):
-            print("header missing")
-            return  # header missing
-
-        if str(client_length) != str(self.cache_length):
-            print("header conflict")
-            return  # header conflict
 
         # validate offset
         client_offset = self.chunk.headers.get("Upload-Offset", None)
