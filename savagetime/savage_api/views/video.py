@@ -186,7 +186,7 @@ def clear_upload_session(request, upload_id: str):
 
 
 
------------------- UPLOAD SECTION ----------------
+------------------ INFO SECTION ----------------
 
 
 
