@@ -115,12 +115,12 @@ class TusUploader(object):
             write chunks into file
         """
         with open(os.path.join(settings.FILE_UPLOAD_TEMP_DIR, self.temp_filename), "rb+") as f:
-            print(f"cache offset: {self.cache_offset}")
-            print(f"chunk offset: {self.chunk_offset}")
+            # print(f"cache offset: {self.cache_offset}")
+            # print(f"chunk offset: {self.chunk_offset}")
             f.seek(self.cache_offset)
-            print(f"start writing: {f.tell()}")
+            # print(f"start writing: {f.tell()}")
             f.write(self.chunk.data)
-            print(f"offset after writing: {f.tell()}")
+            # print(f"offset after writing: {f.tell()}")
             return f.tell()
 
     def dir_exist(self):
