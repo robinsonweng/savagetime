@@ -107,6 +107,17 @@ class Termination(object):
         404
         410
     """
+    def __init__(self, chunk: Chunk):
+        pass
+
+    def delete_local_resource(self):
+        pass
+
+    def delete_file_db_info(self):
+        pass
+
+    def delte_cache(self):
+        pass
 
 
 class Expiration(object):
