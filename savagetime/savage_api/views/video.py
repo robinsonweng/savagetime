@@ -142,65 +142,38 @@ def tus_post(request, metadata: VideoUploadPostInput):
 
 @video_router.api_operation(
     ["PATCH"],
-    "/upload",
+    "/upload/{file_md5}/",
     response={no_response_body_set: None, 200: dict},
-    url_name=""
+    url_name="tus_patch"
 )
-def upload_video(request, upload_id: str):
+def upload_video(request: HttpRequest, file_md5: str):
     """
-        This route do two things:
-            1. start a upload session
-            2. check the status of an upload
-            3. resume the upload
+        receives chunks to exist resource
+        - check if resource exist(404)
+        - Content-Type should be: application/offset+octet-stream(415)
+        - validate the upload-offest(409)
+        - validate the checksum (if avaliable)
+
     """
-    # check meta in cache
-    upload_meta = uploader_cache.get(f"uploader/{upload_id}/metadata", None)
-    if upload_meta is None:
-        raise InvalidQuery(400, f"id: {upload_id} not found or session expire")
+    resource_exist = TusUploader.resource_exist(file_md5)
+    if resource_exist is False:
+        raise TusHttpError(status=404)
 
-    # 1. do request header check
-    # 2. identify the user demand
-    # 3.
+    chunk = Chunk(request)
+    uploader = TusUploader.start_upload(chunk, file_md5)
 
-    chunk = FileChunk.load_chunk(request)
-    case = chunk.get_case()
-    if case == "status":
-        progress = Uploader.get_progress(upload_id)
-        if progress is None:
-            return UnexpetedRequest(404, "file not found")
-        # return status head
-        headers = {
-            'Range': f"{progress}"
-        }
-        return UploadStatusResponse(headers, status=308)
-        # ^ this kind of response should put at upload controller
-    elif case == "error":
-        return InvalidHeader(400)
+    uploader.validate()
 
-    # start upload
-    if case == "resume":
-        uploader = Uploader.resume_upload(upload_id, chunk)
-    elif case == "new":
-        uploader = Uploader.init_upload(upload_id, chunk)
+    current_offset = uploader.write_file()
+    uploader.update_cache(current_offset)
 
-    uploader.receve_upload()
+    uploader.clean()
 
-    if uploader.is_complete is False:
-        headers = {}
-        return UploadStatusResponse(204, headers)
-
-    if uploader.verify_checksum() is False:
-        # return resend request with checksum
-        # set retry times
-        return HttpResponseBadRequest
-
-    uploader.insert_video()
-
-    # flush everything in cache
-    uploader.flush(option="cache")
-
-    headers = {}
-    return UploadStatusResponse(201, headers)
+    header = {
+        "Upload-Offset": current_offset,
+        "Tus-Resumable": "1.0.0"
+    }
+    return TusCoreResponse(status=204, extra_headers=header)
 
 
 @video_router.api_operation(["DELETE"], "/upload", response=NOT_SET, url_name="")
