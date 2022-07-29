@@ -144,6 +144,9 @@ class VideoViewTest(TestCase):
                     self.assertEqual(res.headers.get("Tus-Resumable"), "1.0.0")
                     # use checksum to check upload result
 
+    def tearDown(self) -> None:
+        from django.core.cache import cache
+        cache.clear()
 
 
 
