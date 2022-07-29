@@ -98,6 +98,8 @@ class VideoViewTest(TestCase):
 
         return [filename_b64, file_ext64]
 
+    def file_checksum(self):
+        pass
 
 
 
