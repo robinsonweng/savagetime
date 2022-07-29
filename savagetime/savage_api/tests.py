@@ -44,8 +44,8 @@ class VideoViewTest(TestCase):
             password="123"
         )
 
-        self.mock_video_info = [row.get('videos') for row in self.mock_data][0]
-        self.mock_series_info = [row.get('series') for row in self.mock_data][0]
+        self.mock_video_data = [row.get('videos') for row in self.mock_data][0]
+        self.mock_series_data = [row.get('series') for row in self.mock_data][0]
 
         series = Series.objects.create(
             uuid=self.mock_data[0]["series"]["uuid"],
