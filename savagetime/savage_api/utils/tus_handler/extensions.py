@@ -98,3 +98,16 @@ class CreationWithUpload(TusUploader):
         Extension for post method, start upload after create resource with out patch method
     """
     pass
+
+
+class Termination(object):
+    """
+        delete the current resource
+        204
+        404
+        410
+    """
+
+
+class Expiration(object):
+    pass
