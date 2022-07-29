@@ -100,9 +100,6 @@ class VideoViewTest(TestCase):
 
         return [filename_b64, file_ext64]
 
-    def file_checksum(self):
-        pass
-
     def upload_file_segs(self,
                          url,
                          filename=None,
@@ -236,6 +233,9 @@ class VideoViewTest(TestCase):
         pass
 
     def test_delete_video_upload(self):
+        pass
+
+    def test_file_checknum(self):
         pass
 
     def test_get_video_info(self):
