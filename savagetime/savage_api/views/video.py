@@ -181,6 +181,11 @@ def clear_upload_session(request, upload_id: str):
     pass
 
 
+@video_router.api_operation(["OPTION"], "/upload", response=NOT_SET, url_name="")
+def upload_option(request: HttpRequest):
+    pass
+
+
 """
 
 
