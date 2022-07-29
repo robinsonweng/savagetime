@@ -93,7 +93,7 @@ class Creation(object):
         tus_cache.set(filename_key(self.upload_id), self.upload_id)
 
 
-class CreationWithUpload(TusUploader):
+class CreationWithUpload(object):
     """
         Extension for post method, start upload after create resource with out patch method
     """
@@ -119,8 +119,11 @@ class Termination(object):
     def delete_file_db_info(self):
         pass
 
-    def delte_cache(self):
-        pass
+    def delte_cache(self, upload_id: str):
+        tus_cache.delete(metadata_key(upload_id))
+        tus_cache.delete(offset_key(upload_id))
+        tus_cache.delete(file_size_key(upload_id))
+        tus_cache.delete(filename_key(upload_id))
 
 
 class Expiration(object):
