@@ -121,9 +121,6 @@ class TusUploader(object):
             print(f"start writing: {f.tell()}")
             f.write(self.chunk.data)
             print(f"offset after writing: {f.tell()}")
-
-    def receve_offset(self):
-        with open(os.path.join(settings.FILE_UPLOAD_TEMP_DIR, self.temp_filename), "rb+") as f:
             return f.tell()
 
     def dir_exist(self):
