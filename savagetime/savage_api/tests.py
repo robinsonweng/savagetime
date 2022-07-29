@@ -76,13 +76,29 @@ class VideoViewTest(TestCase):
             base_header.update(**header)
         return self.client.post(route, data, content_type='application/json', **base_header)
 
-    def patch_request(self, route, data, header={}):
+    def patch_request(self, route, data, headers={}):
         base_header = {}
-        if header:
-            base_header.update(**header)
-        return self.client.patch(route, data, content_type='application/offset+octet-stream', **base_header)
+        if headers:
+            base_header.update(**headers)
+        return self.client.patch(route,
+                                 data,
+                                 content_type='application/offset+octet-stream',
+                                 **base_header)
 
-    def upload_file_segs(url, offset=0, file_stream=None, chunk_size=0, stop_at=0):
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def file_checksum(self):
         pass
 
     def tearDown(self) -> None:
