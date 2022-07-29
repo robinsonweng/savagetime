@@ -57,11 +57,13 @@ class VideoViewTest(TestCase):
             finale=self.mock_data[0]["series"]["finale"],
         )
 
-        # clean mp4 junk
+        """
+        # TODO: clean mp4 junk under /var/tmp
         path = settings.RESUMEABLE_UPLOADER_DEST_PATH
         for p in os.listdir(path):
             if p.endswith('.mp4'):
                 os.remove(os.path.join(path, p))
+        """
 
     def head_request(self, route, data, content_type='', header={}):
         base_header = {}
@@ -183,9 +185,6 @@ class VideoViewTest(TestCase):
         # self.assertEqual()
         # validate md5
 
-    def test_upload_offset(self):
-        pass
-
     def test_patch_video_upload_normal_case(self):
         sys.stdout.write("\n---------------------------------------------------\n")
         filename_b64, file_ext64 = self.file_b64_generator(0)
@@ -232,6 +231,9 @@ class VideoViewTest(TestCase):
                               stop_at=0)
 
         # self.checksum_validate
+
+    def test_upload_offset(self):
+        pass
 
     def test_delete_video_upload(self):
         pass
