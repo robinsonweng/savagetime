@@ -114,32 +114,30 @@ def tus_head(request: HttpRequest, file_md5: str):
     return TusCoreResponse(204, extra_headers=header)
 
 
+@video_router.api_operation(["POST"], "/upload", response=NOT_SET, url_name="tus_post")
+def tus_post(request, metadata: VideoUploadPostInput):
+    """
+        Create resource for upload
+    """
     series = Series.objects.filter(name=metadata.series_name)
     if not series.exists():
-        return {"status": "Series name not found"}
-    if Video.objects.filter(episode=metadata.episode).exists():
+        return HttpResponseNotFound()
+    if Video.objects.filter(episode=metadata.episode).exists():  # ???????
         return {"status": "Video already exist"}
 
-    upload_id = None
-    while (upload_id is None) or (upload_id in request.session):  # may cause problem
-        salt = os.urandom(5)  # generate salt for upload id
-        upload_id = base64.b64encode(salt).decode()
+    chunk = Chunk(request)
+    creation = Creation(chunk)
 
-    # init session
-    cache_data = {  # metadata
-        "x_length": upload_content_length,
-        "x_type": upload_content_type,
-        "series_name": metadata.series_name,
-        "episode": metadata.episode,
-        "file_name": metadata.file_name,
-        "series_id": str(series[0].uuid),
-    }
-    uploader_cache.add(f"uploader/{upload_id}/metadata", cache_data)
+    creation.validate_header()
+    creation.validate_metadata()
+    creation.init_file_id()
+    creation.init_cache()
 
-    return {
-        "status": "200",
-        "upload_url": f"{reverse('api-dev:video_upload')}?upload_id={upload_id}"
+    header = {
+        "Location":
+            f'http://{request.get_host()}{reverse("api-dev:tus_patch", args=[creation.upload_id])}',
     }
+    return TusCoreResponse(201, extra_headers=header)
 
 
 @video_router.api_operation(
