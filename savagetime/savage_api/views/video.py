@@ -107,7 +107,7 @@ def tus_head(request: HttpRequest, upload_id: str):
         raise TusHttpError(status=404)
     offset = TusUploader.get_offset(upload_id)
     header = {
-        "Tus-Extension": f"{tus_protocol_extensions}",
+        "Tus-Extension": f"{tus_extensions}",
         "Tus-Resumable": f"{settings.TUS_RESUMABLE_VER}",
         "Tus-Max-Size": f"{settings.TUS_MAX_SIZE}",
         "Cache-Control": "no-store",
