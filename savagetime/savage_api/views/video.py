@@ -93,15 +93,26 @@ def get_video_stream(request, video_id: str):
 """
 
 
-@video_router.api_operation(["POST"], "/upload", response=NOT_SET, url_name="video_upload")
-def create_video_metadata(request, metadata: VideoUploadPostInput):
+@video_router.api_operation(["HEAD"], "/upload/{file_md5}/", url_name="tus_head")
+def tus_head(request: HttpRequest, file_md5: str):
     """
-        create a session for uploading
+        determine the offset at which the upload should be continued
+        Warning: The md5 pram should be optional
     """
-    length_header = "X-upload-content-length"
-    type_header = "X-upload-content-type"
-    upload_content_length = request.headers.get(length_header)
-    upload_content_type = request.headers.get(type_header)
+    resource_exist = TusUploader.resource_exist(file_md5)
+    if not resource_exist:
+        raise TusHttpError(status=404)
+    offset = TusUploader.get_offset(file_md5)
+    header = {
+        "Tus-Extension": f"{tus_protocol_extensions}",
+        "Tus-Resumable": f"{settings.TUS_RESUMABLE_VER}",
+        "Tus-Max-Size": f"{settings.TUS_MAX_SIZE}",
+        "Cache-Control": "no-store",
+        "Upload-Offse": offset,
+    }
+    # upload metadata
+    return TusCoreResponse(204, extra_headers=header)
+
 
     series = Series.objects.filter(name=metadata.series_name)
     if not series.exists():
