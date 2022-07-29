@@ -16,18 +16,18 @@ class VideoInfo(Schema):
 
 class VideoInfoPostInput(Schema):
     episode: str
-    file_name: str
+    filename: str
 
 
 class VideoInfoPatchInput(Schema):
     episode: str = None
-    file_name: str = None
+    filename: str = None
 
 
 class VideoUploadPostInput(Schema):
     series_name: str
     episode: str
-    file_name: str
+    filename: str
 
 
 class Videoget(ModelSchema):

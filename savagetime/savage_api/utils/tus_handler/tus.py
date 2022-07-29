@@ -8,7 +8,7 @@ from ..tus_handler import (
     metadata_key,
     offset_key,
     file_size_key,
-    file_name_key,
+    filename_key,
 )
 
 
@@ -38,7 +38,7 @@ class TusUploader(object):
         self.cache_offset = int(tus_cache.get(offset_key(upload_id), None))
         self.cache_length = int(tus_cache.get(file_size_key(upload_id), None))
         self.cache_metadata = tus_cache.get(metadata_key(upload_id), None)
-        self.cache_filename = tus_cache.get(file_name_key(upload_id), None)
+        self.cache_filename = tus_cache.get(filename_key(upload_id), None)
 
         # chunk var
         self.chunk_offset = int(self.chunk.headers.get("Upload-Offset"))

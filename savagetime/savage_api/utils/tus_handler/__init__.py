@@ -8,4 +8,4 @@ tus_cache = caches[settings.TUS_CACHE_CONF]
 metadata_key = lambda upload_id: f"uploader/{upload_id}/metadata"  # noqa: E731
 offset_key = lambda upload_id: f"uploader/{upload_id}/offset"  # noqa: E731
 file_size_key = lambda upload_id: f"uploader/{upload_id}/filesize"  # noqa: E731
-file_name_key = lambda upload_id: f"uploader/{upload_id}/filename"  # noqa: E731
+filename_key = lambda upload_id: f"uploader/{upload_id}/filename"  # noqa: E731

@@ -10,7 +10,7 @@ from ..tus_handler import (
     offset_key,
     metadata_key,
     file_size_key,
-    file_name_key,
+    filename_key,
 )
 
 
@@ -90,7 +90,7 @@ class Creation(object):
         tus_cache.set(metadata_key(self.upload_id), self.metadata)
         tus_cache.set(offset_key(self.upload_id), 0)
         tus_cache.set(file_size_key(self.upload_id), self.chunk.headers.get("Upload-Length"))
-        tus_cache.set(file_name_key(self.upload_id), self.upload_id)
+        tus_cache.set(filename_key(self.upload_id), self.upload_id)
 
 
 class CreationWithUpload(TusUploader):
