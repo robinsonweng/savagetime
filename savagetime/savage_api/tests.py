@@ -183,8 +183,7 @@ class VideoViewTest(TestCase):
         # self.assertEqual()
         # validate md5
 
-
-    def test_get_video_stream_normal_case(self):
+    def test_upload_offset(self):
         pass
 
     def test_post_video_upload_normal_case(self):
