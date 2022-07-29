@@ -130,7 +130,8 @@ def tus_post(request: HttpRequest):
     creation.init_cache()
 
     header = {
-        "Location": f'http://{request.get_host()}{reverse("api-dev:test", args=[creation.upload_id])}',
+        "Location":
+        f'http://{request.get_host()}{reverse("api-dev:test", args=[creation.upload_id])}',
     }
     return TusCoreResponse(201, extra_headers=header)
 
