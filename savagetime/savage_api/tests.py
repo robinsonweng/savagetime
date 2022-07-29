@@ -148,7 +148,6 @@ class VideoViewTest(TestCase):
         cache.clear()
 
     def test_create_resource(self):
-
         filename_b64, fileext_b64 = self.file_b64_generator(0)
         upload_meta = f"{filename_b64}, {fileext_b64}"
         filename = self.mock_video_data[0]["path"]
