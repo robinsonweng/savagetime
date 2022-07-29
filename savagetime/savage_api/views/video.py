@@ -44,7 +44,18 @@ video_router.prefix = "video/"  # set the root route
 uploader_cache = caches[settings.RESUMEABLE_UPLOADER_CACHE_CONFIG]
 
 """
-    video/{video_id}/stream section
+
+
+
+
+------------------ STREAM SECTION ----------------
+
+
+
+
+"""
+"""
+TODO: Use pydantic to check headers, urls
 """
 
 
@@ -181,7 +192,15 @@ def clear_upload_session(request, upload_id: str):
 
 
 """
-    video/{video_id}/info section
+
+
+
+
+------------------ UPLOAD SECTION ----------------
+
+
+
+
 """
 
 
@@ -274,7 +293,15 @@ def delete_video_info(request, video_id: str):
 
 
 """
-    video/{video_id}/series section
+
+
+
+
+------------------ SERIES SECTION ----------------
+
+
+
+
 """
 
 
