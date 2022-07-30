@@ -35,7 +35,7 @@ from ..responses.response import (
 from ..utils.tus_handler.tus import Chunk, TusUploader
 from ..utils.tus_handler.extensions import (
     Creation, Termination, Expiration,
-    tus_extensions,
+    tus_extensions, tus_resumable, tus_version, tus_max_size
 )
 
 
