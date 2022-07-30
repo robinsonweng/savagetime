@@ -119,7 +119,7 @@ class TusUploader(object):
         """
         return os.path.isdir(settings.FILE_UPLOAD_TEMP_DIR)
 
-    def update_cache(self, current_offset: int):
+    def update_cache(self, current_offset: int) -> None:
         """
             update cache status
         """
