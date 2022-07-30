@@ -3,6 +3,8 @@ import os
 from django.http import HttpRequest
 from django.conf import settings
 
+from ninja.errors import HttpError
+
 from ..tus_handler import (
     tus_cache,
     metadata_key,
