@@ -70,7 +70,7 @@ class TusUploader(object):
         offset = tus_cache.get(offset_key(upload_id), None)
         return offset
 
-    def validate(self):
+    def validate(self) -> None:
         """
             validate all require pramaters
         """
@@ -83,7 +83,7 @@ class TusUploader(object):
         if str(client_offset) != str(self.cache_offset):
             return  # offset conflict
 
-    def file_exist(self):
+    def file_exist(self) -> bool:
         """
             seek if file exist
         """
@@ -91,7 +91,7 @@ class TusUploader(object):
             return True
         return False
 
-    def init_file(self):
+    def init_file(self) -> None:
         """
             initialize file in local
         """
@@ -101,7 +101,7 @@ class TusUploader(object):
             f.seek(self.cache_length)
             print(f.tell())
 
-    def write_file(self):
+    def write_file(self) -> int:
         """
             write chunks into file
         """
