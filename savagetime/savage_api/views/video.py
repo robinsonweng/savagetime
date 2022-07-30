@@ -29,12 +29,14 @@ from ..responses.exceptions import (
     InvalidQuery, InvalidHeader, UnexpetedRequest, TusHttpError
 )
 from ..responses.response import (
-    UploadStatusResponse, NoBodyResponse, TusCoreResponse
+    TusCoreResponse
 )
 
 from ..utils.tus_handler.tus import Chunk, TusUploader
 from ..utils.tus_handler.extensions import (
-    Creation, Termination, Expiration,
+    Creation, Termination, CheckSum, Expiration,
+)
+from ..utils.tus_handler import (
     tus_extensions, tus_resumable, tus_version, tus_max_size
 )
 
@@ -126,8 +128,8 @@ def tus_post(request, metadata: VideoUploadPostInput):
     series = Series.objects.filter(name=metadata.series_name)
     if not series.exists():
         return HttpResponseNotFound()
-    if Video.objects.filter(episode=metadata.episode).exists():  # ???????
-        return {"status": "Video already exist"}
+    if Video.objects.filter(episode=metadata.episode).exists():
+        return HttpResponseBadRequest()
 
     chunk = Chunk(request)
     creation = Creation(chunk)
@@ -135,7 +137,7 @@ def tus_post(request, metadata: VideoUploadPostInput):
     creation.validate_header()
     creation.validate_metadata()
     creation.init_file_id()
-    creation.init_cache()
+    creation.init_cache(metadata.dict())
 
     header = {
         "Location":
@@ -168,10 +170,13 @@ def upload_video(request: HttpRequest, upload_id: str):
 
     uploader.validate()
 
+    checksum = CheckSum(chunk)
+    checksum.chunk_validate()
+
     current_offset = uploader.write_file()
     uploader.update_cache(current_offset)
 
-    uploader.clean()
+    # uploader.clean()
 
     header = {
         "Upload-Offset": current_offset,
@@ -192,6 +197,9 @@ def clear_upload_session(request: HttpRequest, upload_id: str, delete_file: bool
     """
     if not upload_id:
         return TusHttpError(400)
+
+    termination = Termination(request)
+    termination.clear_cache(upload_id)
 
     # cache
     # database
@@ -268,7 +276,7 @@ def post_video_info(
             return HttpResponseBadRequest(None, 400)
     else:
         return HttpResponseBadRequest(None, 400)
-    return {"123": "123"}
+    return HttpRequest(201)
 
 
 @video_router.api_operation(["PATCH"], "{video_id}/info", response=NOT_SET, url_name="")
@@ -297,7 +305,7 @@ def patch_video_info(
     except Exception as e:
         print(e)
         return HttpResponseBadRequest(None, 400)
-    return NoBodyResponse(201)  # created
+    return HttpRequest(201)  # created
 
 
 @video_router.api_operation(["DELETE"], "{video_id}/info", response=NOT_SET, url_name="")
@@ -313,7 +321,7 @@ def delete_video_info(request, video_id: str):
     except Exception as e:
         print(e)
         return HttpResponseBadRequest(None, 400)
-    return NoBodyResponse(201)
+    return HttpRequest(201)
 
 
 """
