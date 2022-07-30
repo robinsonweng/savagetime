@@ -120,6 +120,7 @@ def tus_head(request: HttpRequest, upload_id: str):
 @video_router.api_operation(["POST"], "/upload", response=NOT_SET, url_name="tus_post")
 def tus_post(request, metadata: VideoUploadPostInput):
     """
+        The Create extension
         Create resource for upload
     """
     series = Series.objects.filter(name=metadata.series_name)
