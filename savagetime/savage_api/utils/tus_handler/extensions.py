@@ -1,5 +1,6 @@
 import base64
 import hashlib
+from hmac import compare_digest
 
 from django.conf import settings
 from django.core.cache import caches
@@ -148,3 +149,33 @@ class CheckSum(object):
         if the checksum is mismatch(460)
         succeeded(200)
     """
+    def __init__(self, chunk: Chunk) -> None:
+        algo_list = ["sha1", "sha2"]
+        header = chunk.headers.get("Upload-Checksum").split(" ")
+
+        self.header_checksum = header[1]
+        self.algo = header[0]
+        self.data = chunk.data
+
+        if self.algo not in algo_list:
+            raise HttpError(status_code=460, message="unsupported checksum algorithm")
+
+    def chunk_validate(self) -> None:
+        """
+            if chunk checksum != header checksum(460)
+        """
+        chunk_checksum = hashlib.new(self.algo)
+        chunk_checksum.update(self.data)
+        chunk_checksum = base64.b64encode(chunk_checksum.digest()).decode("utf-8")
+
+        if not compare_digest(self.header_checksum, chunk_checksum):
+            raise HttpError(status_code=460, message="checksum mismatch")
+
+    def finish_validate(self):
+        """
+            validate file after finish upload
+        """
+        pass
+
+    def checksum_trailer(self):
+        pass
