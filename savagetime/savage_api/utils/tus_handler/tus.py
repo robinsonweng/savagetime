@@ -82,9 +82,6 @@ class TusUploader(object):
         if not (client_offset and self.cache_offset):
             return  # header missing
 
-        if str(client_offset) != str(self.cache_offset):
-            return  # offset conflict
-
     def file_exist(self) -> bool:
         """
             seek if file exist
