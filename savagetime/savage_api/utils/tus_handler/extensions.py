@@ -94,7 +94,8 @@ class Creation(object):
         tus_cache.set(metadata_key(self.upload_id), self.metadata)
         tus_cache.set(offset_key(self.upload_id), 0)
         tus_cache.set(file_size_key(self.upload_id), self.chunk.headers.get("Upload-Length"))
-        tus_cache.set(filename_key(self.upload_id), self.upload_id)  # this should change as filename
+        tus_cache.set(filename_key(self.upload_id), self.upload_id)
+        # ^ this should change to filename
         tus_cache.set(schema_key(self.upload_id), metadata)
 
 
