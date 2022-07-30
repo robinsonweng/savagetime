@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 
 
-class ResponseHeaderBase(HttpResponse):
+class ResponseHeaderBase(HttpResponse):  # what is this stupid name
     _base_headers = {}
     # ^ general header, e.g. CORS
 
@@ -31,15 +31,3 @@ class TusCoreResponse(ResponseHeaderBase):
         "Access-Control-Allow-Headers": "Tus-Resumable,upload-length,upload-metadata,Location,Upload-Offset,content-type",
         "Access-Control-Expose-Headers": "Tus-Resumable,upload-length,upload-metadata,Location,Upload-Offset",
     }
-
-
-class UploadStatusResponse(ResponseHeaderBase):
-    # 308, not a standard http code usage
-    _base_headers = {
-        'Content-Length': 0,
-        'Content-Range': "",
-    }
-
-
-class NoBodyResponse(ResponseHeaderBase):
-    pass
