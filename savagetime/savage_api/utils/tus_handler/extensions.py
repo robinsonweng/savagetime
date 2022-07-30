@@ -5,6 +5,8 @@ from hmac import compare_digest
 from django.conf import settings
 from django.core.cache import caches
 
+from ninja.errors import HttpError
+
 from .tus import Chunk, TusUploader
 from ..tus_handler import (
     tus_cache,
@@ -38,22 +40,22 @@ class Creation(object):
         """
         upload_length = self.chunk.headers.get("Upload-Length", None)
         if upload_length is None:
-            pass  # 400
+            raise HttpError(status_code=400)
 
         try:
             int(upload_length)
         except ValueError:
-            pass  # 400
+            raise HttpError(status_code=400)
 
         if int(upload_length) > int(settings.TUS_MAX_SIZE):
-            pass  # 413
+            raise HttpError(status_code=413)
 
         if int(upload_length) < 0:
-            pass  # 400
+            raise HttpError(status_code=400)
 
         meta = self.chunk.headers.get("Upload-Metadata", None)
         if meta is None:
-            pass  # 400
+            raise HttpError(status_code=400)
         self._metadata = meta
 
     def validate_metadata(self):
