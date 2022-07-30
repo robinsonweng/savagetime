@@ -114,7 +114,7 @@ class TusUploader(object):
             # print(f"offset after writing: {f.tell()}")
             return f.tell()
 
-    def dir_exist(self):
+    def dir_exist(self) -> bool:
         """
             check if dir exist
         """
