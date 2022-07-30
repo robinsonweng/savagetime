@@ -188,20 +188,17 @@ class VideoViewTest(TestCase):
         self.assertEqual(201, result.status_code, f"{result.content}")
 
         # check header
-        # link = result.headers.get("Location").split("/")[-1]
-        # self.assertEqual()
-        # validate md5
 
     def test_patch_video_upload_normal_case(self):
-        sys.stdout.write("\n---------------------------------------------------\n")
-        filename_b64, file_ext64 = self.file_b64_generator(0)
+        filename_b64, file_ext64 = self.file_b64_generator(1)
 
-        filename = self.mock_data[0]["videos"][0]["path"]
-        episode = self.mock_data[0]["videos"][0]["episode"]
+        filepath = self.mock_data[0]["videos"][1]["path"]
+        filename = filepath.split("/")[-1]
+        episode = self.mock_data[0]["videos"][1]["episode"]
 
         upload_meta = f"{filename_b64}, {file_ext64}"
 
-        file_size = os.path.getsize(self.mock_data[0]["videos"][0]["path"])
+        file_size = os.path.getsize(filepath)
         header = {
             "HTTP_Upload_Metadata": f"{upload_meta}",
             "HTTP_Upload_Length": str(file_size),
@@ -212,15 +209,13 @@ class VideoViewTest(TestCase):
         post_data = {
             "series_name": "月光下的異世界之旅",
             "episode": f"{episode}",
-            "filename": f"{filename_b64}"
+            "filename": f"{filename}"
         }
 
         route = f"{reverse('api-dev:tus_post')}"
 
-        # init mock cache
         # Create resource
         res = self.post_request(route, post_data, header=header)
-        # sys.stdout.write(f"\npatch resource head:{res.headers}\n")
 
         location = res.headers["Location"]
 
