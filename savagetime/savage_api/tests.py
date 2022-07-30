@@ -134,14 +134,18 @@ class VideoViewTest(TestCase):
             if (length % chunk_size) != 0:
                 rounds += 1
                 for _ in range(rounds):
+                    if (length - index) < chunk_size:
+                        chunk_size = length - index
                     temp = f.read(chunk_size)
-                    if len(temp) < chunk_size:
-                        chunk_size = len(temp)
+
                     index += chunk_size
+                    checksum = self.checksum_generator(temp)
                     headers["HTTP_Upload-Offset"] = f"{index}"
+                    headers["HTTP_Upload-Checksum"] = f"sha1 {checksum}"
                     headers["HTTP_Content_Length"] = f"{chunk_size}"
                     res = self.patch_request(route=url, data=temp, headers=headers)
 
+                    # probably shouldn't test here
                     self.assertEqual(res.status_code, 204, f"status: {res.status_code}, {res}")
 
                     resp_offset = res.headers.get("upload-offset")
