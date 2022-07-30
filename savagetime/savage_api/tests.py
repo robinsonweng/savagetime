@@ -88,6 +88,12 @@ class VideoViewTest(TestCase):
                                  content_type='application/offset+octet-stream',
                                  **base_header)
 
+    def checksum_generator(self, binary: bytes):
+        checksum = hashlib.new("sha1")
+        checksum.update(binary)
+        checksum = base64.b64encode(checksum.digest()).decode("utf-8")
+        return checksum
+
     def file_b64_generator(self, index: int):
         filename = self.mock_video_data[0]["path"]
         filename_bin = filename.encode("utf-8")
