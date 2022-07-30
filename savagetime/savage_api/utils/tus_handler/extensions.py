@@ -11,6 +11,7 @@ from ..tus_handler import (
     metadata_key,
     file_size_key,
     filename_key,
+    schema_key,
 )
 
 
@@ -83,14 +84,15 @@ class Creation(object):
         md5 = hashlib.md5(byte).hexdigest()
         self.upload_id = md5
 
-    def init_cache(self) -> None:
+    def init_cache(self, metadata: dict) -> None:
         """
             initialize data into cache
         """
         tus_cache.set(metadata_key(self.upload_id), self.metadata)
         tus_cache.set(offset_key(self.upload_id), 0)
         tus_cache.set(file_size_key(self.upload_id), self.chunk.headers.get("Upload-Length"))
-        tus_cache.set(filename_key(self.upload_id), self.upload_id)
+        tus_cache.set(filename_key(self.upload_id), self.upload_id)  # this should change as filename
+        tus_cache.set(schema_key(self.upload_id), metadata)
 
 
 class CreationWithUpload(object):
