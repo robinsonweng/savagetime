@@ -180,14 +180,39 @@ def upload_video(request: HttpRequest, upload_id: str):
     return TusCoreResponse(status=204, extra_headers=header)
 
 
-@video_router.api_operation(["DELETE"], "/upload", response=NOT_SET, url_name="")
-def clear_upload_session(request, upload_id: str):
-    pass
+@video_router.api_operation(["DELETE"], "/upload/{upload_id}", response=NOT_SET, url_name="")
+def clear_upload_session(request: HttpRequest, upload_id: str, delete_file: bool):
+    """
+        The delete extension
+        delete the upload resource, the specify file, and the db data
+        The standard behavior will be delete all the resource
+
+        Load info from db, then delete local, db data
+        clean cache if data exsist
+    """
+    if not upload_id:
+        return TusHttpError(400)
+
+    # cache
+    # database
+    # local
 
 
 @video_router.api_operation(["OPTION"], "/upload", response=NOT_SET, url_name="")
 def upload_option(request: HttpRequest):
-    pass
+    """
+        204
+        200
+        header: must contain Tus-Version, may include Tus-Extension and Tus-Max-Size
+        COROs?
+    """
+    headers = {
+        "Tus-Resumable": f"{tus_resumable}",
+        "Tus-Version": f"{tus_version}",
+        "Tus-Max-Size": f"{tus_max_size}",
+        "Tus-Extension": f"{tus_extensions}"
+    }
+    return TusCoreResponse(204, headers)
 
 
 """
