@@ -113,7 +113,7 @@ def tus_head(request: HttpRequest, upload_id: str):
         "Tus-Resumable": f"{settings.TUS_RESUMABLE_VER}",
         "Tus-Max-Size": f"{settings.TUS_MAX_SIZE}",
         "Cache-Control": "no-store",
-        "Upload-Offse": offset,
+        "Upload-Offset": offset,
     }
     # upload metadata
     return TusCoreResponse(204, extra_headers=header)
@@ -164,6 +164,8 @@ def upload_video(request: HttpRequest, upload_id: str):
     resource_exist = TusUploader.resource_exist(upload_id)
     if resource_exist is False:
         raise TusHttpError(status=404)
+    import sys
+    sys.stderr.write(f"\n request header: {request.headers}\n")
 
     chunk = Chunk(request)
     uploader = TusUploader.start_upload(chunk, upload_id)
