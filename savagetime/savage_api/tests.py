@@ -233,7 +233,53 @@ class VideoViewTest(TestCase):
                               stop_at=0)
 
     def test_upload_offset(self):
-        pass
+        """
+            Upload file and stop in the middle. Call HEAD method to get offset.
+        """
+        filename_b64, file_ext64 = self.file_b64_generator(1)
+        filepath = self.mock_data[0]["videos"][0]["path"]
+        filename = filepath.split("/")[-1]
+        episode = self.mock_data[0]["videos"][0]["episode"]
+        upload_meta = f"{filename_b64}, {file_ext64}"
+        file_size = os.path.getsize(filepath)
+
+        header = {
+            "HTTP_Upload_Metadata": f"{upload_meta}",
+            "HTTP_Upload_Length": str(file_size),
+            "HTTP_Content_Length": "0",
+            "HTTP_Tus_resumeable": "1.0.0",
+        }
+
+        post_data = {
+            "series_name": "月光下的異世界之旅",
+            "episode": f"{episode}",
+            "filename": f"{filename}"
+        }
+        route = f"{reverse('api-dev:tus_post')}"
+
+        # Create resource
+        res = self.post_request(route, post_data, header=header)
+
+        location = res.headers["Location"]
+
+        # start upload(patch)
+        upload_heads = {
+            "HTTP_Content_Type": "applictation/offset+octet-stream",
+            "HTTP_Content_Length": "",
+            "HTTP_Upload_Offset": "",
+            "HTTP_Tus_Resumable": "1.0.0"
+        }
+
+        stop = 100
+        self.upload_file_segs(url=location,
+                              filename=filepath,
+                              headers=upload_heads,
+                              offset=0,
+                              stop_at=stop)
+        res = self.head_request(location, header=header)
+
+        self.assertEqual(res.status_code, 204, f"{res.content}")
+        self.assertEqual(int(res.headers["Upload-Offset"]), 100, res.content)
 
     def test_delete_video_upload(self):
         pass
