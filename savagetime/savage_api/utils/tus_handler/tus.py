@@ -120,11 +120,6 @@ class TusUploader(object):
         """
         return os.path.isdir(settings.FILE_UPLOAD_TEMP_DIR)
 
-    def is_complete(self) -> bool:
-        """
-            return true if complete
-        """
-
     def update_cache(self, current_offset: int):
         """
             update cache status
@@ -135,7 +130,3 @@ class TusUploader(object):
         """
             clean the temporary file or cache
         """
-
-    def run(self):
-        print(self.chunk_offset)
-        print(self.cache_offset)
