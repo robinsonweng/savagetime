@@ -119,7 +119,7 @@ class Termination(object):
     def delete_file_db_info(self):
         pass
 
-    def delte_cache(self, upload_id: str):
+    def clear_cache(self, upload_id: str):
         tus_cache.delete(metadata_key(upload_id))
         tus_cache.delete(offset_key(upload_id))
         tus_cache.delete(file_size_key(upload_id))
@@ -132,6 +132,7 @@ class Expiration(object):
         204
         404
         410
+        Set expiration for cache, but how about temp files?
     """
     pass
 
@@ -139,4 +140,9 @@ class Expiration(object):
 class CheckSum(object):
     """
         validate the file after the upload is complete
+        the header Tus-Checksum-Algorithm should include in OPTIONS response
+        the header Upload-Checksum MAY include in every PATCH request
+        the algo is not supported by the server(400)
+        if the checksum is mismatch(460)
+        succeeded(200)
     """
